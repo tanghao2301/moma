@@ -1,0 +1,14 @@
+<div class="flex">
+    <i class="pi pi-shield" style="font-size: 2.5rem" style="color: green"></i>
+    <p class="text-title-xxl">Welcome to Moma</p>
+    <form [formGroup]="loginForm">
+        <p-floatlabel variant="on">
+            <input pInputText id="email" formControlName="email" autocomplete="off" />
+            <label for="email">Email</label>
+        </p-floatlabel>
+        <p-floatlabel variant="on">
+            <p-password formControlName="password" [feedback]="false" />
+            <label for="email">Password</label>
+        </p-floatlabel>
+    </form>
+</div>
