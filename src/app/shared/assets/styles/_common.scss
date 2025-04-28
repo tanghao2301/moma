@@ -1,3 +1,51 @@
 .flex {
     display: flex;
 }
+
+.flex-col {
+    flex-direction: column;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.h-view-100 {
+    height: 100vh;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.w-fit-content {
+    width: fit-content;
+}
+
+@for $i from 1 through 24 {
+    .m {
+        &-#{$i} {
+            margin: #{$i}px;
+        }
+        &b-#{$i} {
+            margin-bottom: #{$i}px;
+        }
+        &t-#{$i} {
+            margin-top: #{$i}px;
+        }
+        &l-#{$i} {
+            margin-left: #{$i}px;
+        }
+        &r-#{$i} {
+            margin-right: #{$i}px;
+        }
+    }
+}
