@@ -22,7 +22,7 @@
     height: 100%;
 }
 
-.w-100 {
+.w-full {
     width: 100%;
 }
 
@@ -46,6 +46,14 @@
         }
         &r-#{$i} {
             margin-right: #{$i}px;
+        }
+    }
+}
+
+@for $i from 0 through 2048 {
+    .w {
+        &-#{$i} {
+            width: #{$i}px;
         }
     }
 }

@@ -1,0 +1,25 @@
+<button [disabled]="disabled() || loading()" [ngClass]="[
+    'relative overflow-hidden inline-flex items-center justify-center font-medium rounded transition-all duration-200 focus:outline-none',
+    getVariantClass(),
+    getSizeClass(),
+    (disabled() || loading()) ? 'opacity-50 cursor-not-allowed' : ''
+  ]">
+    <span class="ripple"></span>
+
+    <!-- Optional icon -->
+    @if (icon() && iconPosition() === 'left') {
+    <i [class]="icon()" class="mr-2"></i>
+    }
+
+    <!-- Loading Spinner or Content -->
+    @if (loading()) {
+    <span class="loader mr-2"></span> Loading...
+    }
+    @else {
+    <ng-content></ng-content>
+    }
+
+    @if (icon() && iconPosition() === 'right') {
+    <i [class]="icon()" class="ml-2"></i>
+    }
+</button>

@@ -1,16 +1,18 @@
-<div class="h-view-100 w-100 flex justify-content-center align-items-center"> 
+<div class="h-view-100 w-full flex justify-content-center align-items-center"> 
     <div class="flex flex-col w-fit-content align-items-center">
-        <i class="pi pi-shield w-fit-content" style="font-size: 2.5rem" style="color: green"></i>
+        <i class="pi pi-shield w-fit-content" [style]="{'color': 'green', 'fontSize': '2.5rem' }"></i>
         <p class="text-title-xxl">Welcome to Moma</p>
         <form [formGroup]="loginForm">
             <p-floatlabel variant="on" class="mb-8">
-                <input pInputText id="email" formControlName="email" autocomplete="off" />
+                <input class="w-480" pInputText id="email" formControlName="email" autocomplete="off" />
                 <label for="email">Email</label>
             </p-floatlabel>
-            <p-floatlabel variant="on">
-                <p-password formControlName="password" [feedback]="false" />
+            <p-floatlabel variant="on" class="mb-8">
+                <p-password class="w-480" formControlName="password" [feedback]="false" />
                 <label for="email">Password</label>
             </p-floatlabel>
         </form>
+        <p-button size="small" label="Sign in" />
+        <ht-button>Sign in</ht-button>
     </div>
 </div>

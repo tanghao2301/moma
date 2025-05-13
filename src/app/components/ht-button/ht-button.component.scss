@@ -1,0 +1,29 @@
+/* Simple ripple effect */
+.ripple {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+button:active .ripple {
+  opacity: 0.1;
+}
+
+/* Loading spinner */
+.loader {
+  border: 2px solid #fff;
+  border-top: 2px solid transparent;
+  border-radius: 9999px;
+  width: 1rem;
+  height: 1rem;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
