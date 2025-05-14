@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+@use "./app/shared/assets/styles/index.scss";
+@use "primeicons/primeicons.css";
+@use "tailwindcss";
+
+@theme {
+    --color-primary: #1E3A8A;
+    --color-secondary: #64748B;
+    --color-accent: #10B981;
+    --color-danger: #EF4444;
+    --color-income: #22C55E;
+    --color-expense: #F97316;
+    --color-bgLight: #F9FAFB;
+    --color-textPrimary: #1F2937;
+    --color-textSecondary: #6B7280;
+    --color-surface: #FFFFFF;
+}
+
+body {
+    margin: 0;
+}
