@@ -18,4 +18,16 @@
 
 body {
     margin: 0;
+    color: var(--color-textPrimary);
+}
+
+a {
+  color: #1a73e8;           /* Sets the text color */
+  text-decoration: none;    /* Removes underline */
+  transition: color 0.5s;   /* Smooth color transition on hover */
+}
+
+a:hover {
+  color: #0049b7;           /* Changes color on hover */
+  text-decoration: underline; /* Optional underline on hover */
 }

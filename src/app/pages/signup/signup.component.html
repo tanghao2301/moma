@@ -1,22 +1,23 @@
 <div class="h-view-100 w-full flex justify-content-center align-items-center">
-    <div class="flex flex-col w-fit-content align-items-center">
+    <div class="flex flex-col w-fit-content align-items-center"> 
         <i class="pi pi-shield w-fit-content" [style]="{'fontSize': '2.5rem' }"></i>
         <p class="text-title-xxl">Welcome to Moma</p>
-        <form class="flex flex-col gap-8" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form class="flex flex-col gap-8" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <p-floatlabel variant="on">
                 <input class="w-480" pInputText id="email" formControlName="email" autocomplete="off" />
                 <label for="email">Email</label>
             </p-floatlabel>
             <p-floatlabel variant="on">
                 <p-password class="w-480" formControlName="password" [feedback]="false" />
-                <label for="email">Password</label>
+                <label for="password">Create password</label>
             </p-floatlabel>
-            <div class="w-full text-center">
-                <a class="pointer" (click)="navigateTo('/signup')">Forgot password?</a>
-            </div>
-            <ht-button type="submit" class="w-full">Sign in</ht-button>
-            <div class="w-full text-center">Don't have an account? <a class="pointer"
-                    (click)="navigateTo('/signup')">Signup</a></div>
+            <p-floatlabel variant="on">
+                <p-password class="w-480" formControlName="confirmPassword" [feedback]="false" />
+                <label for="confirmPassword">Confirm password</label>
+            </p-floatlabel>
+            <ht-button type="submit" class="w-full">Sign up</ht-button>
+            <div class="w-full text-center">Already have an account? <a class="pointer"
+                    (click)="navigateTo('/login')">Login</a></div>
             <button type="button" class="google-btn" (click)="googleLogin()">
                 <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" />
                 <span>Sign in with Google</span>

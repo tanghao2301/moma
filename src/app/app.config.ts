@@ -5,6 +5,14 @@ import { providePrimeNG } from 'primeng/config';
 
 import { routes } from './app.routes';
 
+// Firebase
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
+// Environments
+import { environment } from '../environments/environment.development';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -14,5 +22,8 @@ export const appConfig: ApplicationConfig = {
         preset: Aura,
       },
     }),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
 };
