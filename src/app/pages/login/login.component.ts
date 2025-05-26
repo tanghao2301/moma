@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private destroyRef: DestroyRef = inject(DestroyRef);
-  error: boolean = false;
   loginForm: FormGroup = this._fb.group({
     email: [
       '',
@@ -56,7 +55,6 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/dashboard');
       },
       error: (error) => {
-        this.error = true;
         console.error('Email/Password Sign-In error:', error);
       },
     });

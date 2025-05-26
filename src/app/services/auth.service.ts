@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import {
   Auth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   user,
@@ -44,6 +45,13 @@ export class AuthService {
   logout(): Observable<void> {
     const promise = signOut(this.firebaseAuth).then(() => {
       sessionStorage.clear();
+    });
+    return from(promise);
+  }
+
+  signup(email: string, password: string): Observable<void> {
+    const promise = createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(() => {
+      //
     });
     return from(promise);
   }

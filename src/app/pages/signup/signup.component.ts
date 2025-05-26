@@ -43,7 +43,17 @@ export class SignupComponent {
     confirmPassword: ['', Validators.required],
   });
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    const rawForm = this.signupForm.getRawValue();
+    this.authService.signup(rawForm.email, rawForm.password).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (error) => {
+        console.error('Email/Password Sign-In error:', error);
+      },
+    });
+  }
 
   async googleLogin(): Promise<void> {
     try {
