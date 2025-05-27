@@ -14,7 +14,7 @@
             <div class="w-full text-center">
                 <a class="pointer" (click)="navigateTo('/signup')">Forgot password?</a>
             </div>
-            <ht-button type="submit" class="w-full">Sign in</ht-button>
+            <ht-button [disabled]="loginForm.invalid" type="submit" class="w-full">Sign in</ht-button>
             <div class="w-full text-center">Don't have an account? <a class="pointer"
                     (click)="navigateTo('/signup')">Signup</a></div>
             <button type="button" class="google-btn" (click)="googleLogin()">

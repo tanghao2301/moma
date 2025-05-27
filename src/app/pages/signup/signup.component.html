@@ -11,11 +11,19 @@
                 <p-password class="w-480" formControlName="password" [feedback]="false" />
                 <label for="password">Create password</label>
             </p-floatlabel>
+            @if (signupForm.get('password')?.errors?.['weakPassword']) {
+            <p-message severity="error" variant="simple" size="small">Password must be 8+ chars with upper, lower,
+                number, and special char.</p-message>
+            }
             <p-floatlabel variant="on">
                 <p-password class="w-480" formControlName="confirmPassword" [feedback]="false" />
                 <label for="confirmPassword">Confirm password</label>
             </p-floatlabel>
-            <ht-button type="submit" class="w-full">Sign up</ht-button>
+            @if (signupForm.get('password')?.errors?.['mismatch']) {
+            <p-message severity="error" variant="simple" size="small">Passwords do
+                not match.</p-message>
+            }
+            <ht-button [disabled]="signupForm.invalid" type="submit" class="w-full">Sign up</ht-button>
             <div class="w-full text-center">Already have an account? <a class="pointer"
                     (click)="navigateTo('/login')">Login</a></div>
             <button type="button" class="google-btn" (click)="googleLogin()">

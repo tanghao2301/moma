@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { HtButtonComponent } from '../../components/ht-button/ht-button.component';
 import { AuthService } from '../../services/auth.service';
@@ -22,6 +24,7 @@ import { AuthService } from '../../services/auth.service';
     PasswordModule,
     ButtonModule,
     HtButtonComponent,
+    MessageModule,
   ],
   providers: [AuthService],
   templateUrl: './signup.component.html',
@@ -31,17 +34,24 @@ export class SignupComponent {
   private _fb = inject(FormBuilder);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
-  signupForm: FormGroup = this._fb.group({
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+  signupForm: FormGroup = this._fb.group(
+    {
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+          ),
+        ],
       ],
-    ],
-    password: ['', Validators.required],
-    confirmPassword: ['', Validators.required],
-  });
+      password: ['', [Validators.required, this.passwordStrengthValidator]],
+      confirmPassword: ['', Validators.required],
+    },
+    {
+      validators: this.passwordMatchValidator,
+    }
+  );
 
   onSubmit(): void {
     const rawForm = this.signupForm.getRawValue();
@@ -66,5 +76,19 @@ export class SignupComponent {
 
   navigateTo(url: string): void {
     this.router.navigateByUrl(url);
+  }
+
+  passwordMatchValidator(group: FormGroup) {
+    const pass = group.get('password')?.value;
+    const confirmPass = group.get('confirmPassword')?.value;
+    return pass === confirmPass ? null : { mismatch: true };
+  }
+
+  passwordStrengthValidator(control: AbstractControl) {
+    if (!control?.value) return;
+    const value = control.value;
+    const pattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
+    return pattern.test(value) ? null : { weakPassword: true };
   }
 }
