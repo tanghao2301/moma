@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): MaybeAsync<GuardResult> {
     return this.authService.user$.pipe(
       map((user: User) => {
-        if (!!user) {
+        if (!!user || !!localStorage.getItem('user')) {
           return true;
         } else {
           this.router.navigateByUrl('/login');

@@ -37,14 +37,16 @@ export class AuthService {
       email,
       password
     ).then(() => {
-      //
+      this.user$.subscribe(user => {
+        localStorage.setItem('user', JSON.stringify(user.providerData[0]));
+      })
     });
     return from(promise);
   }
 
   logout(): Observable<void> {
     const promise = signOut(this.firebaseAuth).then(() => {
-      sessionStorage.clear();
+      localStorage.clear();
     });
     return from(promise);
   }

@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChildren,
+  input,
   QueryList,
   TemplateRef,
 } from '@angular/core';
@@ -19,6 +20,8 @@ export class HtCardComponent {
   body!: TemplateRef<any>;
   footer!: TemplateRef<any>;
   icon!: TemplateRef<any>;
+  title = input('');
+
   @ContentChildren(LayoutCardDirective)
   set layoutCardTemplates(templates: QueryList<LayoutCardDirective>) {
     templates.forEach((template) => {

@@ -1,5 +1,16 @@
-<div class="">
-    <ng-container *ngTemplateOutlet="header"></ng-container>
-    <ng-container *ngTemplateOutlet="body"></ng-container>
-    <ng-container *ngTemplateOutlet="footer"></ng-container>
+<div class="rounded-2xl shadow-md p-4 bg-white dark:bg-gray-800 transition-colors">
+    @if (title() || icon) {
+    <div class="flex items-center mb-4">
+        @if (icon) {
+            <ng-container *ngTemplateOutlet="icon"></ng-container>
+        }
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ title() }}</h3>
+    </div>
+    }
+    <div class="flex flex-col gap-4">
+        <ng-container *ngTemplateOutlet="header"></ng-container>
+        <ng-container *ngTemplateOutlet="body"></ng-container>
+        <ng-content></ng-content>
+        <ng-container *ngTemplateOutlet="footer"></ng-container>
+    </div>
 </div>
