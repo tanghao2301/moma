@@ -29,11 +29,11 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  private _fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private destroyRef: DestroyRef = inject(DestroyRef);
-  loginForm: FormGroup = this._fb.group({
+  loginForm: FormGroup = this.fb.group({
     email: [
       '',
       [

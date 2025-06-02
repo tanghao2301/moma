@@ -17,7 +17,7 @@ export class HtButtonComponent {
   size = input<ButtonSize>('md');
   disabled = input<boolean>(false);
   loading = input<boolean>(false);
-  icon = input<string>(); // pass icon class name or SV = input()G
+  icon = input<string>(); // pass icon class name or SVG
   iconPosition = input<'left' | 'right'>('left');
 
   getVariantClass(): string {

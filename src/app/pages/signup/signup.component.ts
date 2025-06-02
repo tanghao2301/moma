@@ -31,10 +31,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  private _fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
-  signupForm: FormGroup = this._fb.group(
+  signupForm: FormGroup = this.fb.group(
     {
       email: [
         '',

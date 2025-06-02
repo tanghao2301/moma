@@ -6,7 +6,13 @@ import {
   signOut,
   user,
 } from '@angular/fire/auth';
-import { collection, doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import {
+  collection,
+  doc,
+  Firestore,
+  getDoc,
+  setDoc,
+} from '@angular/fire/firestore';
 import {
   browserSessionPersistence,
   GoogleAuthProvider,
@@ -18,9 +24,9 @@ import { from, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  user$: Observable<any>;
   private firestore: Firestore = inject(Firestore);
   private firebaseAuth: Auth = inject(Auth);
+  user$: Observable<any>;
   userCollection = collection(this.firestore, 'user');
   constructor() {
     this.setSessionStoragePersistence();
@@ -37,9 +43,9 @@ export class AuthService {
       email,
       password
     ).then(() => {
-      this.user$.subscribe(user => {
+      this.user$.subscribe((user) => {
         localStorage.setItem('user', JSON.stringify(user.providerData[0]));
-      })
+      });
     });
     return from(promise);
   }
@@ -52,7 +58,11 @@ export class AuthService {
   }
 
   signup(email: string, password: string): Observable<void> {
-    const promise = createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(() => {
+    const promise = createUserWithEmailAndPassword(
+      this.firebaseAuth,
+      email,
+      password
+    ).then(() => {
       //
     });
     return from(promise);

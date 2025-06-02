@@ -3,10 +3,35 @@
 @use "primeicons/primeicons.css";
 @use "tailwindcss";
 
+:root {
+  --color-primary: #16a249;
+  --color-secondary: #9bc9ac;
+  --color-primary-hover: #1dcf64;
+  --color-primary-focus: #67d89f;
+  --color-primary-active: #10823a;
+  --color-primary-light: #e6f7ed;
+  --color-background: #eafaf0;
+  --color-accent: #c4dbbc;
+  --color-danger: #EF4444;
+  --color-income: #22C55E;
+  --color-expense: #F97316;
+  --color-bgLight: #F9FAFB;
+  --color-textPrimary: #1F2937;
+  --color-textSecondary: #6B7280;
+  --color-surface: #FFFFFF;
+  --color-card: #f6fdf9;
+  --color-card-shadow: #1018280F;
+}
+
 @theme {
-    --color-primary: #1E3A8A;
-    --color-secondary: #64748B;
-    --color-accent: #10B981;
+    --color-primary: #16a249;
+    --color-secondary: #9bc9ac;
+    --color-primary-hover: #1dcf64;
+    --color-primary-focus: #67d89f;
+    --color-primary-active: #10823a;
+    --color-primary-light: #e6f7ed;
+    --color-background: #eafaf0;
+    --color-accent: #c4dbbc;
     --color-danger: #EF4444;
     --color-income: #22C55E;
     --color-expense: #F97316;
@@ -14,7 +39,32 @@
     --color-textPrimary: #1F2937;
     --color-textSecondary: #6B7280;
     --color-surface: #FFFFFF;
+    --color-card: #f6fdf9;
     --color-card-shadow: #1018280F;
+    // --background: #eafaf0
+    // --foreground: #000000
+    // --card: #f6fdf9
+    // --card-foreground: #181a19
+    // --popover: #eafaf0
+    // --popover-foreground: #000000
+    // --primary: #16a249
+    // --primary-foreground: #ffffff
+    // --secondary: #9bc9ac
+    // --secondary-foreground: #000000
+    // --muted: #d3e4cd
+    // --muted-foreground: #545d58
+    // --accent: #c4dbbc
+    // --accent-foreground: #181a19
+    // --destructive: #7b1d1d
+    // --destructive-foreground: #e4e6e5
+    // --border: #dceee3
+    // --input: #203b2a
+    // --ring: #16a249
+    // --success: #16a149
+    // --success-foreground: #f7f9fb
+    // --chart-line: #fe4c5e
+    // --chart-fill: #ffe0e3
+    // --navy: #181870
 }
 
 @utility shadow-md {
@@ -27,12 +77,12 @@ body {
 }
 
 a {
-  color: #1a73e8;           /* Sets the text color */
-  text-decoration: none;    /* Removes underline */
-  transition: color 0.5s;   /* Smooth color transition on hover */
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.5s;
 }
 
 a:hover {
-  color: #0049b7;           /* Changes color on hover */
-  text-decoration: underline; /* Optional underline on hover */
+  color: var(--color-primary-hover);
+  text-decoration: none;
 }

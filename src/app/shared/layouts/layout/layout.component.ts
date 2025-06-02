@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { CommonService } from '../../../services/common.service';
 
 @Component({
   selector: 'app-layout',
-  imports: [],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './layout.component.html',
-  styleUrl: './layout.component.sass'
+  styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
-
+  protected commonService = inject(CommonService);
 }
