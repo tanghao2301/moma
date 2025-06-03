@@ -20,7 +20,6 @@ export class HtTableComponent implements AfterViewInit{
       this.headerColumnElements.push(headerCell.el);
     });
     this.htTableRows.forEach(row => {
-      debugger;
       const rowEle = {
         ...row,
         cellElements: row.cellElements.map(cell => cell.el)
