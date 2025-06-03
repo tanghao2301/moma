@@ -1,0 +1,36 @@
+<p>examples works!</p>
+<div class="flex gap-4">
+    <ht-card [title]="'123'">
+        <ng-template layoutCardTemplate="header">
+            Header here
+        </ng-template>
+        <h2>
+            Textttttt
+        </h2>
+    </ht-card>
+    <ht-card [title]="'123'">
+        <ng-template layoutCardTemplate="header">
+            Header here
+        </ng-template>
+        <h2>
+            Textttttt
+        </h2>
+    </ht-card>
+</div>
+<ht-table>
+    <ht-table-header>
+        <ng-template tableHeader>col1</ng-template>
+        <ng-template tableHeader>col2</ng-template>
+        <ng-template tableHeader>col3</ng-template>
+    </ht-table-header>
+    <ht-table-row>
+        <ng-template tableCell>cell1</ng-template>
+        <ng-template tableCell>cell2</ng-template>
+        <ng-template tableCell>cell3</ng-template>
+    </ht-table-row>
+    <ht-table-row>
+        <ng-template tableCell>cellA1</ng-template>
+        <ng-template tableCell>cellA2</ng-template>
+        <ng-template tableCell>cellA3</ng-template>
+    </ht-table-row>
+</ht-table>

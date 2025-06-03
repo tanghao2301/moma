@@ -1,1 +1,22 @@
-<p>ht-table works!</p>
+<table>
+    <thead>
+        <tr>
+            @for (headerCell of headerColumnElements; track headerCell) {
+                <th>
+                    <ng-container *ngTemplateOutlet="headerCell"></ng-container>
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+            @for (rowElement of rowElements; track rowElement) {
+                <tr>
+                    @for (cell of rowElement.cellElements; track cell) {
+                        <td>
+                            <ng-container *ngTemplateOutlet="cell"></ng-container>
+                        </td>
+                    }
+                </tr>
+            }
+    </tbody>
+</table>
