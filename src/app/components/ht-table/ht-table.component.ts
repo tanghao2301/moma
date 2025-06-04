@@ -11,7 +11,7 @@ import { HtTableRow } from './elements/ht-table-row.directive';
 })
 export class HtTableComponent implements AfterViewInit{
   @ContentChild(HtTableHeader) htTableHeader!: HtTableHeader;
-  @ContentChildren(HtTableRow) htTableRows!: HtTableRow[]
+  @ContentChildren(HtTableRow) htTableRows!: HtTableRow[];
   headerColumnElements: TemplateRef<any>[] = [];
   rowElements: Array<any> = [];
   
@@ -23,7 +23,7 @@ export class HtTableComponent implements AfterViewInit{
       const rowEle = {
         ...row,
         cellElements: row.cellElements.map(cell => cell.el)
-      }
+      };
       this.rowElements.push(rowEle);
     });
   }

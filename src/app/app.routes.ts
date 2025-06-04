@@ -44,5 +44,11 @@ export const routes: Routes = [
     ],
     canActivate: [AuthGuard],
   },
+  {
+    path: 'signup',
+    title: 'Signup',
+    loadComponent: () =>
+      import('./pages/onboarding-flow/onboarding/onboarding.component').then((c) => c.OnboardingComponent),
+  },
   { path: '**', component: PageNotFoundComponent },
 ];

@@ -52,8 +52,13 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     const rawForm = this.loginForm.getRawValue();
     this.authService.login(rawForm.email, rawForm.password).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/dashboard');
+      next: (user) => {
+        if (!user) return;
+        if (user.income || user.expenses) {
+          this.router.navigateByUrl('/dashboard');
+        } else {
+          this.router.navigateByUrl('/onboarding');
+        }
       },
       error: (error) => {
         console.error('Email/Password Sign-In error:', error);

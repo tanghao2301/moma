@@ -6,28 +6,23 @@ import {
   signOut,
   user,
 } from '@angular/fire/auth';
-import {
-  collection,
-  doc,
-  Firestore,
-  getDoc,
-  setDoc,
-} from '@angular/fire/firestore';
+import { Firestore, setDoc } from '@angular/fire/firestore';
 import {
   browserSessionPersistence,
   GoogleAuthProvider,
   setPersistence,
   signInWithPopup,
 } from 'firebase/auth';
-import { from, Observable } from 'rxjs';
+import { catchError, from, Observable, of, switchMap, tap } from 'rxjs';
+import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private firestore: Firestore = inject(Firestore);
   private firebaseAuth: Auth = inject(Auth);
+  private userSerice: UserService = inject(UserService);
+  firestore: Firestore = inject(Firestore);
   user$: Observable<any>;
-  userCollection = collection(this.firestore, 'user');
   constructor() {
     this.setSessionStoragePersistence();
     this.user$ = user(this.firebaseAuth);
@@ -37,17 +32,23 @@ export class AuthService {
     setPersistence(this.firebaseAuth, browserSessionPersistence);
   }
 
-  login(email: string, password: string): Observable<void> {
-    const promise = signInWithEmailAndPassword(
-      this.firebaseAuth,
-      email,
-      password
-    ).then(() => {
-      this.user$.subscribe((user) => {
-        localStorage.setItem('user', JSON.stringify(user.providerData[0]));
-      });
-    });
-    return from(promise);
+  login(email: string, password: string): Observable<any> {
+    return from(
+      signInWithEmailAndPassword(this.firebaseAuth, email, password)
+    ).pipe(
+      switchMap(() => this.user$),
+      switchMap((user) =>
+        this.userSerice.getUserById(this.firestore, user.uid)
+      ),
+      tap((user) => {
+        if (!user) return;
+        localStorage.setItem(
+          'user',
+          JSON.stringify(user.providerData?.[0] || {})
+        );
+      }),
+      catchError(() => of(null))
+    );
   }
 
   logout(): Observable<void> {
@@ -78,17 +79,21 @@ export class AuthService {
         throw new Error('Google login error');
       }
 
-      const userRef = doc(this.firestore, `user/${user.uid}`);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
+      this.userSerice
+        .getUserById(this.firestore, user.uid)
+        .subscribe(async (userSnap) => {
+          if (!userSnap.exists()) {
+            await setDoc(
+              this.userSerice.getUserDocById(this.firestore, user.uid),
+              {
+                uid: user.uid,
+                name: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+              }
+            );
+          }
         });
-      }
     } catch (error) {
       console.error('Google login error', error);
       throw error;
