@@ -4,7 +4,7 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -54,6 +54,10 @@ export class LoginComponent implements OnInit {
     this.authService.login(rawForm.email, rawForm.password).subscribe({
       next: (user) => {
         if (!user) return;
+        localStorage.setItem(
+          'user',
+          JSON.stringify(user.providerData?.[0] || {})
+        );
         if (user.income || user.expenses) {
           this.router.navigateByUrl('/dashboard');
         } else {

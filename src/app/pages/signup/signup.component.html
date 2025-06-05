@@ -1,14 +1,14 @@
 <div class="h-view-100 w-full flex justify-content-center align-items-center">
-    <div class="flex flex-col w-fit-content align-items-center">
+    <div class="w-5/6 flex flex-col align-items-center step-border">
         <i class="pi pi-shield w-fit-content" [style]="{'fontSize': '2.5rem' }"></i>
         <p class="text-title-xxl">Welcome to Moma</p>
-        <form class="flex flex-col gap-8" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <form class="flex flex-col gap-8 w-full" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
             <p-floatlabel variant="on">
-                <input class="w-480" pInputText id="email" formControlName="email" autocomplete="off" />
+                <input class="w-full" pInputText id="email" formControlName="email" autocomplete="off" />
                 <label for="email">Email</label>
-            </p-floatlabel>
+            </p-floatlabel> 
             <p-floatlabel variant="on">
-                <p-password class="w-480" formControlName="password" [feedback]="false" />
+                <p-password formControlName="password" [feedback]="false" />
                 <label for="password">Create password</label>
             </p-floatlabel>
             @if (signupForm.get('password')?.errors?.['weakPassword']) {
@@ -16,7 +16,7 @@
                 number, and special char.</p-message>
             }
             <p-floatlabel variant="on">
-                <p-password class="w-480" formControlName="confirmPassword" [feedback]="false" />
+                <p-password formControlName="confirmPassword" [feedback]="false" />
                 <label for="confirmPassword">Confirm password</label>
             </p-floatlabel>
             @if (signupForm.get('password')?.errors?.['mismatch']) {

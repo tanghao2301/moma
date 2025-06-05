@@ -42,9 +42,12 @@
   --color-card: #f6fdf9;
   --color-card-shadow: #1018280f;
   // Responsive
-  --breakpoint-xs: 30rem;
-  --breakpoint-2xl: 100rem;
-  --breakpoint-3xl: 120rem;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 768px;
+  --breakpoint-xl: 1024px;
+  --breakpoint-2xl: 1280px;
+  --breakpoint-3xl: 1440px;
 }
 
 @utility shadow-md {

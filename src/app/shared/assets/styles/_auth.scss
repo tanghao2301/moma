@@ -1,7 +1,8 @@
 :host ::ng-deep {
-    .p-password input {
-      @media screen and (min-width: 480px) {
-        width: 480px;
+    .p-password {
+      width: 100%;
+      input {
+        width: 100%;
       }
     }
     .p-button {

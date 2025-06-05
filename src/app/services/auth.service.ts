@@ -6,14 +6,15 @@ import {
   signOut,
   user,
 } from '@angular/fire/auth';
-import { Firestore, setDoc } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import {
   browserSessionPersistence,
   GoogleAuthProvider,
   setPersistence,
   signInWithPopup,
+  User,
 } from 'firebase/auth';
-import { catchError, from, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, from, Observable, of, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
@@ -40,13 +41,6 @@ export class AuthService {
       switchMap((user) =>
         this.userSerice.getUserById(this.firestore, user.uid)
       ),
-      tap((user) => {
-        if (!user) return;
-        localStorage.setItem(
-          'user',
-          JSON.stringify(user.providerData?.[0] || {})
-        );
-      }),
       catchError(() => of(null))
     );
   }
@@ -63,8 +57,8 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    ).then(() => {
-      //
+    ).then((user) => {
+      this.storeUser(user.user);
     });
     return from(promise);
   }
@@ -79,24 +73,20 @@ export class AuthService {
         throw new Error('Google login error');
       }
 
-      this.userSerice
-        .getUserById(this.firestore, user.uid)
-        .subscribe(async (userSnap) => {
-          if (!userSnap.exists()) {
-            await setDoc(
-              this.userSerice.getUserDocById(this.firestore, user.uid),
-              {
-                uid: user.uid,
-                name: user.displayName,
-                email: user.email,
-                photoURL: user.photoURL,
-              }
-            );
-          }
-        });
+      this.storeUser(user);
     } catch (error) {
       console.error('Google login error', error);
       throw error;
     }
+  }
+
+  storeUser(user: User): void {
+    this.userSerice
+      .getUserById(this.firestore, user.uid)
+      .subscribe(userSnap => {
+        if (!userSnap.exists()) {
+          this.userSerice.setUserById(this.firestore, user.uid, user);
+        }
+      });
   }
 }
