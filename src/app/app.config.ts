@@ -12,7 +12,9 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 // Environments
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { environment } from '../environments/environment.development';
+import { errorInterceptor } from './interceptors/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideAnimations()
+    provideAnimations(),
+    provideHttpClient(withInterceptors([errorInterceptor]))
   ],
 };

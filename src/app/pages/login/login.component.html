@@ -1,26 +1,30 @@
 <div class="h-view-100 w-full flex justify-content-center align-items-center">
-    <div class="w-5/6 flex flex-col align-items-center step-border">
-        <i class="pi pi-shield w-fit-content" [style]="{'fontSize': '2.5rem' }"></i>
-        <p class="text-title-xxl">Welcome to Moma</p>
-        <form class="flex flex-col gap-8 w-full" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-            <p-floatlabel variant="on">
-                <input class="w-full" pInputText id="email" formControlName="email" autocomplete="off" />
-                <label for="email">Email</label>
-            </p-floatlabel>
-            <p-floatlabel variant="on">
-                <p-password formControlName="password" [feedback]="false" />
-                <label for="email">Password</label>
-            </p-floatlabel>
-            <div class="w-full text-center">
-                <a class="pointer" (click)="navigateTo('/signup')">Forgot password?</a>
-            </div>
-            <ht-button [disabled]="loginForm.invalid" type="submit" class="w-full">Sign in</ht-button>
-            <div class="w-full text-center">Don't have an account? <a class="pointer"
-                    (click)="navigateTo('/signup')">Signup</a></div>
-            <button type="button" class="google-btn" (click)="googleLogin()">
-                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" />
-                <span>Sign in with Google</span>
-            </button>
-        </form>
+    <div class="step-border flex flex-col align-items-center gap-28">
+        <div class="flex flex-col align-items-center">
+            <i class="pi pi-shield w-fit-content" [style]="{'fontSize': '2.5rem' }"></i>
+            <p class="text-title-xxl">Welcome to Moma</p>
+        </div>
+        <div class="w-5/6">
+            <form class="flex flex-col gap-8 w-full" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <p-floatlabel variant="on">
+                    <input class="w-full" pInputText id="email" formControlName="email" autocomplete="off" />
+                    <label for="email">Email</label>
+                </p-floatlabel>
+                <p-floatlabel variant="on">
+                    <p-password formControlName="password" [feedback]="false" />
+                    <label for="email">Password</label>
+                </p-floatlabel>
+                <div class="w-full text-center">
+                    <a class="pointer" (click)="navigateTo('/signup')">Forgot password?</a>
+                </div>
+                <ht-button [disabled]="loginForm.invalid" type="submit" class="w-full">Sign in</ht-button>
+                <div class="w-full text-center">Don't have an account? <a class="pointer"
+                        (click)="navigateTo('/signup')">Signup</a></div>
+                <button type="button" class="google-btn" (click)="googleLogin()">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" />
+                    <span>Sign in with Google</span>
+                </button>
+            </form>
+        </div>
     </div>
 </div>

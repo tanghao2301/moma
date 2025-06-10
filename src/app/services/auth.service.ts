@@ -14,7 +14,7 @@ import {
   signInWithPopup,
   User,
 } from 'firebase/auth';
-import { catchError, from, Observable, of, switchMap } from 'rxjs';
+import { catchError, from, Observable, switchMap } from 'rxjs';
 import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
@@ -41,7 +41,9 @@ export class AuthService {
       switchMap((user) =>
         this.userSerice.getUserById(this.firestore, user.uid)
       ),
-      catchError(() => of(null))
+      catchError((error) => {
+        throw error;
+      })
     );
   }
 
@@ -59,6 +61,8 @@ export class AuthService {
       password
     ).then((user) => {
       this.storeUser(user.user);
+    }).catch((error) => {
+      throw error;
     });
     return from(promise);
   }

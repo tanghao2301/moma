@@ -13,6 +13,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { HtButtonComponent } from '../../components/ht-button/ht-button.component';
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private destroyRef: DestroyRef = inject(DestroyRef);
+  private toastService: ToastService = inject(ToastService);
   loginForm: FormGroup = this.fb.group({
     email: [
       '',
@@ -66,6 +68,7 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         console.error('Email/Password Sign-In error:', error);
+        this.toastService.error('Error', `Invalid Login Credentials, Please try again`);
       },
     });
   }
