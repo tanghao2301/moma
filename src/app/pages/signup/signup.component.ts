@@ -14,6 +14,8 @@ import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { HtButtonComponent } from '../../components/ht-button/ht-button.component';
 import { AuthService } from '../../services/auth.service';
+import { LoadingService } from '../../services/loading.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-signup',
@@ -34,6 +36,8 @@ export class SignupComponent {
   private fb = inject(FormBuilder);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
+  private toastService: ToastService = inject(ToastService);
+  private loadingService: LoadingService = inject(LoadingService);
   signupForm: FormGroup = this.fb.group(
     {
       email: [
@@ -54,23 +58,28 @@ export class SignupComponent {
   );
 
   onSubmit(): void {
+    this.loadingService.show();
     const rawForm = this.signupForm.getRawValue();
     this.authService.signup(rawForm.email, rawForm.password).subscribe({
       next: () => {
-        this.router.navigateByUrl('/dashboard');
+        this.router.navigateByUrl('/onboarding');
       },
       error: (error) => {
         console.error('Email/Password Sign-In error:', error);
+        this.toastService.error('Error', `Invalid Login Credentials, Please try again`);
       },
+      complete: () => {
+        this.loadingService.hide();
+      }
     });
   }
 
   async googleLogin(): Promise<void> {
     try {
       await this.authService.googleLogin();
-      this.router.navigateByUrl('/dashboard');
     } catch (error) {
       console.error('Google login error', error);
+      this.toastService.error('Error', `Google login error ${error}`);
     }
   }
 

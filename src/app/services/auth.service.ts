@@ -7,6 +7,7 @@ import {
   user,
 } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import {
   browserSessionPersistence,
   GoogleAuthProvider,
@@ -15,6 +16,7 @@ import {
   User,
 } from 'firebase/auth';
 import { catchError, from, Observable, switchMap } from 'rxjs';
+import { ToastService } from './toast.service';
 import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,8 @@ import { UserService } from './user.service';
 export class AuthService {
   private firebaseAuth: Auth = inject(Auth);
   private userSerice: UserService = inject(UserService);
+  private router: Router = inject(Router);
+  private toastService: ToastService = inject(ToastService);
   firestore: Firestore = inject(Firestore);
   user$: Observable<any>;
   constructor() {
@@ -77,20 +81,34 @@ export class AuthService {
         throw new Error('Google login error');
       }
 
-      this.storeUser(user);
+      const exists = await this.storeUser(user);
+      if (exists) {
+        this.router.navigateByUrl('/dashboard');
+      } else {
+        this.router.navigateByUrl('/onboarding');
+      }
     } catch (error) {
       console.error('Google login error', error);
-      throw error;
+      this.toastService.error('Error', `Google login error ${error}`);
     }
   }
 
-  storeUser(user: User): void {
-    this.userSerice
-      .getUserById(this.firestore, user.uid)
-      .subscribe(userSnap => {
-        if (!userSnap.exists()) {
-          this.userSerice.setUserById(this.firestore, user.uid, user);
-        }
-      });
+  storeUser(user: User): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.userSerice
+        .getUserById(this.firestore, user.uid)
+        .subscribe({
+          next: userSnap => {
+            if (!userSnap) {
+              this.userSerice.setUserById(this.firestore, user.uid, user)
+                .then(() => resolve(false))  // New user created
+                .catch(reject);
+            } else {
+              resolve(true);  // User already exists
+            }
+          },
+          error: reject
+        });
+    });
   }
 }

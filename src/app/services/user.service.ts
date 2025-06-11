@@ -12,16 +12,21 @@ export class UserService {
   }
 
   getUserById(firestore: any, id: string): Observable<any> {
-    const userDoc = this.getUserDocById(firestore, id);
-    return docData(userDoc, { idField: 'id' }) as Observable<any>;
+    return docData(this.getUserDocById(firestore, id), {
+      idField: 'uid',
+    }) as Observable<any>;
   }
 
-  setUserById(firestore: any, id: string, userInfo: User): void {
-    setDoc(this.getUserDocById(firestore, id), {
-      uid: userInfo.uid,
-      name: userInfo.displayName,
-      email: userInfo.email,
-      photoURL: userInfo.photoURL,
-    });
+  async setUserById(firestore: any, id: string, userInfo: User): Promise<void> {
+    try {
+      await setDoc(this.getUserDocById(firestore, id), {
+        uid: userInfo.uid,
+        name: userInfo.displayName,
+        email: userInfo.email,
+        photoURL: userInfo.photoURL,
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 }
