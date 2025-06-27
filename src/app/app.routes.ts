@@ -46,9 +46,23 @@ export const routes: Routes = [
   },
   {
     path: 'onboarding',
-    title: 'Onboarding',
-    loadComponent: () =>
-      import('./pages/onboarding-flow/onboarding/onboarding.component').then((c) => c.OnboardingComponent),
+    children: [
+      {
+        path: '',
+        title: 'Onboarding',
+        loadComponent: () =>
+          import('./pages/onboarding-flow/onboarding/onboarding.component').then((c) => c.OnboardingComponent),
+      },
+      {
+        path: 'personal-info',
+        title: 'Personal Info',
+        loadComponent: () =>
+          import('./pages/onboarding-flow/personal-info/personal-info.component').then(
+            (c) => c.PersonalInfoComponent
+          ),
+      },
+    ],
+    canActivate: [AuthGuard],
   },
   { path: '**', component: PageNotFoundComponent },
 ];

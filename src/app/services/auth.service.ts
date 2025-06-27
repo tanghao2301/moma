@@ -15,7 +15,7 @@ import {
   signInWithPopup,
   User,
 } from 'firebase/auth';
-import { catchError, from, Observable, switchMap } from 'rxjs';
+import { catchError, from, Observable, switchMap, take } from 'rxjs';
 import { ToastService } from './toast.service';
 import { UserService } from './user.service';
 @Injectable({
@@ -41,7 +41,7 @@ export class AuthService {
     return from(
       signInWithEmailAndPassword(this.firebaseAuth, email, password)
     ).pipe(
-      switchMap(() => this.user$),
+      switchMap(() => this.user$.pipe(take(1))),
       switchMap((user) =>
         this.userSerice.getUserById(this.firestore, user.uid)
       ),
@@ -63,11 +63,13 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    ).then((user) => {
-      this.storeUser(user.user);
-    }).catch((error) => {
-      throw error;
-    });
+    )
+      .then((user) => {
+        return this.storeUser(user.user);
+      })
+      .catch((error) => {
+        throw error;
+      });
     return from(promise);
   }
 
@@ -81,11 +83,11 @@ export class AuthService {
         throw new Error('Google login error');
       }
 
-      const exists = await this.storeUser(user);
-      if (exists) {
+      const userSnap = await this.storeUser(user);
+      if (userSnap?.income || userSnap?.expenses) {
         this.router.navigateByUrl('/dashboard');
       } else {
-        this.router.navigateByUrl('/onboarding');
+        this.router.navigateByUrl('/onboarding/personal-info');
       }
     } catch (error) {
       console.error('Google login error', error);
@@ -93,21 +95,22 @@ export class AuthService {
     }
   }
 
-  storeUser(user: User): Promise<boolean> {
+  private storeUser(user: User): Promise<any> {
     return new Promise((resolve, reject) => {
       this.userSerice
         .getUserById(this.firestore, user.uid)
-        .subscribe({
-          next: userSnap => {
-            if (!userSnap) {
-              this.userSerice.setUserById(this.firestore, user.uid, user)
-                .then(() => resolve(false))  // New user created
-                .catch(reject);
-            } else {
-              resolve(true);  // User already exists
-            }
-          },
-          error: reject
+        .then((userSnap) => {
+          if (!userSnap) {
+            this.userSerice
+              .setUserById(this.firestore, user.uid, user)
+              .then((user) => resolve(user)) // New user created
+              .catch(reject);
+          } else {
+            resolve(userSnap); // User already exists
+          }
+        })
+        .catch((error) => {
+          throw error;
         });
     });
   }

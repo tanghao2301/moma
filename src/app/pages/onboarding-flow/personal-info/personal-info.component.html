@@ -1,1 +1,34 @@
-<p>personal-info works!</p>
+<div class="h-view-100 w-full flex justify-content-center align-items-center">
+    <div class="step-border flex flex-col align-items-center gap-28">
+        <div class="flex flex-col align-items-center">
+            <i class="pi pi-shield w-fit-content" [style]="{'fontSize': '2.5rem' }"></i>
+            <p class="text-title-xxl">Personal Information</p>
+        </div>
+        <div class="w-5/6">
+            <form class="flex flex-col gap-8 w-full" [formGroup]="personalForm" (ngSubmit)="onSubmit()"
+                autocomplete="off">
+                <div class="flex gap-8">
+                    <div>
+                        <span>First Name</span>
+                        <input class="w-full" pInputText id="firstName" formControlName="firstName"
+                            autocomplete="off" />
+                    </div>
+                    <div>
+                        <span>Last Name</span>
+                        <input class="w-full" pInputText id="lastName" formControlName="lastName" autocomplete="off" />
+                    </div>
+                </div>
+                <div>
+                    <span>Last Name</span>
+                    <p-inputmask mask="(999) 999-9999" formControlName="phoneNumber" placeholder="(999) 999-9999" />
+                </div>
+                <div>
+                    <span>Last Name</span>
+                    <p-datepicker formControlName="dateOfBirth" [iconDisplay]="'input'" [showIcon]="true"
+                        inputId="icondisplay" />
+                </div>
+                <ht-button [disabled]="personalForm.invalid" type="submit" class="w-full">Next</ht-button>
+            </form>
+        </div>
+    </div>
+</div>

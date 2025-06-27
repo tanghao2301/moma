@@ -61,12 +61,17 @@ export class SignupComponent {
     this.loadingService.show();
     const rawForm = this.signupForm.getRawValue();
     this.authService.signup(rawForm.email, rawForm.password).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/onboarding');
+      next: (user: any) => {
+        this.router.navigateByUrl('/onboarding/personal-info');
+        localStorage.setItem(
+          'user',
+          JSON.stringify(user || {})
+        );
       },
       error: (error) => {
         console.error('Email/Password Sign-In error:', error);
         this.toastService.error('Error', `Invalid Login Credentials, Please try again`);
+        this.loadingService.hide();
       },
       complete: () => {
         this.loadingService.hide();

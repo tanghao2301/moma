@@ -1,5 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -34,7 +33,6 @@ export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
-  private destroyRef: DestroyRef = inject(DestroyRef);
   private toastService: ToastService = inject(ToastService);
   private loadingService: LoadingService = inject(LoadingService);
   loginForm: FormGroup = this.fb.group({
@@ -61,12 +59,12 @@ export class LoginComponent implements OnInit {
         this.loadingService.hide();
         localStorage.setItem(
           'user',
-          JSON.stringify(user?.providerData?.[0] || {})
+          JSON.stringify(user || {})
         );
         if (user?.income || user?.expenses) {
           this.router.navigateByUrl('/dashboard');
         } else {
-          this.router.navigateByUrl('/onboarding');
+          this.router.navigateByUrl('/onboarding/personal-info');
         }
       },
       error: (error) => {
@@ -78,19 +76,6 @@ export class LoginComponent implements OnInit {
         );
       }
     });
-  }
-
-  guestLogin(): void {
-    const values = { email: 'guest@mail.uk', password: 'fake_password' };
-    this.loginForm.patchValue(values);
-    const subscription = this.loginForm.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        if (this.loginForm.valid) {
-          subscription.unsubscribe();
-          this.onSubmit();
-        }
-      });
   }
 
   async googleLogin(): Promise<void> {
