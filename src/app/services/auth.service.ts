@@ -42,9 +42,7 @@ export class AuthService {
       signInWithEmailAndPassword(this.firebaseAuth, email, password)
     ).pipe(
       switchMap(() => this.user$.pipe(take(1))),
-      switchMap((user) =>
-        this.userSerice.getUserById(this.firestore, user.uid)
-      ),
+      switchMap((user) => this.userSerice.getUserById(user.uid)),
       catchError((error) => {
         throw error;
       })
@@ -58,7 +56,7 @@ export class AuthService {
     return from(promise);
   }
 
-  signup(email: string, password: string): Observable<void> {
+  signup(email: string, password: string): Observable<any> {
     const promise = createUserWithEmailAndPassword(
       this.firebaseAuth,
       email,
@@ -83,35 +81,40 @@ export class AuthService {
         throw new Error('Google login error');
       }
 
-      const userSnap = await this.storeUser(user);
-      if (userSnap?.income || userSnap?.expenses) {
-        this.router.navigateByUrl('/dashboard');
-      } else {
-        this.router.navigateByUrl('/onboarding/personal-info');
-      }
+      this.storeUser(user).subscribe({
+        next: (userSnap) => {
+          if (userSnap?.income || userSnap?.expenses) {
+            this.router.navigateByUrl('/dashboard');
+          } else {
+            this.router.navigateByUrl('/onboarding/personal-info');
+          }
+        },
+      });
     } catch (error) {
       console.error('Google login error', error);
       this.toastService.error('Error', `Google login error ${error}`);
     }
   }
 
-  private storeUser(user: User): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.userSerice
-        .getUserById(this.firestore, user.uid)
-        .then((userSnap) => {
+  private storeUser(user: User): Observable<any> {
+    return new Observable((subscriber) => {
+      this.userSerice.getUserById(user.uid).subscribe({
+        next: (userSnap) => {
           if (!userSnap) {
-            this.userSerice
-              .setUserById(this.firestore, user.uid, user)
-              .then((user) => resolve(user)) // New user created
-              .catch(reject);
+            this.userSerice.setUserById(user.uid, user).subscribe({
+              next: (user) => subscriber.next(user),
+              error: () => {
+                subscriber.error();
+              },
+            });
           } else {
-            resolve(userSnap); // User already exists
+            subscriber.next(userSnap); // User already exists
           }
-        })
-        .catch((error) => {
+        },
+        error: (error) => {
           throw error;
-        });
+        },
+      });
     });
   }
 }

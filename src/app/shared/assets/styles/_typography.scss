@@ -1,5 +1,11 @@
 @use "./variables";
 
+.text-title-sm {
+    font-size: variables.$fontSizeSM;
+    font-weight: variables.$fontWeightSM;
+    line-height: variables.$lineHieghtSM;
+}
+
 .text-title-xxl {
     font-size: variables.$fontSizeXXL;
     font-weight: variables.$fontWeightMD;
