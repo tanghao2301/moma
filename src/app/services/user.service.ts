@@ -9,7 +9,15 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class UserService {
-  private authService = inject(AuthService);
+  private _authService!: AuthService;
+
+  private get authService(): AuthService {
+    if (!this._authService) {
+      this._authService = inject(AuthService);
+    }
+    return this._authService;
+  }
+
   getUserDocById(id: string): any {
     return doc(this.authService.firestore, 'user', id);
   }

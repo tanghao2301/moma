@@ -23,7 +23,7 @@ import { UserService } from './user.service';
 })
 export class AuthService {
   private firebaseAuth: Auth = inject(Auth);
-  private userSerice: UserService = inject(UserService);
+  private _userService!: UserService;
   private router: Router = inject(Router);
   private toastService: ToastService = inject(ToastService);
   firestore: Firestore = inject(Firestore);
@@ -31,6 +31,13 @@ export class AuthService {
   constructor() {
     this.setSessionStoragePersistence();
     this.user$ = user(this.firebaseAuth);
+  }
+
+  private get userService(): UserService {
+    if (!this._userService) {
+      this._userService = inject(UserService);
+    }
+    return this._userService;
   }
 
   private setSessionStoragePersistence(): void {
@@ -42,7 +49,7 @@ export class AuthService {
       signInWithEmailAndPassword(this.firebaseAuth, email, password)
     ).pipe(
       switchMap(() => this.user$.pipe(take(1))),
-      switchMap((user) => this.userSerice.getUserById(user.uid)),
+      switchMap((user) => this.userService.getUserById(user.uid)),
       catchError((error) => {
         throw error;
       })
@@ -98,10 +105,10 @@ export class AuthService {
 
   private storeUser(user: User): Observable<any> {
     return new Observable((subscriber) => {
-      this.userSerice.getUserById(user.uid).subscribe({
+      this.userService.getUserById(user.uid).subscribe({
         next: (userSnap) => {
           if (!userSnap) {
-            this.userSerice.setUserById(user.uid, user).subscribe({
+            this.userService.setUserById(user.uid, user).subscribe({
               next: (user) => subscriber.next(user),
               error: () => {
                 subscriber.error();
