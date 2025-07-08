@@ -61,6 +61,22 @@ export const routes: Routes = [
             (c) => c.PersonalInfoComponent
           ),
       },
+      {
+        path: 'income',
+        title: 'Income',
+        loadComponent: () =>
+          import('./pages/onboarding-flow/income/income.component').then(
+            (c) => c.IncomeComponent
+          ),
+      },
+      {
+        path: 'expenses',
+        title: 'Expenses',
+        loadComponent: () =>
+          import('./pages/onboarding-flow/expenses/expenses.component').then(
+            (c) => c.ExpensesComponent
+          ),
+      },
     ],
     canActivate: [AuthGuard],
   },

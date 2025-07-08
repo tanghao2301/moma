@@ -12,10 +12,12 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
+import { take } from 'rxjs';
 import { HtButtonComponent } from '../../components/ht-button/ht-button.component';
 import { AuthService } from '../../services/auth.service';
 import { LoadingService } from '../../services/loading.service';
 import { ToastService } from '../../services/toast.service';
+import { OnboardingLayoutComponent } from '../../shared/layouts/onboarding-layout/onboarding-layout.component';
 
 @Component({
   selector: 'app-signup',
@@ -27,6 +29,7 @@ import { ToastService } from '../../services/toast.service';
     ButtonModule,
     HtButtonComponent,
     MessageModule,
+    OnboardingLayoutComponent
   ],
   providers: [AuthService],
   templateUrl: './signup.component.html',
@@ -60,23 +63,28 @@ export class SignupComponent {
   onSubmit(): void {
     this.loadingService.show();
     const rawForm = this.signupForm.getRawValue();
-    this.authService.signup(rawForm.email, rawForm.password).subscribe({
-      next: (user: any) => {
-        this.router.navigateByUrl('/onboarding/personal-info');
-        localStorage.setItem(
-          'user',
-          JSON.stringify(user || {})
-        );
-      },
-      error: (error) => {
-        console.error('Email/Password Sign-In error:', error);
-        this.toastService.error('Error', `Invalid Login Credentials, Please try again`);
-        this.loadingService.hide();
-      },
-      complete: () => {
-        this.loadingService.hide();
-      }
-    });
+    this.authService
+      .signup(rawForm.email, rawForm.password)
+      .pipe(take(1))
+      .subscribe({
+        next: (user: any) => {
+          this.router.navigateByUrl('/onboarding/personal-info');
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user || {}));
+          }
+        },
+        error: (error) => {
+          console.error('Email/Password Sign-In error:', error);
+          this.toastService.error(
+            'Error',
+            `Invalid Login Credentials, Please try again`
+          );
+          this.loadingService.hide();
+        },
+        complete: () => {
+          this.loadingService.hide();
+        },
+      });
   }
 
   async googleLogin(): Promise<void> {

@@ -1,0 +1,11 @@
+<div class="h-view-100 w-full flex justify-content-center align-items-center">
+    <div class="step-border flex flex-col align-items-center gap-28">
+        <div class="flex flex-col align-items-center">
+            <i class="pi pi-shield w-fit-content" [style]="{'fontSize': '2.5rem' }"></i>
+            <p class="text-title-xxl"><ng-content select="title"/></p>
+        </div>
+        <div class="w-5/6">
+            <ng-content />
+        </div>
+    </div>
+</div>

@@ -6,9 +6,11 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputMask } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { HtButtonComponent } from '../../../components/ht-button/ht-button.component';
+import { AuthService } from '../../../services/auth.service';
 import { LoadingService } from '../../../services/loading.service';
 import { ToastService } from '../../../services/toast.service';
 import { UserService } from '../../../services/user.service';
+import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-layout/onboarding-layout.component';
 
 @Component({
   selector: 'app-personal-info',
@@ -19,6 +21,7 @@ import { UserService } from '../../../services/user.service';
     InputMask,
     DatePickerModule,
     HtButtonComponent,
+    OnboardingLayoutComponent
   ],
   providers: [UserService],
   templateUrl: './personal-info.component.html',
@@ -27,6 +30,7 @@ import { UserService } from '../../../services/user.service';
 export class PersonalInfoComponent {
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
+  private authService = inject(AuthService);
   private router = inject(Router);
   private toastService = inject(ToastService);
   private loadingService = inject(LoadingService);
@@ -40,8 +44,9 @@ export class PersonalInfoComponent {
   onSubmit(): void {
     this.loadingService.show();
     const rawForm = this.personalForm.getRawValue();
-    const user = JSON.parse(JSON.stringify(localStorage.getItem('user')));
-    this.userService.setUserById(user.id, rawForm).subscribe({
+    const user = JSON.parse(localStorage.getItem('user')!);
+    if (!user) return;
+    this.userService.setUserById(this.authService.firestore, user.uid, rawForm).subscribe({
       next: (_user) => {
         this.loadingService.hide();
         this.router.navigateByUrl('/onboarding/income');

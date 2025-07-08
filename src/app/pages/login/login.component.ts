@@ -14,6 +14,7 @@ import { HtButtonComponent } from '../../components/ht-button/ht-button.componen
 import { AuthService } from '../../services/auth.service';
 import { LoadingService } from '../../services/loading.service';
 import { ToastService } from '../../services/toast.service';
+import { OnboardingLayoutComponent } from '../../shared/layouts/onboarding-layout/onboarding-layout.component';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ import { ToastService } from '../../services/toast.service';
     PasswordModule,
     ButtonModule,
     HtButtonComponent,
+    OnboardingLayoutComponent
   ],
   providers: [AuthService],
   templateUrl: './login.component.html',
@@ -57,10 +59,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(rawForm.email, rawForm.password).subscribe({
       next: (user) => {
         this.loadingService.hide();
-        localStorage.setItem(
-          'user',
-          JSON.stringify(user || {})
-        );
+        if (user) {
+          localStorage.setItem(
+            'user',
+            JSON.stringify(user || {})
+          );
+        }
         if (user?.income || user?.expenses) {
           this.router.navigateByUrl('/dashboard');
         } else {

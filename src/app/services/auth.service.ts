@@ -23,7 +23,7 @@ import { UserService } from './user.service';
 })
 export class AuthService {
   private firebaseAuth: Auth = inject(Auth);
-  private _userService!: UserService;
+  private userService = inject(UserService);
   private router: Router = inject(Router);
   private toastService: ToastService = inject(ToastService);
   firestore: Firestore = inject(Firestore);
@@ -31,13 +31,6 @@ export class AuthService {
   constructor() {
     this.setSessionStoragePersistence();
     this.user$ = user(this.firebaseAuth);
-  }
-
-  private get userService(): UserService {
-    if (!this._userService) {
-      this._userService = inject(UserService);
-    }
-    return this._userService;
   }
 
   private setSessionStoragePersistence(): void {
@@ -49,7 +42,9 @@ export class AuthService {
       signInWithEmailAndPassword(this.firebaseAuth, email, password)
     ).pipe(
       switchMap(() => this.user$.pipe(take(1))),
-      switchMap((user) => this.userService.getUserById(user.uid)),
+      switchMap((user) =>
+        this.userService.getUserById(this.firestore, user.uid)
+      ),
       catchError((error) => {
         throw error;
       })
@@ -68,14 +63,10 @@ export class AuthService {
       this.firebaseAuth,
       email,
       password
-    )
-      .then((user) => {
-        return this.storeUser(user.user);
-      })
-      .catch((error) => {
-        throw error;
-      });
-    return from(promise);
+    ).catch((error) => {
+      throw error;
+    });
+    return from(promise).pipe(switchMap((user) => this.storeUser(user.user)));
   }
 
   async googleLogin(): Promise<void> {
@@ -105,21 +96,10 @@ export class AuthService {
 
   private storeUser(user: User): Observable<any> {
     return new Observable((subscriber) => {
-      this.userService.getUserById(user.uid).subscribe({
-        next: (userSnap) => {
-          if (!userSnap) {
-            this.userService.setUserById(user.uid, user).subscribe({
-              next: (user) => subscriber.next(user),
-              error: () => {
-                subscriber.error();
-              },
-            });
-          } else {
-            subscriber.next(userSnap); // User already exists
-          }
-        },
-        error: (error) => {
-          throw error;
+      this.userService.setUserById(this.firestore, user.uid, user).subscribe({
+        next: (user) => subscriber.next(user),
+        error: () => {
+          subscriber.error();
         },
       });
     });

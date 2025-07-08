@@ -1,39 +1,56 @@
-<div class="h-view-100 w-full flex justify-content-center align-items-center">
-    <div class="step-border flex flex-col align-items-center gap-28">
-        <div class="flex flex-col align-items-center">
-            <i class="pi pi-shield w-fit-content" [style]="{'fontSize': '2.5rem' }"></i>
-            <p class="text-title-xxl">Welcome to Moma</p>
-        </div>
-        <div class="w-5/6">
-            <form class="flex flex-col gap-8 w-full" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-                <p-floatlabel variant="on">
-                    <input class="w-full" pInputText id="email" formControlName="email" autocomplete="off" />
-                    <label for="email">Email</label>
-                </p-floatlabel>
-                <p-floatlabel variant="on">
-                    <p-password formControlName="password" [feedback]="false" autocomplete="new-password"/>
-                    <label for="password">Create password</label>
-                </p-floatlabel>
-                @if (signupForm.get('password')?.errors?.['weakPassword']) {
-                <p-message severity="error" variant="simple" size="small">Password must be 8+ chars with upper, lower,
-                    number, and special char.</p-message>
-                }
-                <p-floatlabel variant="on">
-                    <p-password formControlName="confirmPassword" [feedback]="false" />
-                    <label for="confirmPassword">Confirm password</label>
-                </p-floatlabel>
-                @if (signupForm.get('password')?.errors?.['mismatch']) {
-                <p-message severity="error" variant="simple" size="small">Passwords do
-                    not match.</p-message>
-                }
-                <ht-button [disabled]="signupForm.invalid" type="submit" class="w-full">Sign up</ht-button>
-                <div class="w-full text-center">Already have an account? <a class="pointer"
-                        (click)="navigateTo('/login')">Login</a></div>
-                <button type="button" class="google-btn" (click)="googleLogin()">
-                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" />
-                    <span>Sign in with Google</span>
-                </button>
-            </form>
-        </div>
+<onboarding-layout>
+  <p ngProjectAs="title">Welcome to Moma</p>
+  <form
+    class="flex flex-col gap-8 w-full"
+    [formGroup]="signupForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <p-floatlabel variant="on">
+      <input
+        class="w-full"
+        pInputText
+        id="email"
+        formControlName="email"
+        autocomplete="off"
+      />
+      <label for="email">Email</label>
+    </p-floatlabel>
+    <p-floatlabel variant="on">
+      <p-password
+        formControlName="password"
+        [feedback]="false"
+        autocomplete="new-password"
+      />
+      <label for="password">Create password</label>
+    </p-floatlabel>
+    @if (signupForm.get('password')?.errors?.['weakPassword']) {
+    <p-message severity="error" variant="simple" size="small"
+      >Password must be 8+ chars with upper, lower, number, and special
+      char.</p-message
+    >
+    }
+    <p-floatlabel variant="on">
+      <p-password formControlName="confirmPassword" [feedback]="false" />
+      <label for="confirmPassword">Confirm password</label>
+    </p-floatlabel>
+    @if (signupForm.get('password')?.errors?.['mismatch']) {
+    <p-message severity="error" variant="simple" size="small"
+      >Passwords do not match.</p-message
+    >
+    }
+    <ht-button [disabled]="signupForm.invalid" type="submit" class="w-full"
+      >Sign up</ht-button
+    >
+    <div class="w-full text-center">
+      Already have an account?
+      <a class="pointer" (click)="navigateTo('/login')">Login</a>
     </div>
-</div>
+    <button type="button" class="google-btn" (click)="googleLogin()">
+      <img
+        src="https://developers.google.com/identity/images/g-logo.png"
+        alt="Google logo"
+      />
+      <span>Sign in with Google</span>
+    </button>
+  </form>
+</onboarding-layout>
