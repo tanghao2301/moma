@@ -16,7 +16,7 @@
     <span class="loader mr-2"></span> Loading...
     }
     @else {
-    <ng-content></ng-content>
+    <span class="whitespace-nowrap"><ng-content></ng-content></span>
     }
 
     @if (icon() && iconPosition() === 'right') {

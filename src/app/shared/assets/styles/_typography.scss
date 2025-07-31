@@ -6,6 +6,12 @@
     line-height: variables.$lineHieghtSM;
 }
 
+.text-title-md {
+  font-size: variables.$fontSizeXL;
+  font-weight: variables.$lineHieghtMD;
+  line-height: variables.$fontSizeXL;
+}
+
 .text-title-xxl {
     font-size: variables.$fontSizeXXL;
     font-weight: variables.$fontWeightMD;

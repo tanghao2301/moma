@@ -6,7 +6,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputMask } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { HtButtonComponent } from '../../../components/ht-button/ht-button.component';
-import { AuthService } from '../../../services/auth.service';
 import { LoadingService } from '../../../services/loading.service';
 import { ToastService } from '../../../services/toast.service';
 import { UserService } from '../../../services/user.service';
@@ -28,12 +27,11 @@ import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-la
   styleUrl: './personal-info.component.scss',
 })
 export class PersonalInfoComponent {
-  private fb = inject(FormBuilder);
-  private userService = inject(UserService);
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private toastService = inject(ToastService);
-  private loadingService = inject(LoadingService);
+  private fb: FormBuilder = inject(FormBuilder);
+  private userService: UserService = inject(UserService);
+  private router: Router = inject(Router);
+  private toastService: ToastService = inject(ToastService);
+  private loadingService: LoadingService = inject(LoadingService);
   personalForm = this.fb.group({
     firstName: ['', [Validators.required]],
     lastName: ['', Validators.required],
@@ -46,7 +44,7 @@ export class PersonalInfoComponent {
     const rawForm = this.personalForm.getRawValue();
     const user = JSON.parse(localStorage.getItem('user')!);
     if (!user) return;
-    this.userService.setUserById(this.authService.firestore, user.uid, rawForm).subscribe({
+    this.userService.updateUserById(user.uid, rawForm).subscribe({
       next: (_user) => {
         this.loadingService.hide();
         this.router.navigateByUrl('/onboarding/income');

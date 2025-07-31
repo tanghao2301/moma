@@ -3,19 +3,16 @@ import {
   Auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut,
-  user,
+  signOut
 } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import {
-  browserSessionPersistence,
   GoogleAuthProvider,
-  setPersistence,
   signInWithPopup,
-  User,
+  User
 } from 'firebase/auth';
 import { catchError, from, Observable, switchMap, take } from 'rxjs';
+import { FirebaseService } from './firebase.service';
 import { ToastService } from './toast.service';
 import { UserService } from './user.service';
 @Injectable({
@@ -23,27 +20,18 @@ import { UserService } from './user.service';
 })
 export class AuthService {
   private firebaseAuth: Auth = inject(Auth);
-  private userService = inject(UserService);
+  private userService: UserService = inject(UserService);
   private router: Router = inject(Router);
   private toastService: ToastService = inject(ToastService);
-  firestore: Firestore = inject(Firestore);
-  user$: Observable<any>;
-  constructor() {
-    this.setSessionStoragePersistence();
-    this.user$ = user(this.firebaseAuth);
-  }
-
-  private setSessionStoragePersistence(): void {
-    setPersistence(this.firebaseAuth, browserSessionPersistence);
-  }
+  private firebaseService: FirebaseService = inject(FirebaseService);
 
   login(email: string, password: string): Observable<any> {
     return from(
       signInWithEmailAndPassword(this.firebaseAuth, email, password)
     ).pipe(
-      switchMap(() => this.user$.pipe(take(1))),
+      switchMap(() => this.firebaseService.user$.pipe(take(1))),
       switchMap((user) =>
-        this.userService.getUserById(this.firestore, user.uid)
+        this.userService.getUserById(user.uid)
       ),
       catchError((error) => {
         throw error;
@@ -96,7 +84,7 @@ export class AuthService {
 
   private storeUser(user: User): Observable<any> {
     return new Observable((subscriber) => {
-      this.userService.setUserById(this.firestore, user.uid, user).subscribe({
+      this.userService.setUserById(user.uid, user).subscribe({
         next: (user) => subscriber.next(user),
         error: () => {
           subscriber.error();

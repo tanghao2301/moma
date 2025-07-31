@@ -1,4 +1,139 @@
 <onboarding-layout>
-  <p ngProjectAs="title"></p>
-  
+  <div title>
+    Let's start by adding your income
+    <p class="text-title-sm">Add one or more sources of income so we can personalize your experience.</p>
+  </div>
+  <div class="h-100 flex flex-col">
+    @if (incomes.length > 0) {
+    <div class="flex flex-col">
+      @for (income of incomes; track income.id) {
+      <ht-card [variant]="'secondary'">
+        <i [class]="'pi ' + income.icon"></i>
+        <div class="">{{ income.label }}</div>
+        <div class="">
+          {{ income.amount | currency : "income.currency | 'VND'" }}
+        </div>
+      </ht-card>
+      }
+    </div>
+    }
+    @else {
+    <div class="flex flex-col items-center justify-center p-8 text-center border border-dashed rounded-lg bg-gray-50 text-gray-500">
+      <i class="pi pi-wallet text-4xl mb-4 text-gray-400"></i>
+      <h3 class="text-lg font-semibold mb-2">No income entries yet</h3>
+      <p class="mb-4">Start tracking your income to better manage your finances.</p>
+    </div>
+    }
+  </div>
+  <div footer>
+    <ht-button class="w-full" (click)="visible = true">Add income</ht-button>
+  </div>
 </onboarding-layout>
+<p-dialog
+  header="Add income"
+  [(visible)]="visible"
+  [style]="{ width: '380px', height: '60%' }"
+  [breakpoints]="{ '575px': '80%' }"
+  (onHide)="handleDialogClose()"
+>
+  <form
+    class="flex flex-col gap-16"
+    [formGroup]="incomeForm"
+  >
+    <p-dropdown
+      class="w-full md:w-14rem"
+      appendTo="body"
+      formControlName="type"
+      placeholder="Select Type"
+      optionLabel="type"
+      panelStyleClass="w-full"
+      [options]="TYPE_INCOME_OPTIONS"
+      [showClear]="true"
+      [autoZIndex]="true"
+      [baseZIndex]="1000"
+    >
+      <ng-template let-selected pTemplate="selectedItem">
+        @if (selected) {
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
+          {{ selected.type }}
+        </div>
+        } @else {
+        <span>Select Type</span>
+        }
+      </ng-template>
+      <ng-template let-option pTemplate="item">
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + option.icon" class="mr-2"></i>
+          {{ option.type }}
+        </div>
+      </ng-template>
+    </p-dropdown>
+    <p-dropdown
+      class="w-full md:w-14rem"
+      appendTo="body"
+      formControlName="currency"
+      placeholder="Select currency"
+      optionLabel="label"
+      panelStyleClass="w-full"
+      [options]="CURRENCY_OPTIONS"
+      [showClear]="true"
+      [autoZIndex]="true"
+      [baseZIndex]="1000"
+    />
+    <p-inputnumber
+      [currency]="currency"
+      [locale]="locale"
+      formControlName="amount"
+      inputId="currency"
+      mode="currency"
+    />
+    <p-dropdown
+      class="w-full md:w-14rem"
+      appendTo="body"
+      formControlName="frequency"
+      placeholder="Select Frequency"
+      optionLabel="label"
+      optionValue="value"
+      panelStyleClass="w-full"
+      [options]="FREQUENCY_OPTIONS"
+      [showClear]="true"
+      [autoZIndex]="true"
+      [baseZIndex]="1000"
+    >
+      <ng-template let-selected pTemplate="selectedItem">
+        @if (selected) {
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
+          {{ selected.label }}
+        </div>
+        } @else {
+        <span>Select Frequency</span>
+        }
+      </ng-template>
+      <ng-template let-option pTemplate="item">
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + option.icon" class="mr-2"></i>
+          {{ option.label }}
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </form>
+  <ng-template #footer>
+    <div class="flex justify-end gap-2">
+      <ht-button
+        [variant]="'secondary'"
+        class="w-full"
+        (click)="visible = false"
+        >Cancel</ht-button
+      >
+      <ht-button
+        [variant]="'primary'"
+        [disabled]="incomeForm.invalid"
+        class="w-fit-content"
+        (click)="addIncome()"
+        >Add income</ht-button
+      >
+    </div>
+  </ng-template>
+</p-dialog>

@@ -32,7 +32,7 @@ import { OnboardingLayoutComponent } from '../../shared/layouts/onboarding-layou
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  private fb = inject(FormBuilder);
+  private fb: FormBuilder = inject(FormBuilder);
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   private toastService: ToastService = inject(ToastService);

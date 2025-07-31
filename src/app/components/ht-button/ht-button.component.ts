@@ -25,7 +25,7 @@ export class HtButtonComponent {
       case 'primary':
         return 'bg-primary text-white hover:bg-primary/90';
       case 'secondary':
-        return 'bg-secondary text-white hover:bg-secondary/90';
+        return 'border text-primary hover:bg-secondary/90';
       case 'danger':
         return 'bg-danger text-white hover:bg-danger/90';
       default:

@@ -9,5 +9,5 @@ import { CommonService } from '../../../services/common.service';
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
-  protected commonService = inject(CommonService);
+  protected commonService: CommonService = inject(CommonService);
 }

@@ -36,7 +36,7 @@ import { OnboardingLayoutComponent } from '../../shared/layouts/onboarding-layou
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
-  private fb = inject(FormBuilder);
+  private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
   private authService: AuthService = inject(AuthService);
   private toastService: ToastService = inject(ToastService);

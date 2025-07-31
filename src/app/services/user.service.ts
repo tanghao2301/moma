@@ -1,14 +1,22 @@
-import { Injectable } from '@angular/core';
-import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
+import { inject, Injectable } from '@angular/core';
+import { doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { User } from 'firebase/auth';
 import { defer, Observable } from 'rxjs';
+import { UserModel } from '../models/user.model';
+import { FirebaseService } from './firebase.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private firebaseService: FirebaseService = inject(FirebaseService);
 
-  getUserDocById(firestore: Firestore, id: string): any {
-    return doc(firestore, 'user', id);
+  getUserId(): string{
+    return JSON.parse(localStorage.getItem('user')!)?.uid;
+  }
+
+  getUserDocById(id: string): any {
+    return doc(this.firebaseService.firestore, 'user', id);
   }
 
   // getUserById(id: string): Observable<any> {
@@ -19,8 +27,8 @@ export class UserService {
   //   }) as Observable<any>;
   // }
 
-  getUserById(firestore: Firestore, id: string): Observable<any | null> {
-    const userRef = this.getUserDocById(firestore, id);
+  getUserById(id: string): Observable<any | null> {
+    const userRef = this.getUserDocById(id);
     return defer(() =>
       getDoc(userRef).then((snap) => {
         return snap.exists() ? { uid: snap.id, ...(snap.data() ?? {}) } : null;
@@ -28,21 +36,23 @@ export class UserService {
     );
   }
 
-  setUserById(firestore: Firestore, id: string, userInfo: any): Observable<any> {
+  setUserById(id: string, userInfo: User | UserModel): Observable<any> {
     return defer(async () => {
-      let user;
-      if (userInfo.uid) {
-        user = {
-          uid: userInfo.uid,
-          name: userInfo.displayName,
-          email: userInfo.email,
-          photoURL: userInfo.photoURL,
-        };
-      } else {
-        user = userInfo;
-      }
-      await setDoc(this.getUserDocById(firestore, id), user);
+      const user = {
+        uid: userInfo.uid,
+        name: userInfo.displayName,
+        email: userInfo.email,
+        photoURL: userInfo.photoURL,
+      };
+      await setDoc(this.getUserDocById(id), user);
       return user;
+    });
+  }
+
+  updateUserById(id: string, userInfo: User | UserModel): Observable<any> {
+    return defer(async () => {
+      await updateDoc(this.getUserDocById(id), userInfo);
+      return userInfo;
     });
   }
 }

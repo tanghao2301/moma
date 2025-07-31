@@ -5,7 +5,7 @@
 
 :root {
   --color-primary: #16a249;
-  --color-secondary: #9bc9ac;
+  --color-secondary: #f2f2ff;
   --color-primary-hover: #1dcf64;
   --color-primary-focus: #67d89f;
   --color-primary-active: #10823a;
@@ -71,26 +71,44 @@ a:hover {
   text-decoration: none;
 }
 // --background: #eafaf0
-  // --foreground: #000000
-  // --card: #f6fdf9
-  // --card-foreground: #181a19
-  // --popover: #eafaf0
-  // --popover-foreground: #000000
-  // --primary: #16a249
-  // --primary-foreground: #ffffff
-  // --secondary: #9bc9ac
-  // --secondary-foreground: #000000
-  // --muted: #d3e4cd
-  // --muted-foreground: #545d58
-  // --accent: #c4dbbc
-  // --accent-foreground: #181a19
-  // --destructive: #7b1d1d
-  // --destructive-foreground: #e4e6e5
-  // --border: #dceee3
-  // --input: #203b2a
-  // --ring: #16a249
-  // --success: #16a149
-  // --success-foreground: #f7f9fb
-  // --chart-line: #fe4c5e
-  // --chart-fill: #ffe0e3
-  // --navy: #181870
+// --foreground: #000000
+// --card: #f6fdf9
+// --card-foreground: #181a19
+// --popover: #eafaf0
+// --popover-foreground: #000000
+// --primary: #16a249
+// --primary-foreground: #ffffff
+// --secondary: #9bc9ac
+// --secondary-foreground: #000000
+// --muted: #d3e4cd
+// --muted-foreground: #545d58
+// --accent: #c4dbbc
+// --accent-foreground: #181a19
+// --destructive: #7b1d1d
+// --destructive-foreground: #e4e6e5
+// --border: #dceee3
+// --input: #203b2a
+// --ring: #16a249
+// --success: #16a149
+// --success-foreground: #f7f9fb
+// --chart-line: #fe4c5e
+// --chart-fill: #ffe0e3
+// --navy: #181870
+
+/* PrimeNG item class is `.p-dropdown-item` */
+p-dropdownitem {
+  transition: background-color 0.2s ease;
+}
+
+/* ✅ Hover effect */
+p-dropdownitem:hover {
+  background-color: #f1f5f9;
+  color: #2a4bd7;
+  cursor: pointer;
+}
+
+/* Optional: Selected item styling */
+p-dropdownitem.p-highlight {
+  background-color: transparent;
+  font-weight: 600;
+}
