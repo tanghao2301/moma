@@ -1,19 +1,37 @@
 @use "./variables";
 
 .text-title-sm {
-    font-size: variables.$fontSizeSM;
+    font-size: variables.$fontSizeMD;
     font-weight: variables.$fontWeightSM;
-    line-height: variables.$lineHieghtSM;
+    line-height: variables.$lineHeightMD;
 }
 
 .text-title-md {
   font-size: variables.$fontSizeXL;
-  font-weight: variables.$lineHieghtMD;
-  line-height: variables.$fontSizeXL;
+  font-weight: variables.$fontWeightMD;
+  line-height: variables.$lineHeightXL;
 }
 
-.text-title-xxl {
+.text-title-lg {
     font-size: variables.$fontSizeXXL;
     font-weight: variables.$fontWeightMD;
-    line-height: variables.$lineHieghtXXL;
+    line-height: variables.$lineHeightXXL;
+}
+
+.text-display-sm {
+  font-size: variables.$fontSizeSM;
+  font-weight: variables.$fontWeightSM;
+  line-height: variables.$lineHeightSM;
+}
+
+.text-display-md {
+  font-size: variables.$fontSizeMD;
+  font-weight: variables.$fontWeightMD;
+  line-height: variables.$lineHeightMD;
+}
+
+.text-display-lg {
+  font-size: variables.$fontSizeLG;
+  font-weight: variables.$fontWeightLG;
+  line-height: variables.$lineHeightLG;
 }

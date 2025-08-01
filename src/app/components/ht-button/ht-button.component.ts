@@ -1,5 +1,11 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  input,
+} from '@angular/core';
 
 type ButtonType = 'primary' | 'secondary' | 'danger';
 type ButtonSize = 'sm' | 'md' | 'lg';
@@ -11,6 +17,10 @@ type ButtonSize = 'sm' | 'md' | 'lg';
   styleUrl: './ht-button.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'haone',
+    '[class.nx-btn-icon-shadowless]': `nxBooleanShadowless`,
+  },
 })
 export class HtButtonComponent {
   variant = input<ButtonType>('primary');
@@ -19,6 +29,8 @@ export class HtButtonComponent {
   loading = input<boolean>(false);
   icon = input<string>(); // pass icon class name or SVG
   iconPosition = input<'left' | 'right'>('left');
+  @Input({ transform: booleanAttribute })
+  borderLess: boolean = false;
 
   getVariantClass(): string {
     switch (this.variant()) {

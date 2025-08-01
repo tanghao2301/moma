@@ -1,6 +1,5 @@
 export interface Income {
-  id: string;
-  label: string;
+  id: number;
   amount: number;
   currency: Currency;
   type: TypeIncome;
@@ -18,7 +17,7 @@ export interface Currency {
 }
 
 export interface TypeIncome {
-  type: string;
+  name: string;
   icon: string;
 }
 

@@ -2,7 +2,8 @@
     'relative overflow-hidden inline-flex items-center justify-center font-medium rounded transition-all duration-200 focus:outline-none cursor-pointer w-full',
     getVariantClass(),
     getSizeClass(),
-    (disabled() || loading()) ? 'opacity-50 cursor-not-allowed' : ''
+    (disabled() || loading()) ? 'opacity-50 cursor-not-allowed' : '',
+    borderLess ? 'border-none' : ''
   ]">
     <span class="ripple"></span>
 

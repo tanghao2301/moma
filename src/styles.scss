@@ -21,11 +21,12 @@
   --color-surface: #ffffff;
   --color-card: #f6fdf9;
   --color-card-shadow: #1018280f;
+  --color-step-border: #9bc9ac
 }
 
 @theme {
   --color-primary: #16a249;
-  --color-secondary: #9bc9ac;
+  --color-secondary: #f2f2ff;
   --color-primary-hover: #1dcf64;
   --color-primary-focus: #67d89f;
   --color-primary-active: #10823a;
@@ -41,7 +42,8 @@
   --color-surface: #ffffff;
   --color-card: #f6fdf9;
   --color-card-shadow: #1018280f;
-  // Responsive
+  --color-step-border: #9bc9ac
+  /* Responsive */
   --breakpoint-sm: 480px;
   --breakpoint-md: 600px;
   --breakpoint-lg: 768px;

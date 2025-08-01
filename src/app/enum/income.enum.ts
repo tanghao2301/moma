@@ -1,13 +1,13 @@
 export const TYPE_INCOME_OPTIONS = [
-  { type: 'Salary', icon: 'pi-briefcase' },
-  { type: 'Business', icon: 'pi-building' },
-  { type: 'Investments', icon: 'pi-chart-line' },
-  { type: 'Rental Income', icon: 'pi-home' },
-  { type: 'Pension', icon: 'pi-user' },
-  { type: 'Dividends', icon: 'pi-dollar' },
-  { type: 'Royalties', icon: 'pi-star' },
-  { type: 'Government Support', icon: 'pi-wallet' },
-  { type: 'Other', icon: 'pi-ellipsis-h' },
+  { name: 'Salary', icon: 'pi-briefcase' },
+  { name: 'Business', icon: 'pi-building' },
+  { name: 'Investments', icon: 'pi-chart-line' },
+  { name: 'Rental Income', icon: 'pi-home' },
+  { name: 'Pension', icon: 'pi-user' },
+  { name: 'Dividends', icon: 'pi-dollar' },
+  { name: 'Royalties', icon: 'pi-star' },
+  { name: 'Government Support', icon: 'pi-wallet' },
+  { name: 'Other', icon: 'pi-ellipsis-h' },
 ];
 
 export const CURRENCY_OPTIONS = [

@@ -1,14 +1,30 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MenuItem } from 'primeng/api';
 import { Dialog } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumber } from 'primeng/inputnumber';
+import { Menu } from 'primeng/menu';
 import { HtButtonComponent } from '../../../components/ht-button/ht-button.component';
 import { HtCardComponent } from '../../../components/ht-card/ht-card.component';
-import { CURRENCY_OPTIONS, FREQUENCY_OPTIONS, TYPE_INCOME_OPTIONS } from '../../../enum/income.enum';
-import { Currency, Frequency, Income, TypeIncome } from '../../../models/income.model';
+import {
+  CURRENCY_OPTIONS,
+  FREQUENCY_OPTIONS,
+  TYPE_INCOME_OPTIONS,
+} from '../../../enum/income.enum';
+import {
+  Currency,
+  Frequency,
+  Income,
+  TypeIncome,
+} from '../../../models/income.model';
 import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-layout/onboarding-layout.component';
 
 @Component({
@@ -18,6 +34,7 @@ import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-la
     Dialog,
     InputNumber,
     DropdownModule,
+    Menu,
     OnboardingLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
@@ -29,20 +46,40 @@ import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-la
 export class IncomeComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private detroyRef: DestroyRef = inject(DestroyRef);
-  incomes: Income[] = [];
+  incomes: Income[] = [
+    {
+      id: 0,
+      type: {
+        name: 'Business',
+        icon: 'pi-building',
+      },
+      currency: {
+        label: 'US Dollar (USD)',
+        value: 'USD',
+        locale: 'en-US',
+      },
+      amount: 12222,
+      frequency: 'once',
+    },
+  ];
   incomeTitle: string = '';
   visible: boolean = false;
+  isEdit: boolean = false;
+  deleteVisible: boolean = false;
+  deleteIncomeItem!: Income | null;
   selectedCurrency!: Currency;
   TYPE_INCOME_OPTIONS: TypeIncome[] = TYPE_INCOME_OPTIONS;
   FREQUENCY_OPTIONS: Frequency[] = FREQUENCY_OPTIONS;
   CURRENCY_OPTIONS = CURRENCY_OPTIONS;
   currency = 'VND';
   locale = 'vi-VN';
+
   incomeForm: FormGroup = this.fb.group({
-    type: [null],
-    currency: [null],
-    amount: [{ value: null, disabled: true }],
-    frequency: [null]
+    id: [null],
+    type: [null, Validators.required],
+    currency: [null, Validators.required],
+    amount: [{ value: null, disabled: true }, Validators.required],
+    frequency: [null, Validators.required],
   });
 
   ngOnInit() {
@@ -64,29 +101,82 @@ export class IncomeComponent implements OnInit {
       });
   }
 
+  getMenuItems(item: Income): MenuItem[] {
+    return [
+      {
+        label: 'Options',
+        items: [
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: () => this.showEditDiaLog(item),
+          },
+          {
+            label: 'Delete',
+            icon: 'pi pi-trash',
+            command: () => {
+              this.deleteDialog(true, item);
+            },
+          },
+        ],
+      },
+    ];
+  }
+
   showDialog() {
     this.visible = true;
   }
 
-  addIncome(): void {
-    // {
-    //   "type": {
-    //       "type": "Business",
-    //       "icon": "pi-building"
-    //   },
-    //   "currency": {
-    //       "label": "US Dollar (USD)",
-    //       "value": "USD",
-    //       "locale": "en-US"
-    //   },
-    //   "amount": 12222,
-    //   "frequency": "once"
-    // }
-    this.incomes.push(this.incomeForm.getRawValue());
+  closeDialog(): void {
     this.visible = false;
+    this.isEdit = false;
+    this.incomeForm.reset();
   }
 
-  handleDialogClose(): void {
-    this.incomeForm.reset();
+  addIncome(): void {
+    this.incomes.push({
+      ...this.incomeForm.getRawValue(),
+      id: this.incomes[this.incomes?.length - 1].id! + 1,
+    });
+    this.closeDialog();
+  }
+
+  showEditDiaLog(income: Income): void {
+    this.incomeForm.setValue({
+      id: income.id,
+      type: income.type,
+      currency: income.currency,
+      amount: income.amount,
+      frequency: income.frequency,
+    });
+    this.isEdit = true;
+    this.showDialog();
+  }
+
+  editIncome(): void {
+    const editedIncome = this.incomeForm.getRawValue();
+    this.incomes = this.incomes.map((income: Income) => {
+      if (income.id === editedIncome.id) {
+        income = editedIncome;
+      }
+      return income;
+    });
+    this.closeDialog();
+  }
+
+  deleteIncome(): void {
+    this.incomes = this.incomes.filter(
+      (income) => income.id !== this.deleteIncomeItem?.id
+    );
+    this.closeDeleteDialog();
+  }
+
+  deleteDialog(visible: boolean, incomeItem: Income | null): void {
+    this.deleteVisible = visible;
+    this.deleteIncomeItem = incomeItem;
+  }
+
+  closeDeleteDialog(): void {
+    this.deleteDialog(false, null);
   }
 }
