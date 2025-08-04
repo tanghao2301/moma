@@ -69,7 +69,7 @@ export class AuthService {
 
       this.storeUser(user).subscribe({
         next: (userSnap) => {
-          if (userSnap?.income || userSnap?.expenses) {
+          if (userSnap?.income) {
             this.router.navigateByUrl('/dashboard');
           } else {
             this.router.navigateByUrl('/onboarding/personal-info');

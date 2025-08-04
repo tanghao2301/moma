@@ -69,14 +69,6 @@ export const routes: Routes = [
             (c) => c.IncomeComponent
           ),
       },
-      {
-        path: 'expenses',
-        title: 'Expenses',
-        loadComponent: () =>
-          import('./pages/onboarding-flow/expenses/expenses.component').then(
-            (c) => c.ExpensesComponent
-          ),
-      },
     ],
     canActivate: [AuthGuard],
   },

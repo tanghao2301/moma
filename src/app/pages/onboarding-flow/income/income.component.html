@@ -7,12 +7,12 @@
   </div>
   <div class="h-100 flex flex-col">
     @if (incomes.length > 0) {
-    <div class="flex flex-col gap-12">
+    <div class="flex flex-col gap-12 pb-4">
       @for (income of incomes; track income.id) {
       <ht-card [variant]="'secondary'">
         <div class="flex align-items-center justify-content-space-between">
           <div class="flex gap-16 align-items-center">
-            <i class="fontsize-20" [class]="'pi ' + income.type.icon"></i>
+            <i class="fontsize-20 ml-4" [class]="'pi ' + income.type.icon"></i>
             <div class="flex flex-col gap-4">
               <p class="text-display-lg">{{ income.type.name }}</p>
               <p class="text-display-sm">
@@ -21,7 +21,12 @@
             </div>
           </div>
           <div class="flex justify-content-center pointer">
-            <p-menu #menu [tabindex]="undefined" [model]="getMenuItems(income)" [popup]="true" />
+            <p-menu
+              #menu
+              [tabindex]="undefined"
+              [model]="getMenuItems(income)"
+              [popup]="true"
+            />
             <ht-button
               variant="secondary"
               borderLess
@@ -47,7 +52,12 @@
     }
   </div>
   <div footer>
-    <ht-button class="w-full" (click)="visible = true">Add income</ht-button>
+    <div class="flex flex-col gap-4">
+      <ht-button [variant]="'secondary'" class="w-full" (click)="visible = true"
+        >Add income</ht-button
+      >
+      <ht-button class="w-full" (click)="next()">Next</ht-button>
+    </div>
   </div>
 </onboarding-layout>
 <p-dialog
@@ -58,17 +68,16 @@
   (onHide)="closeDialog()"
 >
   <form class="flex flex-col gap-16" [formGroup]="incomeForm">
-    <p-dropdown
+    <p-select
       class="w-full md:w-14rem"
       appendTo="body"
       formControlName="type"
       placeholder="Select Type"
-      optionLabel="type"
+      optionLabel="name"
       panelStyleClass="w-full"
       [options]="TYPE_INCOME_OPTIONS"
       [showClear]="true"
-      [autoZIndex]="true"
-      [baseZIndex]="1000"
+      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
     >
       <ng-template let-selected pTemplate="selectedItem">
         @if (selected) {
@@ -86,8 +95,8 @@
           {{ option.name }}
         </div>
       </ng-template>
-    </p-dropdown>
-    <p-dropdown
+    </p-select>
+    <p-select
       class="w-full md:w-14rem"
       appendTo="body"
       formControlName="currency"
@@ -96,8 +105,7 @@
       panelStyleClass="w-full"
       [options]="CURRENCY_OPTIONS"
       [showClear]="true"
-      [autoZIndex]="true"
-      [baseZIndex]="1000"
+      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
     />
     <p-inputnumber
       [currency]="currency"
@@ -106,7 +114,7 @@
       inputId="currency"
       mode="currency"
     />
-    <p-dropdown
+    <p-select
       class="w-full md:w-14rem"
       appendTo="body"
       formControlName="frequency"
@@ -116,8 +124,7 @@
       panelStyleClass="w-full"
       [options]="FREQUENCY_OPTIONS"
       [showClear]="true"
-      [autoZIndex]="true"
-      [baseZIndex]="1000"
+      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
     >
       <ng-template let-selected pTemplate="selectedItem">
         @if (selected) {
@@ -135,7 +142,7 @@
           {{ option.label }}
         </div>
       </ng-template>
-    </p-dropdown>
+    </p-select>
   </form>
   <ng-template #footer>
     <div class="flex justify-end gap-2">
@@ -153,8 +160,7 @@
         (click)="editIncome()"
         >Edit income</ht-button
       >
-      }
-      @else {
+      } @else {
       <ht-button
         [variant]="'primary'"
         [disabled]="incomeForm.invalid"

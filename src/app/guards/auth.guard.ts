@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { CanActivate, GuardResult, MaybeAsync, Router } from '@angular/router';
+import { FirebaseService } from '@services/firebase.service';
 import { User } from 'firebase/auth';
 import { map } from 'rxjs';
-import { FirebaseService } from '../services/firebase.service';
 
 @Injectable({
     providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UrlModel } from '../models/common.model';
+import { UrlModel } from '@models/common.model';
 
 @Injectable({
   providedIn: 'root',

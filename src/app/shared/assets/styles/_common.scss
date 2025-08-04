@@ -101,6 +101,18 @@
     &-#{$i} {
       padding: #{$i}px;
     }
+    &b-#{$i} {
+      padding-bottom: #{$i}px;
+    }
+    &t-#{$i} {
+      padding-top: #{$i}px;
+    }
+    &l-#{$i} {
+      padding-left: #{$i}px;
+    }
+    &r-#{$i} {
+      padding-right: #{$i}px;
+    }
   }
 
   .gap {

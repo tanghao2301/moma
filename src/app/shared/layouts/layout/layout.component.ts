@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { CommonService } from '../../../services/common.service';
+import { CommonService } from '@services/common.service';
 
 @Component({
   selector: 'app-layout',

@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { UserModel } from '@models/user.model';
 import { User } from 'firebase/auth';
 import { defer, Observable } from 'rxjs';
-import { UserModel } from '../models/user.model';
 import { FirebaseService } from './firebase.service';
 
 @Injectable({

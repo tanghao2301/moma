@@ -3,7 +3,7 @@
   <form
     class="flex flex-col gap-8 w-full"
     [formGroup]="personalForm"
-    (ngSubmit)="onSubmit()"
+    (ngSubmit)="next()"
     autocomplete="off"
   >
     <div class="flex gap-8">
@@ -51,6 +51,7 @@
         formControlName="dateOfBirth"
         [iconDisplay]="'input'"
         [showIcon]="true"
+        appendTo="body"
         placeholder="MM/DD/YYYY"
         inputId="icondisplay"
       />

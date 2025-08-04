@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HtButtonComponent } from '@components/ht-button/ht-button.component';
+import { LoadingService } from '@services/loading.service';
+import { ToastService } from '@services/toast.service';
+import { UserService } from '@services/user.service';
+import { OnboardingLayoutComponent } from '@shared/layouts/onboarding-layout/onboarding-layout.component';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputMask } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
-import { HtButtonComponent } from '../../../components/ht-button/ht-button.component';
-import { LoadingService } from '../../../services/loading.service';
-import { ToastService } from '../../../services/toast.service';
-import { UserService } from '../../../services/user.service';
-import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-layout/onboarding-layout.component';
 
 @Component({
   selector: 'app-personal-info',
@@ -39,11 +39,17 @@ export class PersonalInfoComponent {
     dateOfBirth: ['', Validators.required],
   });
 
-  onSubmit(): void {
+  next(): void {
     this.loadingService.show();
-    const rawForm = this.personalForm.getRawValue();
+    const rawForm = {
+      ...this.personalForm.getRawValue(),
+      name: `${this.personalForm.get('firstName')?.value} ${this.personalForm.get('lastName')?.value}`
+    };
     const user = JSON.parse(localStorage.getItem('user')!);
-    if (!user) return;
+    if (!user) {
+      this.toastService.error('Missing user id');
+      return;
+    }
     this.userService.updateUserById(user.uid, rawForm).subscribe({
       next: (_user) => {
         this.loadingService.hide();

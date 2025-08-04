@@ -18,7 +18,16 @@
     "target": "ES2022",
     "module": "ES2022",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": ["src/app/shared/*"],
+      "@services/*": ["src/app/services/*"],
+      "@models/*": ["src/app/models/*"],
+      "@enum/*": ["src/app/enum/*"],
+      "@components/*": ["src/app/components/*"],
+      "@environments/*": ["src/environments/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

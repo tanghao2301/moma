@@ -7,25 +7,24 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MenuItem } from 'primeng/api';
-import { Dialog } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputNumber } from 'primeng/inputnumber';
-import { Menu } from 'primeng/menu';
-import { HtButtonComponent } from '../../../components/ht-button/ht-button.component';
-import { HtCardComponent } from '../../../components/ht-card/ht-card.component';
+import { Router } from '@angular/router';
+import { HtButtonComponent } from '@components/ht-button/ht-button.component';
+import { HtCardComponent } from '@components/ht-card/ht-card.component';
 import {
   CURRENCY_OPTIONS,
   FREQUENCY_OPTIONS,
   TYPE_INCOME_OPTIONS,
-} from '../../../enum/income.enum';
-import {
-  Currency,
-  Frequency,
-  Income,
-  TypeIncome,
-} from '../../../models/income.model';
-import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-layout/onboarding-layout.component';
+} from '@enum/income.enum';
+import { Currency, Frequency, Income, TypeIncome } from '@models/income.model';
+import { LoadingService } from '@services/loading.service';
+import { ToastService } from '@services/toast.service';
+import { UserService } from '@services/user.service';
+import { OnboardingLayoutComponent } from '@shared/layouts/onboarding-layout/onboarding-layout.component';
+import { MenuItem } from 'primeng/api';
+import { Dialog } from 'primeng/dialog';
+import { InputNumber } from 'primeng/inputnumber';
+import { Menu } from 'primeng/menu';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'app-income',
@@ -33,7 +32,7 @@ import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-la
     ReactiveFormsModule,
     Dialog,
     InputNumber,
-    DropdownModule,
+    SelectModule,
     Menu,
     OnboardingLayoutComponent,
     HtCardComponent,
@@ -46,22 +45,11 @@ import { OnboardingLayoutComponent } from '../../../shared/layouts/onboarding-la
 export class IncomeComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private detroyRef: DestroyRef = inject(DestroyRef);
-  incomes: Income[] = [
-    {
-      id: 0,
-      type: {
-        name: 'Business',
-        icon: 'pi-building',
-      },
-      currency: {
-        label: 'US Dollar (USD)',
-        value: 'USD',
-        locale: 'en-US',
-      },
-      amount: 12222,
-      frequency: 'once',
-    },
-  ];
+  private router: Router = inject(Router);
+  private toastService: ToastService = inject(ToastService);
+  private loadingService: LoadingService = inject(LoadingService);
+  private userService: UserService = inject(UserService);
+  incomes: Income[] = [];
   incomeTitle: string = '';
   visible: boolean = false;
   isEdit: boolean = false;
@@ -136,7 +124,7 @@ export class IncomeComponent implements OnInit {
   addIncome(): void {
     this.incomes.push({
       ...this.incomeForm.getRawValue(),
-      id: this.incomes[this.incomes?.length - 1].id! + 1,
+      id: !!this.incomes.length ? this.incomes[this.incomes?.length - 1].id! + 1 : 0,
     });
     this.closeDialog();
   }
@@ -178,5 +166,24 @@ export class IncomeComponent implements OnInit {
 
   closeDeleteDialog(): void {
     this.deleteDialog(false, null);
+  }
+
+  next(): void {
+    this.loadingService.show();
+    const user = JSON.parse(localStorage.getItem('user')!);
+    if (!user) {
+      this.toastService.error('Missing user id');
+      return;
+    }
+    this.userService.updateUserById(user.uid, {incomes: this.incomes}).subscribe({
+      next: (_user) => {
+        this.loadingService.hide();
+        this.router.navigateByUrl('/dashboard');
+      },
+      error: (_error) => {
+        this.loadingService.hide();
+        this.toastService.error('Error', `Please contact admin`);
+      },
+    });
   }
 }

@@ -97,20 +97,3 @@ a:hover {
 // --chart-fill: #ffe0e3
 // --navy: #181870
 
-/* PrimeNG item class is `.p-dropdown-item` */
-p-dropdownitem {
-  transition: background-color 0.2s ease;
-}
-
-/* ✅ Hover effect */
-p-dropdownitem:hover {
-  background-color: #f1f5f9;
-  color: #2a4bd7;
-  cursor: pointer;
-}
-
-/* Optional: Selected item styling */
-p-dropdownitem.p-highlight {
-  background-color: transparent;
-  font-weight: 600;
-}

@@ -7,17 +7,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HtButtonComponent } from '@components/ht-button/ht-button.component';
+import { AuthService } from '@services/auth.service';
+import { LoadingService } from '@services/loading.service';
+import { ToastService } from '@services/toast.service';
+import { OnboardingLayoutComponent } from '@shared/layouts/onboarding-layout/onboarding-layout.component';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { take } from 'rxjs';
-import { HtButtonComponent } from '../../components/ht-button/ht-button.component';
-import { AuthService } from '../../services/auth.service';
-import { LoadingService } from '../../services/loading.service';
-import { ToastService } from '../../services/toast.service';
-import { OnboardingLayoutComponent } from '../../shared/layouts/onboarding-layout/onboarding-layout.component';
 
 @Component({
   selector: 'app-signup',
