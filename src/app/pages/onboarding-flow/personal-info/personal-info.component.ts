@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
@@ -20,13 +21,14 @@ import { InputTextModule } from 'primeng/inputtext';
     InputMask,
     DatePickerModule,
     HtButtonComponent,
-    OnboardingLayoutComponent
+    OnboardingLayoutComponent,
   ],
   providers: [UserService],
   templateUrl: './personal-info.component.html',
   styleUrl: './personal-info.component.scss',
 })
 export class PersonalInfoComponent {
+  private destroyRef: DestroyRef = inject(DestroyRef);
   private fb: FormBuilder = inject(FormBuilder);
   private userService: UserService = inject(UserService);
   private router: Router = inject(Router);
@@ -43,25 +45,28 @@ export class PersonalInfoComponent {
     this.loadingService.show();
     const rawForm = {
       ...this.personalForm.getRawValue(),
-      name: `${this.personalForm.get('firstName')?.value} ${this.personalForm.get('lastName')?.value}`
+      name: `${this.personalForm.get('firstName')?.value} ${
+        this.personalForm.get('lastName')?.value
+      }`,
+      onboardingStep: 1
     };
     const user = JSON.parse(localStorage.getItem('user')!);
     if (!user) {
       this.toastService.error('Missing user id');
       return;
     }
-    this.userService.updateUserById(user.uid, rawForm).subscribe({
-      next: (_user) => {
-        this.loadingService.hide();
-        this.router.navigateByUrl('/onboarding/income');
-      },
-      error: (_error) => {
-        this.loadingService.hide();
-        this.toastService.error(
-          'Error',
-          `Please contact admin`
-        );
-      }
-    });
+    this.userService
+      .updateUserById(user.uid, rawForm)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (_user) => {
+          this.loadingService.hide();
+          this.router.navigateByUrl('/onboarding/income');
+        },
+        error: (_error) => {
+          this.loadingService.hide();
+          this.toastService.error('Error', `Please contact admin`);
+        },
+      });
   }
 }

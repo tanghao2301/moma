@@ -1,4 +1,4 @@
-import { CurrencyPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -16,6 +16,7 @@ import {
   TYPE_INCOME_OPTIONS,
 } from '@enum/income.enum';
 import { Currency, Frequency, Income, TypeIncome } from '@models/income.model';
+import { IncomesService } from '@services/incomes.service';
 import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
 import { UserService } from '@services/user.service';
@@ -25,6 +26,8 @@ import { Dialog } from 'primeng/dialog';
 import { InputNumber } from 'primeng/inputnumber';
 import { Menu } from 'primeng/menu';
 import { SelectModule } from 'primeng/select';
+import { SkeletonModule } from 'primeng/skeleton';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-income',
@@ -33,7 +36,9 @@ import { SelectModule } from 'primeng/select';
     Dialog,
     InputNumber,
     SelectModule,
+    SkeletonModule,
     Menu,
+    AsyncPipe,
     OnboardingLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
@@ -44,12 +49,14 @@ import { SelectModule } from 'primeng/select';
 })
 export class IncomeComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
-  private detroyRef: DestroyRef = inject(DestroyRef);
+  private destroyRef: DestroyRef = inject(DestroyRef);
   private router: Router = inject(Router);
   private toastService: ToastService = inject(ToastService);
   private loadingService: LoadingService = inject(LoadingService);
   private userService: UserService = inject(UserService);
-  incomes: Income[] = [];
+  private incomesService: IncomesService = inject(IncomesService);
+  incomes$: Observable<Income[] | null> = this.incomesService.getIncomes();
+  isLoading$: Observable<boolean> = this.incomesService.getIsLoading();
   incomeTitle: string = '';
   visible: boolean = false;
   isEdit: boolean = false;
@@ -61,6 +68,7 @@ export class IncomeComponent implements OnInit {
   CURRENCY_OPTIONS = CURRENCY_OPTIONS;
   currency = 'VND';
   locale = 'vi-VN';
+  userId!: string;
 
   incomeForm: FormGroup = this.fb.group({
     id: [null],
@@ -71,9 +79,11 @@ export class IncomeComponent implements OnInit {
   });
 
   ngOnInit() {
+    this.userId = this.userService.getUserId();
+    this.getIncomes();
     this.incomeForm
       .get('currency')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.detroyRef))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((selected) => {
         const currencyMeta = this.CURRENCY_OPTIONS.find(
           (opt) => opt.value === selected?.value
@@ -121,12 +131,29 @@ export class IncomeComponent implements OnInit {
     this.incomeForm.reset();
   }
 
+  getIncomes(): void {
+    this.incomesService
+      .getIncomesById(this.userId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
+  }
+
   addIncome(): void {
-    this.incomes.push({
-      ...this.incomeForm.getRawValue(),
-      id: !!this.incomes.length ? this.incomes[this.incomes?.length - 1].id! + 1 : 0,
-    });
-    this.closeDialog();
+    this.loadingService.show();
+    this.incomesService
+      .createIncomesById(this.userId, this.incomeForm.getRawValue())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.loadingService.hide();
+          this.getIncomes();
+          this.closeDialog();
+        },
+        error: () => {
+          this.loadingService.hide();
+          this.toastService.error('Error', `Please contact admin`);
+        },
+      });
   }
 
   showEditDiaLog(income: Income): void {
@@ -142,21 +169,44 @@ export class IncomeComponent implements OnInit {
   }
 
   editIncome(): void {
-    const editedIncome = this.incomeForm.getRawValue();
-    this.incomes = this.incomes.map((income: Income) => {
-      if (income.id === editedIncome.id) {
-        income = editedIncome;
-      }
-      return income;
-    });
-    this.closeDialog();
+    this.loadingService.show();
+    this.incomesService
+      .updateIncomesById(
+        this.userId,
+        this.incomeForm.get('id')?.value,
+        this.incomeForm.getRawValue()
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.loadingService.hide();
+          this.getIncomes();
+          this.closeDialog();
+        },
+        error: () => {
+          this.loadingService.hide();
+          this.toastService.error('Error', `Please contact admin`);
+        },
+      });
   }
 
   deleteIncome(): void {
-    this.incomes = this.incomes.filter(
-      (income) => income.id !== this.deleteIncomeItem?.id
-    );
-    this.closeDeleteDialog();
+    if (!this.deleteIncomeItem?.id) return;
+    this.loadingService.show();
+    this.incomesService
+      .deleteIncomesById(this.userId, this.deleteIncomeItem?.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.loadingService.hide();
+          this.getIncomes();
+          this.closeDeleteDialog();
+        },
+        error: () => {
+          this.loadingService.hide();
+          this.toastService.error('Error', `Please contact admin`);
+        },
+      });
   }
 
   deleteDialog(visible: boolean, incomeItem: Income | null): void {
@@ -170,20 +220,21 @@ export class IncomeComponent implements OnInit {
 
   next(): void {
     this.loadingService.show();
-    const user = JSON.parse(localStorage.getItem('user')!);
-    if (!user) {
+    if (!this.userId) {
       this.toastService.error('Missing user id');
       return;
     }
-    this.userService.updateUserById(user.uid, {incomes: this.incomes}).subscribe({
-      next: (_user) => {
-        this.loadingService.hide();
-        this.router.navigateByUrl('/dashboard');
-      },
-      error: (_error) => {
-        this.loadingService.hide();
-        this.toastService.error('Error', `Please contact admin`);
-      },
-    });
+    this.userService
+      .updateUserById(this.userId, { onboardingStep: 2 })
+      .subscribe({
+        next: (_user) => {
+          this.loadingService.hide();
+          this.router.navigateByUrl('/dashboard');
+        },
+        error: (_error) => {
+          this.loadingService.hide();
+          this.toastService.error('Error', `Please contact admin`);
+        },
+      });
   }
 }

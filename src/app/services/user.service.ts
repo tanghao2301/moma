@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { UserModel } from '@models/user.model';
 import { User } from 'firebase/auth';
-import { defer, Observable } from 'rxjs';
+import { BehaviorSubject, defer, Observable } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { FirebaseService } from './firebase.service';
 })
 export class UserService {
   private firebaseService: FirebaseService = inject(FirebaseService);
+  private user$ = new BehaviorSubject<UserModel | null>(null);
 
   getUserId(): string{
     return JSON.parse(localStorage.getItem('user')!)?.uid;
@@ -19,19 +20,17 @@ export class UserService {
     return doc(this.firebaseService.firestore, 'user', id);
   }
 
-  // getUserById(id: string): Observable<any> {
-  //   // use firebase's docData() will live listener
-  //   // use getDoc to get only current data
-  //   return docData(this.getUserDocById(id), {
-  //     idField: 'uid',
-  //   }) as Observable<any>;
-  // }
+  getUserSnap(): UserModel | null {
+    return this.user$.getValue();
+  }
 
   getUserById(id: string): Observable<any | null> {
     const userRef = this.getUserDocById(id);
     return defer(() =>
       getDoc(userRef).then((snap) => {
-        return snap.exists() ? { uid: snap.id, ...(snap.data() ?? {}) } : null;
+        const user = snap.exists() ? { uid: snap.id, ...(snap.data() ?? {}) } : null;
+        this.user$.next(user);
+        return user;
       })
     );
   }

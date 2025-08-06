@@ -8,11 +8,13 @@ export class CommonService {
     urls: UrlModel[] = [
         {
             title: 'Dashboard',
-            url: '/dashboard'
+            url: '/dashboard',
+            icon: 'pi-home'
         },
         {
             title: 'Budgets',
-            url: '/budgets'
+            url: '/budgets',
+            icon: 'pi-credit-card'
         }
     ]
 }

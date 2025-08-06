@@ -1,19 +1,36 @@
 <div class="flex h-view-100">
-    <nav class="w-254 h-full bg-gray-100 p-4 shadow-md" aria-label="Main navigation">
-        <ul class="space-y-2">
-            @for(url of commonService.urls; track url.title) {
-            <li>
-                <a class="block px-4 py-2 rounded hover:bg-gray-200 cursor-pointer no-underline" [routerLink]="url.url"
-                    routerLinkActive="active-link">{{url.title}}
-                </a>
-            </li>
-            }
-        </ul>
-    </nav>
-    <div class="w-full flex flex-col m-20">
-        <div class="w-full flex justify-content-end">
-            <i class="pi pi-user bg-gray-100 rounded-full p-2" style="font-size: 2rem"></i>
-        </div>
-        <router-outlet></router-outlet>
+  <nav
+    class="w-254 h-full bg-gray-100 p-16 shadow-md"
+    aria-label="Main navigation"
+  >
+    <div class="flex align-items-center">
+      <div class="w-fit-content p-12">
+        <i class="pi pi-shield text-primary" [style]="{ fontSize: '35px' }"></i>
+      </div>
+      <p class="text-title-md">{{ user.name }}</p>
     </div>
+    <ul class="space-y-2">
+      @for(url of commonService.urls; track url.title) {
+      <li>
+        <a
+          class="block px-4 py-2 rounded hover:bg-gray-200 cursor-pointer no-underline"
+          [routerLink]="url.url"
+          routerLinkActive="active-link"
+        >
+          <i [class]="'pi ' + url.icon"></i>
+          {{ url.title }}
+        </a>
+      </li>
+      }
+    </ul>
+  </nav>
+  <div class="w-full flex flex-col flex-1 m-20">
+    <div class="w-full flex justify-content-end">
+      <i
+        class="pi pi-user bg-gray-100 rounded-full p-2"
+        style="font-size: 2rem"
+      ></i>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
 </div>

@@ -1,10 +1,10 @@
 export interface Income {
-  id: number;
+  id: string;
   amount: number;
   currency: Currency;
   type: TypeIncome;
+  frequency: string;
   icon?: string;
-  frequency?: string;
   note?: string;
   createdAt?: Date;
   updatedAt?: Date;

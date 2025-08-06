@@ -18,6 +18,12 @@
     line-height: variables.$lineHeightXXL;
 }
 
+.text-display-xs {
+  font-size: variables.$fontSizeXXS;
+  font-weight: variables.$fontWeightXXS;
+  line-height: variables.$lineHeightXS;
+}
+
 .text-display-sm {
   font-size: variables.$fontSizeSM;
   font-weight: variables.$fontWeightSM;

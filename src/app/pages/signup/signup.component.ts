@@ -70,7 +70,7 @@ export class SignupComponent {
         next: (user: any) => {
           this.router.navigateByUrl('/onboarding/personal-info');
           if (user) {
-            localStorage.setItem('user', JSON.stringify(user || {}));
+            localStorage.setItem('user', JSON.stringify({uid: user.uid}));
           }
         },
         error: (error) => {

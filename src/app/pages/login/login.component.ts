@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormGroup,
@@ -25,13 +26,14 @@ import { PasswordModule } from 'primeng/password';
     PasswordModule,
     ButtonModule,
     HtButtonComponent,
-    OnboardingLayoutComponent
+    OnboardingLayoutComponent,
   ],
   providers: [AuthService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  private destroyRef: DestroyRef = inject(DestroyRef);
   private fb: FormBuilder = inject(FormBuilder);
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
@@ -56,30 +58,36 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.loadingService.show();
     const rawForm = this.loginForm.getRawValue();
-    this.authService.login(rawForm.email, rawForm.password).subscribe({
-      next: (user) => {
-        this.loadingService.hide();
-        if (user) {
-          localStorage.setItem(
-            'user',
-            JSON.stringify(user || {})
+    this.authService
+      .login(rawForm.email, rawForm.password)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (user) => {
+          this.loadingService.hide();
+          if (user) {
+            localStorage.setItem('user', JSON.stringify({ uid: user.uid }));
+          }
+          switch (user.onboardingStep) {
+            case 1:
+              this.router.navigateByUrl('/onboarding/income');
+              break;
+            case 2:
+              this.router.navigateByUrl('/dashboard');
+              break;
+            default:
+              this.router.navigateByUrl('/onboarding/personal-info');
+              break;
+          }
+        },
+        error: (error) => {
+          this.loadingService.hide();
+          console.error('Email/Password Sign-In error:', error);
+          this.toastService.error(
+            'Error',
+            `Invalid Login Credentials, Please try again`
           );
-        }
-        if (user?.income) {
-          this.router.navigateByUrl('/dashboard');
-        } else {
-          this.router.navigateByUrl('/onboarding/personal-info');
-        }
-      },
-      error: (error) => {
-        this.loadingService.hide();
-        console.error('Email/Password Sign-In error:', error);
-        this.toastService.error(
-          'Error',
-          `Invalid Login Credentials, Please try again`
-        );
-      }
-    });
+        },
+      });
   }
 
   async googleLogin(): Promise<void> {
