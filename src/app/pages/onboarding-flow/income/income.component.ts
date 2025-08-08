@@ -15,10 +15,10 @@ import {
   FREQUENCY_OPTIONS,
   TYPE_INCOME_OPTIONS,
 } from '@enum/income.enum';
-import { Currency, Frequency, Income, TypeIncome } from '@models/income.model';
-import { IncomesService } from '@services/incomes.service';
+import { Currency, Frequency, Transaction, Type } from '@models/transaction.model';
 import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
+import { TransactionsService } from '@services/transactions.service';
 import { UserService } from '@services/user.service';
 import { OnboardingLayoutComponent } from '@shared/layouts/onboarding-layout/onboarding-layout.component';
 import { MenuItem } from 'primeng/api';
@@ -54,16 +54,16 @@ export class IncomeComponent implements OnInit {
   private toastService: ToastService = inject(ToastService);
   private loadingService: LoadingService = inject(LoadingService);
   private userService: UserService = inject(UserService);
-  private incomesService: IncomesService = inject(IncomesService);
-  incomes$: Observable<Income[] | null> = this.incomesService.getIncomes();
+  private incomesService: TransactionsService = inject(TransactionsService);
+  incomes$: Observable<Transaction[] | null> = this.incomesService.getTransactions();
   isLoading$: Observable<boolean> = this.incomesService.getIsLoading();
   incomeTitle: string = '';
   visible: boolean = false;
   isEdit: boolean = false;
   deleteVisible: boolean = false;
-  deleteIncomeItem!: Income | null;
+  deleteIncomeItem!: Transaction | null;
   selectedCurrency!: Currency;
-  TYPE_INCOME_OPTIONS: TypeIncome[] = TYPE_INCOME_OPTIONS;
+  TYPE_INCOME_OPTIONS: Type[] = TYPE_INCOME_OPTIONS;
   FREQUENCY_OPTIONS: Frequency[] = FREQUENCY_OPTIONS;
   CURRENCY_OPTIONS = CURRENCY_OPTIONS;
   currency = 'VND';
@@ -99,7 +99,7 @@ export class IncomeComponent implements OnInit {
       });
   }
 
-  getMenuItems(item: Income): MenuItem[] {
+  getMenuItems(item: Transaction): MenuItem[] {
     return [
       {
         label: 'Options',
@@ -133,15 +133,19 @@ export class IncomeComponent implements OnInit {
 
   getIncomes(): void {
     this.incomesService
-      .getIncomesById(this.userId)
+      .getTransactionsById(this.userId, 'Income')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
   }
 
   addIncome(): void {
     this.loadingService.show();
+    const addItem = {
+      ...this.incomeForm.getRawValue(),
+      transactionType: 'Income'
+    }
     this.incomesService
-      .createIncomesById(this.userId, this.incomeForm.getRawValue())
+      .createTransactionsById(this.userId, addItem)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
@@ -156,7 +160,7 @@ export class IncomeComponent implements OnInit {
       });
   }
 
-  showEditDiaLog(income: Income): void {
+  showEditDiaLog(income: Transaction): void {
     this.incomeForm.setValue({
       id: income.id,
       type: income.type,
@@ -171,7 +175,7 @@ export class IncomeComponent implements OnInit {
   editIncome(): void {
     this.loadingService.show();
     this.incomesService
-      .updateIncomesById(
+      .updateTransactionsById(
         this.userId,
         this.incomeForm.get('id')?.value,
         this.incomeForm.getRawValue()
@@ -194,7 +198,7 @@ export class IncomeComponent implements OnInit {
     if (!this.deleteIncomeItem?.id) return;
     this.loadingService.show();
     this.incomesService
-      .deleteIncomesById(this.userId, this.deleteIncomeItem?.id)
+      .deleteTransactionsById(this.userId, this.deleteIncomeItem?.id, this.deleteIncomeItem)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
@@ -209,7 +213,7 @@ export class IncomeComponent implements OnInit {
       });
   }
 
-  deleteDialog(visible: boolean, incomeItem: Income | null): void {
+  deleteDialog(visible: boolean, incomeItem: Transaction | null): void {
     this.deleteVisible = visible;
     this.deleteIncomeItem = incomeItem;
   }

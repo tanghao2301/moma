@@ -28,6 +28,8 @@ export class HtCardComponent {
   getVariantClass(): string {
     switch (this.variant()) {
       case 'primary':
+        return 'bg-white';
+      case 'secondary':
         return 'bg-card';
       default:
         return '';

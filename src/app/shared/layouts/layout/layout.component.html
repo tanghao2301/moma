@@ -9,6 +9,7 @@
       </div>
       <p class="text-title-md">{{ user.name }}</p>
     </div>
+    <div class="my-[15px] border-b"></div>
     <ul class="space-y-2">
       @for(url of commonService.urls; track url.title) {
       <li>
@@ -24,13 +25,7 @@
       }
     </ul>
   </nav>
-  <div class="w-full flex flex-col flex-1 m-20">
-    <div class="w-full flex justify-content-end">
-      <i
-        class="pi pi-user bg-gray-100 rounded-full p-2"
-        style="font-size: 2rem"
-      ></i>
-    </div>
+  <div class="w-full flex flex-col flex-1">
     <router-outlet></router-outlet>
   </div>
 </div>

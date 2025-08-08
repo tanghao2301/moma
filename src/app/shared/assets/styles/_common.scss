@@ -78,6 +78,21 @@
   }
 }
 
+.border {
+  &-t {
+    border-top: 1px solid var(--color-border);
+  }
+  &-b {
+    border-bottom: 1px solid var(--color-border);
+  }
+  &-l {
+    border-left: 1px solid var(--color-border);
+  }
+  &-r {
+    border-right: 1px solid var(--color-border);
+  }
+}
+
 @for $i from 1 through 28 {
   .m {
     &-#{$i} {

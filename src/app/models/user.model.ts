@@ -1,5 +1,3 @@
-import { Income } from "./income.model";
-
 export interface UserModel {
     uid?: string;
     displayName?: string;
@@ -11,6 +9,5 @@ export interface UserModel {
     lastName?: string | null;
     phoneNumber?: string | null;
     dateOfBirth?: string | null;
-    incomes?: Income[];
     onboardingStep?: number;
 }

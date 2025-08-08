@@ -1,12 +1,15 @@
-export interface Income {
+import { Timestamp } from "firebase/firestore";
+
+export interface Transaction {
   id: string;
   amount: number;
   currency: Currency;
-  type: TypeIncome;
+  type: Type;
   frequency: string;
+  transactionType: TransactionType;
   icon?: string;
   note?: string;
-  createdAt?: Date;
+  createdAt?: Timestamp;
   updatedAt?: Date;
 }
 
@@ -16,7 +19,7 @@ export interface Currency {
   locale: string;
 }
 
-export interface TypeIncome {
+export interface Type {
   name: string;
   icon: string;
 }
@@ -26,3 +29,5 @@ export interface Frequency {
   value: string;
   icon: string;
 }
+
+export type TransactionType = 'Income' | 'Expenses';

@@ -1,1 +1,43 @@
-<h1>Dashboard here</h1>
+<div
+  class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+>
+  <ht-card>
+    <ng-template layoutCardTemplate="header">
+      <span class="text-display-sm">Total Balance</span>
+      <span class="text-title-lg">{{ balance.amount | currency : "VND" }}</span>
+    </ng-template>
+    <div>
+      <span [ngClass]="percentageBalance > 0 ? 'text-primary' : 'text-danger'">
+        <i
+          [style]="{ fontSize: '14px' }"
+          [ngClass]="
+            percentageBalance > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'
+          "
+        ></i
+        >{{ percentageBalance }}%
+      </span>
+      Last month {{ previousBalance.amount | currency : "VND" }}
+    </div>
+  </ht-card>
+  <ht-card>
+    <ng-template layoutCardTemplate="header">
+      <span class="text-display-sm">Total Period Change</span>
+      <span class="text-title-lg">$432,568</span>
+    </ng-template>
+    <div><i class="pi pi-arrow-up"></i>3.12% Last month $28,940</div>
+  </ht-card>
+  <ht-card>
+    <ng-template layoutCardTemplate="header">
+      <span class="text-display-sm">Total Period Expenses</span>
+      <span class="text-title-lg">$432,568</span>
+    </ng-template>
+    <div><i class="pi pi-arrow-up"></i>3.12% Last month $28,940</div>
+  </ht-card>
+  <ht-card>
+    <ng-template layoutCardTemplate="header">
+      <span class="text-display-sm">Total Period Income</span>
+      <span class="text-title-lg">$432,568</span>
+    </ng-template>
+    <div><i class="pi pi-arrow-up"></i>3.12% Last month $28,940</div>
+  </ht-card>
+</div>
