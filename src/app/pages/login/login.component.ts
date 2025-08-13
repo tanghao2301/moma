@@ -64,6 +64,12 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (user) => {
           this.loadingService.hide();
+          if (!user) {
+            this.toastService.error(
+              'Error',
+              `Invalid Login Credentials, Please try again`
+            );
+          }
           if (user) {
             localStorage.setItem('user', JSON.stringify({ uid: user.uid }));
           }

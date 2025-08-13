@@ -4,7 +4,7 @@
   <ht-card>
     <ng-template layoutCardTemplate="header">
       <span class="text-display-sm">Total Balance</span>
-      <span class="text-title-lg">{{ balance.amount | currency : "VND" }}</span>
+      <span class="text-title-lg">{{ balance.value || 0 | abs | currency : "VND" }}</span>
     </ng-template>
     <div>
       <span [ngClass]="percentageBalance > 0 ? 'text-primary' : 'text-danger'">
@@ -16,15 +16,26 @@
         ></i
         >{{ percentageBalance }}%
       </span>
-      Last month {{ previousBalance.amount | currency : "VND" }}
+      Last month {{ previousBalance.value || 0 | abs | currency : "VND" }}
     </div>
   </ht-card>
   <ht-card>
     <ng-template layoutCardTemplate="header">
       <span class="text-display-sm">Total Period Change</span>
-      <span class="text-title-lg">$432,568</span>
+      <span class="text-title-lg">{{ change2Months(balance.value, previousBalance.value) || 0 | abs | currency : "VND" }}</span>
     </ng-template>
-    <div><i class="pi pi-arrow-up"></i>3.12% Last month $28,940</div>
+    <div>
+      <span [ngClass]="percentagePeriodChange > 0 ? 'text-primary' : 'text-danger'">
+        <i
+          [style]="{ fontSize: '14px' }"
+          [ngClass]="
+            percentagePeriodChange > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'
+          "
+        ></i
+        >{{ percentagePeriodChange }}%
+      </span>
+      Last month {{ change2Months(previousBalance.value, beforePrevBalance.value) || 0 | abs | currency : "VND" }}
+    </div>
   </ht-card>
   <ht-card>
     <ng-template layoutCardTemplate="header">

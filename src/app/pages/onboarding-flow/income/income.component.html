@@ -1,3 +1,5 @@
+@let incomes = incomes$ | async;
+
 <onboarding-layout>
   <div title>
     Let's start by adding your income
@@ -7,9 +9,9 @@
   </div>
   <div class="h-100 flex flex-col">
     @if (!(isLoading$ | async)) {
-      @if ((incomes$ | async) && (incomes$ | async)!.length > 0) {
+      @if (incomes && incomes.length > 0) {
       <div class="flex flex-col gap-12 pb-4">
-        @for (income of (incomes$ | async); track income.amount) {
+        @for (income of incomes; track income.amount) {
         <ht-card [variant]="'secondary'">
           <div class="flex align-items-center justify-content-space-between">
             <div class="flex gap-16 align-items-center">
@@ -65,7 +67,7 @@
       <ht-button [variant]="'secondary'" class="w-full" (click)="visible = true"
         >Add income</ht-button
       >
-      <ht-button [disabled]="!((incomes$ | async)?.length)" class="w-full" (click)="next()">Next</ht-button>
+      <ht-button [disabled]="!(incomes?.length)" class="w-full" (click)="next()">Next</ht-button>
     </div>
   </div>
 </onboarding-layout>

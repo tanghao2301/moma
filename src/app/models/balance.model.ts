@@ -1,5 +1,8 @@
 export interface Balance {
-  balance: number;
+  value: number;
   totalIncome: number;
   totalExpenses: number;
+  year: number;
+  month: number;
+  lastUpdated: number;
 }

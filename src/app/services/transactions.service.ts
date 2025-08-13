@@ -6,11 +6,9 @@ import {
   doc,
   getDoc,
   getDocs,
-  query,
   serverTimestamp,
   setDoc,
-  updateDoc,
-  where,
+  updateDoc
 } from '@angular/fire/firestore';
 import { Balance } from '@models/balance.model';
 import { Transaction, TransactionType } from '@models/transaction.model';
@@ -140,38 +138,33 @@ export class TransactionsService {
   }
 
   /* Balance */
-  getTotalBalance(userId: string, transactionId: string): Observable<Balance> {
+  getMonthlyBalanceByOffset(
+    userId: string,
+    monthOffset: number
+  ): Observable<Balance> {
     return defer(async () => {
-      const transactionsRef = this.getTransactionDocById(userId, transactionId);
+      const now = new Date();
 
-      // Query income transactions
-      const incomeQuery = query(transactionsRef, where('type', '==', 'income'));
-      const incomeSnapshot = await getDocs(incomeQuery);
+      // Adjust date by month offset
+      now.setMonth(now.getMonth() + monthOffset);
 
-      let totalIncome = 0;
-      incomeSnapshot.forEach((doc) => {
-        const data = doc.data() as Transaction;
-        totalIncome += data.amount || 0;
-      });
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1; // Convert from 0-based to 1-based month number
 
-      // Query expense transactions
-      const expenseQuery = query(
-        transactionsRef,
-        where('type', '==', 'expense')
+      const monthlyBalanceDocId = `${year}-${month.toString().padStart(2, '0')}`;
+      const monthlyBalanceRef = this.getMonthlyBalanceDocById(
+        userId,
+        monthlyBalanceDocId
       );
-      const expenseSnapshot = await getDocs(expenseQuery);
 
-      let totalExpenses = 0;
-      expenseSnapshot.forEach((doc) => {
-        const data = doc.data() as Transaction;
-        totalExpenses += data.amount || 0;
-      }); 
+      const docSnap = await getDoc(monthlyBalanceRef);
 
-      // Calculate balance
-      const balance = totalIncome - totalExpenses;
-      const totalBalance = { balance, totalIncome, totalExpenses };
-      this.balance$.next(totalBalance)
-      return totalBalance;
+      if (docSnap.exists()) {
+        const data = docSnap.data() as Balance;
+        return data;
+      }
+
+      return {} as Balance;
     });
   }
 
@@ -215,7 +208,7 @@ export class TransactionsService {
         month,
         totalIncome,
         totalExpenses,
-        balance: totalIncome - totalExpenses,
+        value: totalIncome - totalExpenses,
         lastUpdated: serverTimestamp(),
       },
       { merge: true }
