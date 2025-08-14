@@ -1,54 +1,77 @@
 <div
   class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
 >
-  <ht-card>
-    <ng-template layoutCardTemplate="header">
-      <span class="text-display-sm">Total Balance</span>
-      <span class="text-title-lg">{{ balance.value || 0 | abs | currency : "VND" }}</span>
-    </ng-template>
-    <div>
-      <span [ngClass]="percentageBalance > 0 ? 'text-primary' : 'text-danger'">
-        <i
-          [style]="{ fontSize: '14px' }"
-          [ngClass]="
-            percentageBalance > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'
-          "
-        ></i
-        >{{ percentageBalance }}%
-      </span>
-      Last month {{ previousBalance.value || 0 | abs | currency : "VND" }}
-    </div>
-  </ht-card>
-  <ht-card>
-    <ng-template layoutCardTemplate="header">
-      <span class="text-display-sm">Total Period Change</span>
-      <span class="text-title-lg">{{ change2Months(balance.value, previousBalance.value) || 0 | abs | currency : "VND" }}</span>
-    </ng-template>
-    <div>
-      <span [ngClass]="percentagePeriodChange > 0 ? 'text-primary' : 'text-danger'">
-        <i
-          [style]="{ fontSize: '14px' }"
-          [ngClass]="
-            percentagePeriodChange > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'
-          "
-        ></i
-        >{{ percentagePeriodChange }}%
-      </span>
-      Last month {{ change2Months(previousBalance.value, beforePrevBalance.value) || 0 | abs | currency : "VND" }}
-    </div>
-  </ht-card>
-  <ht-card>
-    <ng-template layoutCardTemplate="header">
-      <span class="text-display-sm">Total Period Expenses</span>
-      <span class="text-title-lg">$432,568</span>
-    </ng-template>
-    <div><i class="pi pi-arrow-up"></i>3.12% Last month $28,940</div>
-  </ht-card>
-  <ht-card>
-    <ng-template layoutCardTemplate="header">
-      <span class="text-display-sm">Total Period Income</span>
-      <span class="text-title-lg">$432,568</span>
-    </ng-template>
-    <div><i class="pi pi-arrow-up"></i>3.12% Last month $28,940</div>
-  </ht-card>
+  <ng-container
+    *ngTemplateOutlet="
+      informationCard;
+      context: {
+        $implicit: 'Total Balance',
+        value: balance.value,
+        percentage: percentageBalance,
+        previousValue: previousBalance.value
+      }
+    "
+  ></ng-container>
+  
+  <ng-container
+    *ngTemplateOutlet="
+      informationCard;
+      context: {
+        $implicit: 'Total Period Change',
+        value: change2Months(balance.value, previousBalance.value),
+        percentage: percentagePeriodChange,
+        previousValue: change2Months(previousBalance.value, beforePrevBalance.value)
+      }
+    "
+  ></ng-container>
+  
+  <ng-container
+    *ngTemplateOutlet="
+      informationCard;
+      context: {
+        $implicit: 'Total Period Expenses',
+        value: balance.totalExpenses,
+        percentage: percentageTotalExpenses,
+        previousValue: previousBalance.totalExpenses
+      }
+    "
+  ></ng-container>
+  
+  <ng-container
+    *ngTemplateOutlet="
+      informationCard;
+      context: {
+        $implicit: 'Total Period Income',
+        value: balance.totalIncome,
+        percentage: percentageTotalIncome,
+        previousValue: previousBalance.totalIncome
+      }
+    "
+  ></ng-container>
+  <ng-template
+    #informationCard
+    let-title
+    let-value="value"
+    let-percentage="percentage"
+    let-previousValue="previousValue"
+  >
+    <ht-card>
+      <ng-template layoutCardTemplate="header">
+        <span class="text-display-sm">{{ title }}</span>
+        <span class="text-title-lg">{{
+          value || 0 | abs | currency : "VND"
+        }}</span>
+      </ng-template>
+      <div>
+        <span [ngClass]="percentage > 0 ? 'text-primary' : 'text-danger'">
+          <i
+            [style]="{ fontSize: '14px' }"
+            [ngClass]="percentage > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"
+          ></i
+          >{{ percentage }}%
+        </span>
+        Last month {{ previousValue || 0 | abs | currency : "VND" }}
+      </div>
+    </ht-card>
+  </ng-template>
 </div>

@@ -1,4 +1,4 @@
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
 import { LayoutCardDirective } from '@components/ht-card/ht-card.directive';
@@ -17,6 +17,7 @@ import { AbsPipe } from 'src/app/pipes/absolute.pipe';
     CurrencyPipe,
     NgClass,
     AbsPipe,
+    NgTemplateOutlet
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
@@ -30,6 +31,8 @@ export class DashboardComponent implements OnInit {
   beforePrevBalance: Balance = {} as Balance;
   percentageBalance: number = 0;
   percentagePeriodChange: number = 0;
+  percentageTotalExpenses: number = 0;
+  percentageTotalIncome: number = 0;
   user!: UserModel;
 
   ngOnInit(): void {
@@ -51,33 +54,25 @@ export class DashboardComponent implements OnInit {
       this.balance = response[0];
       this.previousBalance = response[1];
       this.beforePrevBalance = response[2];
-      this.percentageBalance =
-        this.previousBalance.value === 0
-          ? this.balance.value === 0
-            ? 0
-            : 100
-          : ((this.balance.value - this.previousBalance.value) /
-              Math.abs(this.previousBalance.value || 0)) *
-            100;
+      this.percentageBalance = this.percent2Months(this.balance.value, this.previousBalance.value);
       const periodChange = this.balance.value - this.previousBalance.value;
       const previousPeriodChange =
         this.previousBalance.value - this.beforePrevBalance.value;
-      this.percentagePeriodChange = this.percent2Months(previousPeriodChange, periodChange);
-        ((periodChange - previousPeriodChange) /
-          Math.abs(previousPeriodChange || 0)) *
-        100;
+      this.percentagePeriodChange = this.percent2Months(periodChange, previousPeriodChange);
+      this.percentageTotalExpenses = this.percent2Months(this.balance.totalExpenses, this.previousBalance.totalExpenses);
+      this.percentageTotalIncome = this.percent2Months(this.balance.totalIncome, this.previousBalance.totalIncome);
     });
   }
 
-  change2Months(numberOne: number, numberTwo: number): number {
-    return numberOne - numberTwo;
+  change2Months(current: number, previous: number): number {
+    return current - previous;
   }
 
-  percent2Months(numberOne: number, numberTwo: number): number {
-    return numberOne === 0
-      ? numberTwo === 0
+  percent2Months(current: number, previous: number): number {
+    return previous === 0
+      ? current === 0
         ? 0
         : 100
-      : ((numberTwo - numberOne) / Math.abs(numberOne || 0)) * 100;
+      : ((current - previous) / Math.abs(previous || 0)) * 100;
   }
 }

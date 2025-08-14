@@ -104,11 +104,12 @@ export class TransactionsService {
     transaction: Transaction
   ): Observable<any> {
     return defer(async () => {
-      await addDoc(this.getTransactionsDocById(userId), {
+      const transactionItem = {
         ...transaction,
-        createdAt: serverTimestamp(),
-      });
-      this.updateMonthlyBalance(userId, transaction);
+        createdAt: new Date(),
+      } as Transaction;
+      await addDoc(this.getTransactionsDocById(userId), transactionItem);
+      this.updateMonthlyBalance(userId, transactionItem);
     });
   }
 
@@ -172,7 +173,7 @@ export class TransactionsService {
     userId: string,
     transaction: Transaction
   ): Promise<void> {
-    const date = transaction?.createdAt?.toDate()!; // or convert timestamp to JS Date
+    const date = transaction?.createdAt!; // or convert timestamp to JS Date
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // JS months 0-based
     const monthlyBalanceDocId = `${year}-${month.toString().padStart(2, '0')}`;

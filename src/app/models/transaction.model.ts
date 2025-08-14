@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase/firestore";
 
 export interface Transaction {
   id: string;
@@ -9,7 +8,7 @@ export interface Transaction {
   transactionType: TransactionType;
   icon?: string;
   note?: string;
-  createdAt?: Timestamp;
+  createdAt?: Date;
   updatedAt?: Date;
 }
 
