@@ -13,6 +13,7 @@ import {
 import { Balance } from '@models/balance.model';
 import { Transaction, TransactionType } from '@models/transaction.model';
 import { BehaviorSubject, defer, Observable } from 'rxjs';
+import { CommonService } from './common.service';
 import { FirebaseService } from './firebase.service';
 
 @Injectable({
@@ -20,6 +21,7 @@ import { FirebaseService } from './firebase.service';
 })
 export class TransactionsService {
   private firebaseService: FirebaseService = inject(FirebaseService);
+  private commonService: CommonService = inject(CommonService);
   private transactions$ = new BehaviorSubject<Transaction[] | null>(null);
   private balance$ = new BehaviorSubject<Balance | null>(null);
   private isLoading$ = new BehaviorSubject<boolean>(false);
@@ -91,6 +93,7 @@ export class TransactionsService {
             type: transaction.type,
             frequency: transaction.frequency,
             transactionType: transaction.transactionType,
+            convertedAmount: transaction.convertedAmount
           };
         })
         .filter((t) => t.transactionType === type);
@@ -104,8 +107,10 @@ export class TransactionsService {
     transaction: Transaction
   ): Observable<any> {
     return defer(async () => {
+      const convertedAmount = await this.commonService.convertToVND(transaction.amount, transaction.currency.value);
       const transactionItem = {
         ...transaction,
+        convertedAmount,
         createdAt: new Date(),
       } as Transaction;
       await addDoc(this.getTransactionsDocById(userId), transactionItem);
@@ -187,7 +192,6 @@ export class TransactionsService {
     const docSnap = await getDoc(monthlyBalanceRef);
     let totalIncome = 0;
     let totalExpenses = 0;
-
     if (docSnap.exists()) {
       const data = docSnap.data() as Balance;
       totalIncome = data.totalIncome || 0;
@@ -196,9 +200,9 @@ export class TransactionsService {
 
     // 2. Update totals based on transaction type
     if (transaction.transactionType === 'Income') {
-      totalIncome += transaction.amount;
+      totalIncome += transaction.convertedAmount;
     } else if (transaction.transactionType === 'Expenses') {
-      totalExpenses += transaction.amount;
+      totalExpenses += transaction.convertedAmount;
     }
 
     // 3. Save updated monthly balance doc

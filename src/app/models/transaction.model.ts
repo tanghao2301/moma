@@ -6,6 +6,7 @@ export interface Transaction {
   type: Type;
   frequency: string;
   transactionType: TransactionType;
+  convertedAmount: number;
   icon?: string;
   note?: string;
   createdAt?: Date;

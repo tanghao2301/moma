@@ -4,5 +4,5 @@ export interface Balance {
   totalExpenses: number;
   year: number;
   month: number;
-  lastUpdated: number;
+  lastUpdated?: number;
 }

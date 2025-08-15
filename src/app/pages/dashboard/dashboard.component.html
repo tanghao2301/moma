@@ -12,7 +12,7 @@
       }
     "
   ></ng-container>
-  
+
   <ng-container
     *ngTemplateOutlet="
       informationCard;
@@ -20,11 +20,14 @@
         $implicit: 'Total Period Change',
         value: change2Months(balance.value, previousBalance.value),
         percentage: percentagePeriodChange,
-        previousValue: change2Months(previousBalance.value, beforePrevBalance.value)
+        previousValue: change2Months(
+          previousBalance.value,
+          beforePrevBalance.value
+        )
       }
     "
   ></ng-container>
-  
+
   <ng-container
     *ngTemplateOutlet="
       informationCard;
@@ -36,7 +39,7 @@
       }
     "
   ></ng-container>
-  
+
   <ng-container
     *ngTemplateOutlet="
       informationCard;
@@ -55,6 +58,7 @@
     let-percentage="percentage"
     let-previousValue="previousValue"
   >
+    @if (!isLoading) {
     <ht-card>
       <ng-template layoutCardTemplate="header">
         <span class="text-display-sm">{{ title }}</span>
@@ -62,16 +66,32 @@
           value || 0 | abs | currency : "VND"
         }}</span>
       </ng-template>
-      <div>
+      <div class="text-display-sm">
         <span [ngClass]="percentage > 0 ? 'text-primary' : 'text-danger'">
           <i
             [style]="{ fontSize: '14px' }"
             [ngClass]="percentage > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"
           ></i
-          >{{ percentage }}%
+          >{{ percentage | number : "1.1-2" }}%
         </span>
-        Last month {{ previousValue || 0 | abs | currency : "VND" }}
+        <span
+          class="pointer"
+          pTooltip="{{ previousValue || 0 | abs | currency : 'VND' }}"
+          tooltipPosition="top"
+          placeholder="Top"
+          >Last month</span
+        >
       </div>
     </ht-card>
+    } @else {
+    <ht-card>
+      <ng-template layoutCardTemplate="header">
+        <p-skeleton />
+        <p-skeleton height="2rem" />
+      </ng-template>
+      <p-skeleton />
+    </ht-card>
+    }
   </ng-template>
 </div>
+<app-balance-chart />

@@ -1,4 +1,4 @@
-import { CurrencyPipe, NgClass, NgTemplateOutlet } from '@angular/common';
+import { CurrencyPipe, DecimalPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
 import { LayoutCardDirective } from '@components/ht-card/ht-card.directive';
@@ -6,8 +6,12 @@ import { Balance } from '@models/balance.model';
 import { UserModel } from '@models/user.model';
 import { TransactionsService } from '@services/transactions.service';
 import { UserService } from '@services/user.service';
+import { SkeletonModule } from 'primeng/skeleton';
+import { Tooltip } from 'primeng/tooltip';
 import { forkJoin } from 'rxjs';
 import { AbsPipe } from 'src/app/pipes/absolute.pipe';
+import { BalanceChartComponent } from './balance-chart/balance-chart.component';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -17,8 +21,12 @@ import { AbsPipe } from 'src/app/pipes/absolute.pipe';
     CurrencyPipe,
     NgClass,
     AbsPipe,
-    NgTemplateOutlet
-  ],
+    DecimalPipe,
+    NgTemplateOutlet,
+    SkeletonModule,
+    Tooltip,
+    BalanceChartComponent
+],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -26,6 +34,14 @@ export class DashboardComponent implements OnInit {
   private transactionsService: TransactionsService =
     inject(TransactionsService);
   private userService: UserService = inject(UserService);
+  readonly defaultBalance: Balance = {
+    value: 0,
+    totalExpenses: 0,
+    month: 0,
+    totalIncome: 0,
+    year: 0,
+  };
+  isLoading: boolean = false;
   balance: Balance = {} as Balance;
   previousBalance: Balance = {} as Balance;
   beforePrevBalance: Balance = {} as Balance;
@@ -36,6 +52,7 @@ export class DashboardComponent implements OnInit {
   user!: UserModel;
 
   ngOnInit(): void {
+    this.isLoading = true;
     forkJoin([
       this.transactionsService.getMonthlyBalanceByOffset(
         this.userService.getUserId(),
@@ -50,17 +67,40 @@ export class DashboardComponent implements OnInit {
         -2
       ),
     ]).subscribe((response) => {
+      this.isLoading = false;
       if (!response[0]?.value && !response[1]?.value) return;
-      this.balance = response[0];
-      this.previousBalance = response[1];
-      this.beforePrevBalance = response[2];
-      this.percentageBalance = this.percent2Months(this.balance.value, this.previousBalance.value);
+      console.log(response);
+      this.balance = {
+        ...this.defaultBalance,
+        ...response[0],
+      };
+      this.previousBalance = {
+        ...this.defaultBalance,
+        ...response[1],
+      };
+      this.beforePrevBalance = {
+        ...this.defaultBalance,
+        ...response[2],
+      };
+      this.percentageBalance = this.percent2Months(
+        this.balance.value,
+        this.previousBalance.value
+      );
       const periodChange = this.balance.value - this.previousBalance.value;
       const previousPeriodChange =
         this.previousBalance.value - this.beforePrevBalance.value;
-      this.percentagePeriodChange = this.percent2Months(periodChange, previousPeriodChange);
-      this.percentageTotalExpenses = this.percent2Months(this.balance.totalExpenses, this.previousBalance.totalExpenses);
-      this.percentageTotalIncome = this.percent2Months(this.balance.totalIncome, this.previousBalance.totalIncome);
+      this.percentagePeriodChange = this.percent2Months(
+        periodChange,
+        previousPeriodChange
+      );
+      this.percentageTotalExpenses = this.percent2Months(
+        this.balance.totalExpenses,
+        this.previousBalance.totalExpenses
+      );
+      this.percentageTotalIncome = this.percent2Months(
+        this.balance.totalIncome,
+        this.previousBalance.totalIncome
+      );
     });
   }
 
