@@ -33,10 +33,7 @@ export class BalanceChartComponent implements OnInit {
   initChart() {
     if (isPlatformBrowser(this.platformId)) {
       const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue(
-        '--p-text-muted-color'
-      );
+      const textColor = documentStyle.getPropertyValue('--color-primary');
       const surfaceBorder = documentStyle.getPropertyValue(
         '--p-content-border-color'
       );
@@ -50,15 +47,33 @@ export class BalanceChartComponent implements OnInit {
           'May',
           'June',
           'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
         ],
         datasets: [
           {
             label: 'Third Dataset',
-            data: [12, 51, 62, 33, 21, 62, 45],
+            data: [12, 51, 62, 33, 21, 62, 45, 33, 21, 62, 45, 45],
             fill: true,
-            borderColor: documentStyle.getPropertyValue('--p-gray-500'),
+            borderColor: documentStyle.getPropertyValue('--color-primary-active'),
             tension: 0.4,
-            backgroundColor: 'rgba(107, 114, 128, 0.2)',
+            backgroundColor: (context: any) => {
+              const chart = context.chart;
+              const { ctx, chartArea } = chart;
+
+              if (!chartArea) {
+                return null;
+              }
+
+              const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+              gradient.addColorStop(0, 'rgba(87, 199, 133, 1)');  // solid green at top
+              gradient.addColorStop(1, 'rgba(87, 199, 133, 0)');  // transparent at bottom
+
+              return gradient;
+            },
           },
         ],
       };
@@ -76,7 +91,7 @@ export class BalanceChartComponent implements OnInit {
         scales: {
           x: {
             ticks: {
-              color: textColorSecondary,
+              color: textColor,
             },
             grid: {
               color: surfaceBorder,
@@ -84,7 +99,7 @@ export class BalanceChartComponent implements OnInit {
           },
           y: {
             ticks: {
-              color: textColorSecondary,
+              color: textColor,
             },
             grid: {
               color: surfaceBorder,
