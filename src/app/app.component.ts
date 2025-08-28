@@ -10,7 +10,7 @@ import { ToastService } from './services/toast.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.sass',
+  styleUrl: './app.component.scss',
   imports: [RouterOutlet, Toast, HtLoadingComponent, AsyncPipe],
   providers: [MessageService, ToastService]
 })
