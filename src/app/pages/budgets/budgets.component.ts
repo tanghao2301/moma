@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-budgets',
   imports: [],
   templateUrl: './budgets.component.html',
-  styleUrl: './budgets.component.sass'
+  styleUrl: './budgets.component.scss'
 })
 export class BudgetsComponent {
 
