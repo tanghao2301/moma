@@ -6,6 +6,7 @@ import { Balance } from '@models/balance.model';
 import { UserModel } from '@models/user.model';
 import { TransactionsService } from '@services/transactions.service';
 import { UserService } from '@services/user.service';
+import { DashboardLayoutComponent } from "@shared/layouts/dashboard-layout/dashboard-layout.component";
 import { SkeletonModule } from 'primeng/skeleton';
 import { Tooltip } from 'primeng/tooltip';
 import { forkJoin } from 'rxjs';
@@ -25,7 +26,8 @@ import { BalanceChartComponent } from './balance-chart/balance-chart.component';
     NgTemplateOutlet,
     SkeletonModule,
     Tooltip,
-    BalanceChartComponent
+    BalanceChartComponent,
+    DashboardLayoutComponent
 ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

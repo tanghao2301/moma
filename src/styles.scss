@@ -69,12 +69,6 @@ body {
 /* Let the page use the full viewport */
 html, body { height: 100%; }
 
-/* Make the Angular root a flex column that spans the viewport */
-app-root {
-  min-height: 100dvh;          /* better than 100vh on mobile */
-  display: flex;
-}
-
 a {
   color: var(--color-primary);
   text-decoration: none;

@@ -2,6 +2,7 @@
   display: flex;
   flex: 1;
   justify-content: center;
+  min-height: 100dvh;          /* better than 100vh on mobile */
 }
 
 .app-shell {
