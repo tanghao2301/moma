@@ -1,0 +1,15 @@
+:host {
+  height: 100%;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--color-background-200);
+  height: 32px;
+  width: 32px;
+}

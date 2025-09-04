@@ -22,7 +22,8 @@ import { FirebaseService } from './firebase.service';
 export class TransactionsService {
   private firebaseService: FirebaseService = inject(FirebaseService);
   private commonService: CommonService = inject(CommonService);
-  private transactions$ = new BehaviorSubject<Transaction[] | null>(null);
+  private incomes$ = new BehaviorSubject<Transaction[] | null>(null);
+  private expenses$ = new BehaviorSubject<Transaction[] | null>(null);
   private balance$ = new BehaviorSubject<Balance | null>(null);
   private isLoading$ = new BehaviorSubject<boolean>(false);
 
@@ -62,12 +63,12 @@ export class TransactionsService {
     return this.isLoading$.asObservable();
   }
 
-  getTransactionsSnap(): Transaction[] | null {
-    return this.transactions$.getValue();
+  getIncomes(): Observable<Transaction[] | null> {
+    return this.incomes$.asObservable()!;
   }
 
-  getTransactions(): Observable<Transaction[] | null> {
-    return this.transactions$.asObservable()!;
+  getExpenses(): Observable<Transaction[] | null> {
+    return this.expenses$.asObservable()!;
   }
 
   getBalanceSnap(): Balance | null {
@@ -97,7 +98,11 @@ export class TransactionsService {
           };
         })
         .filter((t) => t.transactionType === type);
-      this.transactions$.next(transactions);
+      if (type === 'Income') {
+        this.incomes$.next(transactions);
+      } else {
+        this.expenses$.next(transactions);
+      }
       this.isLoading$.next(false);
     });
   }
@@ -201,7 +206,7 @@ export class TransactionsService {
     // 2. Update totals based on transaction type
     if (transaction.transactionType === 'Income') {
       totalIncome += transaction.convertedAmount;
-    } else if (transaction.transactionType === 'Expenses') {
+    } else if (transaction.transactionType === 'Expense') {
       totalExpenses += transaction.convertedAmount;
     }
 

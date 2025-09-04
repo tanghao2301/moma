@@ -1,3 +1,178 @@
+@let expenses = expenses$ | async;
+
 <app-dashboard-layout title="Budgets">
-    a
+  <div class="flex">
+    <div class="flex-1 h-100 flex flex-col gap-16">
+      @if (!(isLoading$ | async)) { @if (expenses && expenses.length > 0) {
+      <div class="flex flex-col gap-12 pb-4">
+        @for (expense of expenses; track expense.amount) {
+        <ht-card>
+          <div>
+            <div class="flex gap-16 align-items-center justify-content-space-between">
+              <div class="flex gap-16 align-items-center justify-content-start">
+                <div class="icon-container">
+                  <i class="fontsize-16" [class]="'pi ' + expense.type.icon"></i>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <p class="text-display-md">{{ expense.type.name }}</p>
+                  <p class="text-display-sm">
+                    {{ expense.amount | currency : expense.currency.value || "VND" }}
+                  </p>
+                </div>
+              </div>
+              <i class="fontsize-16 pi pi-angle-right"></i>
+            </div>
+            <div class="flex align-items-center justify-content-space-between">
+              <p></p>
+              <p></p>
+            </div>
+            <p-progressbar [value]="50" />
+            <div class="flex align-items-center justify-content-space-between">
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+        </ht-card>
+        }
+      </div>
+      } @else {
+      <div
+        class="flex flex-col items-center justify-center p-8 text-center border border-dashed rounded-lg bg-gray-50 text-gray-500"
+      >
+        <i class="pi pi-wallet text-4xl mb-4 text-gray-400"></i>
+        <h3 class="text-lg font-semibold mb-2">No expense entries yet</h3>
+        <p class="mb-4">
+          Start tracking your expense to better manage your finances.
+        </p>
+      </div>
+      } } @else {
+      <div class="flex flex-col gap-12 pb-4">
+        <ht-card>
+          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+        </ht-card>
+      </div>
+      }
+      <ht-button [variant]="'secondary'" class="w-full" (click)="visible = true"
+        >Add expense</ht-button
+      >
+    </div>
+    <div class="flex-2">
+
+    </div>
+  </div>
 </app-dashboard-layout>
+<p-dialog
+  [header]="isEdit ? 'Edit expense' : 'Add expense'"
+  [(visible)]="visible"
+  [style]="{ width: '380px', height: '60%' }"
+  [breakpoints]="{ '575px': '80%' }"
+  [modal]="true"
+  (onHide)="closeDialog()"
+>
+  <form class="flex flex-col gap-16" [formGroup]="expenseForm">
+    <p-select
+      class="w-full md:w-14rem"
+      appendTo="body"
+      formControlName="type"
+      placeholder="Select Type"
+      optionLabel="name"
+      panelStyleClass="w-full"
+      [options]="TYPE_EXPENSE_OPTIONS"
+      [showClear]="true"
+      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
+    >
+      <ng-template let-selected pTemplate="selectedItem">
+        @if (selected) {
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
+          {{ selected.name }}
+        </div>
+        } @else {
+        <span>Select Type</span>
+        }
+      </ng-template>
+      <ng-template let-option pTemplate="item">
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + option.icon" class="mr-2"></i>
+          {{ option.name }}
+        </div>
+      </ng-template>
+    </p-select>
+    <p-select
+      class="w-full md:w-14rem"
+      appendTo="body"
+      formControlName="currency"
+      placeholder="Select currency"
+      optionLabel="label"
+      panelStyleClass="w-full"
+      [options]="CURRENCY_OPTIONS"
+      [showClear]="true"
+      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
+    />
+    <p-inputnumber
+      [currency]="currency"
+      [locale]="locale"
+      formControlName="amount"
+      inputId="currency"
+      mode="currency"
+    />
+    <p-select
+      class="w-full md:w-14rem"
+      appendTo="body"
+      formControlName="frequency"
+      placeholder="Select Frequency"
+      optionLabel="label"
+      optionValue="value"
+      panelStyleClass="w-full"
+      [options]="FREQUENCY_OPTIONS"
+      [showClear]="true"
+      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
+    >
+      <ng-template let-selected pTemplate="selectedItem">
+        @if (selected) {
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
+          {{ selected.label }}
+        </div>
+        } @else {
+        <span>Select Frequency</span>
+        }
+      </ng-template>
+      <ng-template let-option pTemplate="item">
+        <div class="w-full md:w-14rem">
+          <i [class]="'pi ' + option.icon" class="mr-2"></i>
+          {{ option.label }}
+        </div>
+      </ng-template>
+    </p-select>
+  </form>
+  <ng-template #footer>
+    <div class="flex justify-end gap-2">
+      <ht-button
+        [variant]="'secondary'"
+        class="w-full"
+        (click)="visible = false"
+        >Cancel</ht-button
+      >
+      @if (isEdit) {
+      <ht-button
+        [variant]="'primary'"
+        [disabled]="expenseForm.invalid"
+        class="w-fit-content"
+        (click)="editExpense()"
+        >Edit expense</ht-button
+      >
+      } @else {
+      <ht-button
+        [variant]="'primary'"
+        [disabled]="expenseForm.invalid"
+        class="w-fit-content"
+        (click)="addExpense()"
+        >Add expense</ht-button
+      >
+      }
+    </div>
+  </ng-template>
+</p-dialog>

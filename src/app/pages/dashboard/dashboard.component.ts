@@ -71,7 +71,6 @@ export class DashboardComponent implements OnInit {
     ]).subscribe((response) => {
       this.isLoading = false;
       if (!response[0]?.value && !response[1]?.value) return;
-      console.log(response);
       this.balance = {
         ...this.defaultBalance,
         ...response[0],

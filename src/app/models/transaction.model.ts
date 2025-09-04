@@ -30,4 +30,4 @@ export interface Frequency {
   icon: string;
 }
 
-export type TransactionType = 'Income' | 'Expenses';
+export type TransactionType = 'Income' | 'Expense';

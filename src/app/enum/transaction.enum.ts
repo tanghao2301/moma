@@ -10,6 +10,19 @@ export const TYPE_INCOME_OPTIONS = [
   { value: 'other', name: 'Other', icon: 'pi pi-ellipsis-h' },
 ];
 
+export const TYPE_EXPENSE_OPTIONS = [
+  { value: 'food', name: 'Food & Dining', icon: 'pi pi-shopping-cart' },
+  { value: 'transport', name: 'Transport', icon: 'pi pi-car' },
+  { value: 'housing', name: 'Housing & Rent', icon: 'pi pi-home' },
+  { value: 'utilities', name: 'Utilities (Water, Electricity)', icon: 'pi pi-bolt' },
+  { value: 'health', name: 'Healthcare & Insurance', icon: 'pi pi-heart' },
+  { value: 'education', name: 'Education', icon: 'pi pi-book' },
+  { value: 'entertainment', name: 'Entertainment', icon: 'pi pi-play' },
+  { value: 'shopping', name: 'Shopping', icon: 'pi pi-tag' },
+  { value: 'travel', name: 'Travel', icon: 'pi pi-send' },
+  { value: 'other', name: 'Other Expenses', icon: 'pi pi-ellipsis-h' },
+];
+
 export const CURRENCY_OPTIONS = [
   { label: 'Vietnamese Dong (VND)', value: 'VND', locale: 'vi-VN' },
   { label: 'US Dollar (USD)', value: 'USD', locale: 'en-US' }

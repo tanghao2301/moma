@@ -14,7 +14,7 @@ import {
   CURRENCY_OPTIONS,
   FREQUENCY_OPTIONS,
   TYPE_INCOME_OPTIONS,
-} from '@enum/income.enum';
+} from '@enum/transaction.enum';
 import { Currency, Frequency, Transaction, Type } from '@models/transaction.model';
 import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
@@ -55,7 +55,7 @@ export class IncomeComponent implements OnInit {
   private loadingService: LoadingService = inject(LoadingService);
   private userService: UserService = inject(UserService);
   private incomesService: TransactionsService = inject(TransactionsService);
-  incomes$: Observable<Transaction[] | null> = this.incomesService.getTransactions();
+  incomes$: Observable<Transaction[] | null> = this.incomesService.getIncomes();
   isLoading$: Observable<boolean> = this.incomesService.getIsLoading();
   incomeTitle: string = '';
   visible: boolean = false;

@@ -1,6 +1,6 @@
 <app-dashboard-layout title="Dashboard">
   <div
-    class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-16"
   >
     <ng-container
       *ngTemplateOutlet="
@@ -95,5 +95,7 @@
       }
     </ng-template>
   </div>
-  <app-balance-chart />
+  <ht-card>
+    <app-balance-chart />
+  </ht-card>
 </app-dashboard-layout>
