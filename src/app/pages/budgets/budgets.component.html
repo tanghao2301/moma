@@ -16,14 +16,16 @@
                 <div class="flex flex-col gap-2">
                   <p class="text-display-md">{{ expense.type.name }}</p>
                   <p class="text-display-sm">
-                    {{ expense.amount | currency : expense.currency.value || "VND" }}
+                    {{ expense.frequency }}
                   </p>
                 </div>
               </div>
               <i class="fontsize-16 pi pi-angle-right"></i>
             </div>
             <div class="flex align-items-center justify-content-space-between">
-              <p></p>
+              <p class="text-display-sm">
+                {{ expense.amount | currency : expense.currency.value || "VND" }}
+              </p>
               <p></p>
             </div>
             <p-progressbar [value]="50" />
