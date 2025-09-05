@@ -1,7 +1,7 @@
 /* Chrome, Edge, Safari */
 *::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -19,12 +19,7 @@
 
 *::-webkit-scrollbar-button {
   display: none;
+  background: transparent;
   height: 0;
   width: 0;
-}
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #b0b0b0 transparent;
 }

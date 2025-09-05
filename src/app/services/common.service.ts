@@ -16,6 +16,41 @@ export class CommonService {
       url: '/budgets',
       icon: 'pi-credit-card',
     },
+    {
+      title: 'Installment',
+      url: '/installment',
+      icon: 'pi-calendar-clock',
+    },
+    {
+      title: 'Assets',
+      url: '/assets',
+      icon: 'pi-wallet',
+    },
+    {
+      title: 'Goals',
+      url: '/goals',
+      icon: 'pi-bullseye',
+    },
+    {
+      title: 'Saving',
+      url: '/saving',
+      icon: 'pi-inbox',
+    },
+    {
+      title: 'Report',
+      url: '/report',
+      icon: 'pi-book',
+    },
+    {
+      title: 'Referral',
+      url: '/referral',
+      icon: 'pi-comments',
+    },
+    {
+      title: 'Setting',
+      url: '/setting',
+      icon: 'pi-cog',
+    },
   ];
 
   async convertToVND(

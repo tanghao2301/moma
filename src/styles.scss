@@ -71,6 +71,11 @@ body {
 /* Let the page use the full viewport */
 html, body { height: 100%; }
 
+app-root {
+  min-height: 100dvh;
+  display: flex;
+}
+
 a {
   color: var(--color-primary);
   text-decoration: none;
