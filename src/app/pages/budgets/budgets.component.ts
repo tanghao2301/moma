@@ -1,10 +1,20 @@
-import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
-import { CURRENCY_OPTIONS, FREQUENCY_OPTIONS, TYPE_EXPENSE_OPTIONS } from '@enum/transaction.enum';
+import {
+  CURRENCY_OPTIONS,
+  FREQUENCY_OPTIONS,
+  TYPE_EXPENSE_OPTIONS,
+} from '@enum/transaction.enum';
+import { Balance } from '@models/balance.model';
 import { Frequency, Transaction, Type } from '@models/transaction.model';
 import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
@@ -24,6 +34,7 @@ import { Observable } from 'rxjs';
     ReactiveFormsModule,
     AsyncPipe,
     CurrencyPipe,
+    DecimalPipe,
     SkeletonModule,
     SelectModule,
     ProgressBarModule,
@@ -33,11 +44,7 @@ import { Observable } from 'rxjs';
     HtCardComponent,
     HtButtonComponent,
   ],
-  providers: [
-    UserService,
-    TransactionsService,
-    ToastService
-  ],
+  providers: [UserService, TransactionsService, ToastService],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
 })
@@ -55,6 +62,7 @@ export class BudgetsComponent implements OnInit {
   expenses$: Observable<Transaction[] | null> =
     this.transactionsService.getExpenses();
   isLoading$: Observable<boolean> = this.transactionsService.getIsLoading();
+  balance: Balance = {} as Balance;
   userId!: string;
   visible: boolean = false;
   isEdit: boolean = false;
@@ -72,6 +80,7 @@ export class BudgetsComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.userService.getUserId();
     this.getExpenses();
+    this.getMonthlyBalance();
     this.expenseForm
       .get('currency')
       ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
@@ -96,6 +105,14 @@ export class BudgetsComponent implements OnInit {
       .subscribe();
   }
 
+  getMonthlyBalance(): void {
+    this.transactionsService
+      .getMonthlyBalanceByOffset(this.userService.getUserId(), 0)
+      .subscribe((balance: Balance) => {
+        this.balance = balance;
+      });
+  }
+
   closeDialog(): void {
     this.visible = false;
     this.isEdit = false;
@@ -108,8 +125,8 @@ export class BudgetsComponent implements OnInit {
     this.loadingService.show();
     const addItem = {
       ...this.expenseForm.getRawValue(),
-      transactionType: 'Expense'
-    }
+      transactionType: 'Expense',
+    };
     this.transactionsService
       .createTransactionsById(this.userId, addItem)
       .pipe(takeUntilDestroyed(this.destroyRef))

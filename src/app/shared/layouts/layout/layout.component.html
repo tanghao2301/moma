@@ -1,6 +1,6 @@
 <div class="flex h-100">
   <nav
-    class="nav-bar w-254 bg-gray-100 p-16 shadow-md flex flex-col justify-content-space-between"
+    class="nav-bar w-254 bg-white p-16 shadow-md flex flex-col justify-content-space-between"
     aria-label="Main navigation"
   >
     <div>
@@ -23,7 +23,7 @@
             routerLinkActive="active-link"
           >
             <i [class]="'pi ' + url.icon"></i>
-            {{ url.title }}
+            <span class="ml-10">{{ url.title }}</span>
           </a>
         </li>
         }
@@ -34,7 +34,7 @@
       [routerLink]="'/login'"
     >
       <i class="pi pi-sign-out"></i>
-      Logout
+      <span class="ml-10">Logout</span>
     </a>
   </nav>
   <div class="w-full flex flex-col flex-1">

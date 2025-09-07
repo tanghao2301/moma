@@ -8,30 +8,48 @@
         @for (expense of expenses; track expense.amount) {
         <ht-card>
           <div>
-            <div class="flex gap-16 align-items-center justify-content-space-between">
-              <div class="flex gap-16 align-items-center justify-content-start">
+            <div
+              class="flex gap-16 align-items-center justify-content-space-between"
+            >
+              <div class="flex gap-8 align-items-center justify-content-start">
                 <div class="icon-container">
-                  <i class="fontsize-16" [class]="'pi ' + expense.type.icon"></i>
+                  <i
+                    class="fontsize-16"
+                    [class]="'pi ' + expense.type.icon"
+                  ></i>
                 </div>
-                <div class="flex flex-col gap-2">
+                <div class="flex flex-col">
                   <p class="text-display-md">{{ expense.type.name }}</p>
-                  <p class="text-display-sm">
+                  <p class="text-display-sm capitalize">
                     {{ expense.frequency }}
                   </p>
                 </div>
               </div>
               <i class="fontsize-16 pi pi-angle-right"></i>
             </div>
-            <div class="flex align-items-center justify-content-space-between">
+            <div
+              class="mt-16 mb-4 flex align-items-center justify-content-space-between"
+            >
               <p class="text-display-sm">
-                {{ expense.amount | currency : expense.currency.value || "VND" }}
+                {{
+                  expense.amount | currency : expense.currency.value || "VND"
+                }}
               </p>
-              <p></p>
+              <p class="text-display-sm">
+                {{
+                  balance.totalIncome
+                    | currency : expense.currency.value || "VND"
+                }}
+              </p>
             </div>
-            <p-progressbar [value]="50" />
+            <p-progressbar [value]="(expense.amount / balance.totalIncome)*100 | number : '1.1-1'">
+            <ng-template #content let-value>
+              <span></span>
+            </ng-template>  
+            </p-progressbar>
             <div class="flex align-items-center justify-content-space-between">
-              <p></p>
-              <p></p>
+              <p class="text-display-xs">{{(expense.amount / balance.totalIncome)*100 | number : "1.1-1"}}%</p>
+              <p class="text-display-xs">On track</p>
             </div>
           </div>
         </ht-card>
@@ -60,9 +78,7 @@
         >Add expense</ht-button
       >
     </div>
-    <div class="flex-2">
-
-    </div>
+    <div class="flex-2"></div>
   </div>
 </app-dashboard-layout>
 <p-dialog
