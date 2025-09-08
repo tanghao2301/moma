@@ -42,13 +42,22 @@
                 }}
               </p>
             </div>
-            <p-progressbar [value]="(expense.amount / balance.totalIncome)*100 | number : '1.1-1'">
-            <ng-template #content let-value>
-              <span></span>
-            </ng-template>  
+            <p-progressbar
+              [value]="
+                (expense.amount / balance.totalIncome) * 100 | number : '1.1-1'
+              "
+            >
+              <ng-template #content let-value>
+                <span></span>
+              </ng-template>
             </p-progressbar>
             <div class="flex align-items-center justify-content-space-between">
-              <p class="text-display-xs">{{(expense.amount / balance.totalIncome)*100 | number : "1.1-1"}}%</p>
+              <p class="text-display-xs">
+                {{
+                  (expense.amount / balance.totalIncome) * 100
+                    | number : "1.1-1"
+                }}%
+              </p>
               <p class="text-display-xs">On track</p>
             </div>
           </div>
@@ -78,7 +87,23 @@
         >Add expense</ht-button
       >
     </div>
-    <div class="flex-2"></div>
+    <div class="flex-2">
+      <div class="flex gap-16 justify-content-space-between">
+        <ht-card>
+          <div class="flex justify-content-space-between">
+            <div class="flex flex-col">
+              <p>Total Budget</p>
+              <p>
+                {{ balance.totalIncome }}
+              </p>
+            </div>
+            <div>
+              <i></i>
+            </div>
+          </div>
+        </ht-card>
+      </div>
+    </div>
   </div>
 </app-dashboard-layout>
 <p-dialog
