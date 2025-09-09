@@ -157,4 +157,10 @@
       width: #{$i}px;
     }
   }
+
+  .min-w {
+    &-#{$i} {
+      min-width: #{$i}px;
+    }
+  }
 }

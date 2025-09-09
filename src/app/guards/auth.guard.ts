@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
   canActivate(): MaybeAsync<GuardResult> {
     return this.firebaseService.user$.pipe(
       map((user: User) => {
-        if (!!user || !!localStorage.getItem('user')) {
+        if (!!user && !!localStorage.getItem('user')) {
           return true;
         } else {
           this.router.navigateByUrl('/login');
