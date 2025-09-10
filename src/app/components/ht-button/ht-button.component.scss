@@ -14,7 +14,7 @@ button:active .ripple {
 
 /* Loading spinner */
 .loader {
-  border: 2px solid #fff;
+  border: 2px solid var(--color-white);
   border-top: 2px solid transparent;
   border-radius: 9999px;
   width: 1rem;

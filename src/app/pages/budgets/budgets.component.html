@@ -2,16 +2,16 @@
 
 <app-dashboard-layout title="Budgets">
   <div class="flex gap-16">
-    <div class="flex-1 h-100 flex flex-col">
+    <div class="flex-1 h-100 flex flex-col min-w-300">
       @if (!(isLoading$ | async)) { @if (expenses && expenses.length > 0) {
       <div class="flex flex-col gap-12 pb-4">
         @for (expense of expenses; track expense.amount) {
-        <ht-card>
+        <ht-card class="pointer" [ngClass]="{'selected': budgetSelected && budgetSelected.id === expense?.id}" (click)="budgetSelected = expense">
           <div
-            class="flex gap-16 align-items-center justify-content-space-between min-w-300"
+            class="flex gap-16 align-items-center justify-content-space-between"
           >
             <div class="flex gap-8 align-items-center justify-content-start">
-              <div class="icon-container">
+              <div class="icon-container" [ngClass]="{'selected': budgetSelected && budgetSelected.id === expense?.id}">
                 <i class="fontsize-16" [class]="'pi ' + expense.type.icon"></i>
               </div>
               <div class="flex flex-col">
@@ -74,14 +74,14 @@
         </ht-card>
       </div>
       }
-      <ht-button [variant]="'secondary'" class="w-full" (click)="visible = true"
+      <ht-button [variant]="'secondary'" class="w-full mt-16" (click)="visible = true"
         >Add expense</ht-button
       >
     </div>
     <div class="flex-2">
       <div class="flex gap-16 justify-content-space-between budget-balance-container">
         <ht-card>
-          <div class="flex justify-content-space-between min-w-250">
+          <div class="flex justify-content-space-between min-w-200">
             <div class="flex flex-col">
               <p class="text-display-sm">Total Budget</p>
               <p class="text-display-lg">
@@ -94,28 +94,32 @@
           </div>
         </ht-card>
         <ht-card>
-          <div class="flex justify-content-space-between min-w-250">
+          <div class="flex justify-content-space-between min-w-200">
             <div class="flex flex-col">
-              <p class="text-display-sm">Total Budget</p>
+              <p class="text-display-sm">Spent</p>
+              @if (budgetSelected && budgetSelected.currency) {
               <p class="text-display-lg">
-                {{ balance.totalIncome | currency : "VND" }}
+                {{ budgetSelected.amount | currency : budgetSelected.currency.value || "VND" }}
               </p>
+              }
             </div>
             <div class="icon-container">
-              <i class="pi pi-dollar"></i>
+              <i class="pi pi-credit-card"></i>
             </div>
           </div>
         </ht-card>
         <ht-card>
-          <div class="flex justify-content-space-between min-w-250">
+          <div class="flex justify-content-space-between min-w-200">
             <div class="flex flex-col">
-              <p class="text-display-sm">Total Budget</p>
+              <p class="text-display-sm">Remaining</p>
+              @if (budgetSelected && budgetSelected.amount) {
               <p class="text-display-lg">
-                {{ balance.totalIncome | currency : "VND" }}
+                {{ balance.totalIncome - budgetSelected.amount | currency : "VND" }}
               </p>
+              }
             </div>
             <div class="icon-container">
-              <i class="pi pi-dollar"></i>
+              <i class="pi pi-clipboard"></i>
             </div>
           </div>
         </ht-card>

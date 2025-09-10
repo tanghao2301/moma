@@ -15,7 +15,7 @@ type CardType = 'primary' | 'secondary' | 'danger';
   standalone: true,
   imports: [NgTemplateOutlet, NgClass],
   templateUrl: './ht-card.component.html',
-  styleUrl: './ht-card.component.sass',
+  styleUrl: './ht-card.component.scss',
 })
 export class HtCardComponent {
   variant = input<CardType>('primary');

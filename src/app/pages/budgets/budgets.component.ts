@@ -1,4 +1,4 @@
-import { AsyncPipe, CurrencyPipe, DecimalPipe } from '@angular/common';
+import { AsyncPipe, CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -31,6 +31,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-budgets',
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     AsyncPipe,
     CurrencyPipe,
@@ -43,7 +44,7 @@ import { Observable } from 'rxjs';
     DashboardLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
-  ],
+],
   providers: [UserService, TransactionsService, ToastService],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
@@ -68,6 +69,7 @@ export class BudgetsComponent implements OnInit {
   isEdit: boolean = false;
   currency = 'VND';
   locale = 'vi-VN';
+  budgetSelected!: Transaction;
 
   expenseForm: FormGroup = this.fb.group({
     id: [null],
@@ -103,6 +105,12 @@ export class BudgetsComponent implements OnInit {
     this.transactionsService
       .getTransactionsById(this.userId, 'Expense')
       .subscribe();
+    this.expenses$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((expenses: Transaction[] | null) => {
+        if (!expenses?.length) return;
+        this.budgetSelected = expenses[0];
+      });
   }
 
   getMonthlyBalance(): void {

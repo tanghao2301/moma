@@ -18,7 +18,6 @@ type ButtonSize = 'sm' | 'md' | 'lg';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'haone',
     '[class.nx-btn-icon-shadowless]': `nxBooleanShadowless`,
   },
 })

@@ -6,9 +6,11 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   serverTimestamp,
   setDoc,
-  updateDoc
+  updateDoc,
+  where
 } from '@angular/fire/firestore';
 import { Balance } from '@models/balance.model';
 import { Transaction, TransactionType } from '@models/transaction.model';
@@ -176,6 +178,23 @@ export class TransactionsService {
       }
 
       return {} as Balance;
+    });
+  }
+
+  getMonthlyBalancesThisYear(userId: string): Observable<Balance[]> {
+    return defer(async () => {
+      const currentYear = new Date().getFullYear();
+
+      const balancesRef = collection(this.firebaseService.firestore, `users/${userId}/monthlyBalances`);
+      const q = query(balancesRef, where("year", "==", currentYear));
+
+      const querySnapshot = await getDocs(q);
+      const results = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data() as Balance,
+      }));
+
+      return results;
     });
   }
 
