@@ -27,6 +27,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Observable } from 'rxjs';
+import { BalanceChartComponent } from '../dashboard/balance-chart/balance-chart.component';
 
 @Component({
   selector: 'app-budgets',
@@ -44,6 +45,7 @@ import { Observable } from 'rxjs';
     DashboardLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
+    BalanceChartComponent
 ],
   providers: [UserService, TransactionsService, ToastService],
   templateUrl: './budgets.component.html',
@@ -70,6 +72,7 @@ export class BudgetsComponent implements OnInit {
   currency = 'VND';
   locale = 'vi-VN';
   budgetSelected!: Transaction;
+  balancesThisYear!: number[];
 
   expenseForm: FormGroup = this.fb.group({
     id: [null],
@@ -83,6 +86,7 @@ export class BudgetsComponent implements OnInit {
     this.userId = this.userService.getUserId();
     this.getExpenses();
     this.getMonthlyBalance();
+    this.getMonthlyBalancesThisYear();
     this.expenseForm
       .get('currency')
       ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
@@ -115,9 +119,17 @@ export class BudgetsComponent implements OnInit {
 
   getMonthlyBalance(): void {
     this.transactionsService
-      .getMonthlyBalanceByOffset(this.userService.getUserId(), 0)
+      .getMonthlyBalanceByOffset(this.userId, 0)
       .subscribe((balance: Balance) => {
         this.balance = balance;
+      });
+  }
+
+  getMonthlyBalancesThisYear(): void {
+    this.transactionsService
+      .getMonthlyBalancesThisYear(this.userId)
+      .subscribe((balances: Balance[]) => {
+        this.balancesThisYear = balances.map(balance => balance.totalExpenses);
       });
   }
 

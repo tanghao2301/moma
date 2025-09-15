@@ -18,8 +18,7 @@ import { ChartModule } from 'primeng/chart';
 })
 export class BalanceChartComponent implements OnInit {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-  balance = input<Balance>();
-  previousBalance = input<Balance>();
+  balances = input<Balance[] | number[]>();
   data: any;
 
   options: any;
@@ -55,10 +54,10 @@ export class BalanceChartComponent implements OnInit {
         ],
         datasets: [
           {
-            label: 'Third Dataset',
-            data: [12, 51, 62, 33, 21, 62, 45, 33, 21, 62, 45, 45],
+            label: 'Balance',
+            data: this.balances(),
             fill: true,
-            borderColor: documentStyle.getPropertyValue('--color-primary-active'),
+            borderColor: documentStyle.getPropertyValue('--color-primary'),
             tension: 0.4,
             backgroundColor: (context: any) => {
               const chart = context.chart;
@@ -95,6 +94,7 @@ export class BalanceChartComponent implements OnInit {
             },
             grid: {
               color: surfaceBorder,
+              display: false
             },
           },
           y: {
@@ -102,7 +102,7 @@ export class BalanceChartComponent implements OnInit {
               color: textColor,
             },
             grid: {
-              color: surfaceBorder,
+              color: surfaceBorder
             },
           },
         },

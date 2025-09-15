@@ -5,7 +5,7 @@
     <div class="flex-1 h-100 flex flex-col min-w-300">
       @if (!(isLoading$ | async)) { @if (expenses && expenses.length > 0) {
       <div class="flex flex-col gap-12 pb-4">
-        @for (expense of expenses; track expense.amount) {
+        @for (expense of expenses; track expense.id) {
         <ht-card class="pointer" [ngClass]="{'selected': budgetSelected && budgetSelected.id === expense?.id}" (click)="budgetSelected = expense">
           <div
             class="flex gap-16 align-items-center justify-content-space-between"
@@ -79,6 +79,12 @@
       >
     </div>
     <div class="flex-2">
+      <div class="mb-16">
+        @if (!!budgetSelected) {
+        <p class="text-display-lg">{{budgetSelected.type.name}}</p>
+        }
+        <p>Budget overview and analysis</p>
+      </div>
       <div class="flex gap-16 justify-content-space-between budget-balance-container">
         <ht-card>
           <div class="flex justify-content-space-between min-w-200">
@@ -124,6 +130,9 @@
           </div>
         </ht-card>
       </div>
+      <ht-card>
+        <app-balance-chart [balances]="balancesThisYear"/>
+      </ht-card>
     </div>
   </div>
 </app-dashboard-layout>

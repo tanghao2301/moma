@@ -184,10 +184,8 @@ export class TransactionsService {
   getMonthlyBalancesThisYear(userId: string): Observable<Balance[]> {
     return defer(async () => {
       const currentYear = new Date().getFullYear();
-
-      const balancesRef = collection(this.firebaseService.firestore, `users/${userId}/monthlyBalances`);
+      const balancesRef = collection(this.firebaseService.firestore, `user/${userId}/monthlyBalances`);
       const q = query(balancesRef, where("year", "==", currentYear));
-
       const querySnapshot = await getDocs(q);
       const results = querySnapshot.docs.map(doc => ({
         id: doc.id,
