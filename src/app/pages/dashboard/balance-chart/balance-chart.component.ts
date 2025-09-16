@@ -4,8 +4,9 @@ import {
   Component,
   inject,
   input,
-  OnInit,
-  PLATFORM_ID
+  OnChanges,
+  PLATFORM_ID,
+  SimpleChanges
 } from '@angular/core';
 import { Balance } from '@models/balance.model';
 import { ChartModule } from 'primeng/chart';
@@ -16,7 +17,7 @@ import { ChartModule } from 'primeng/chart';
   templateUrl: './balance-chart.component.html',
   styleUrl: './balance-chart.component.sass',
 })
-export class BalanceChartComponent implements OnInit {
+export class BalanceChartComponent implements OnChanges {
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   balances = input<Balance[] | number[]>();
   data: any;
@@ -25,8 +26,10 @@ export class BalanceChartComponent implements OnInit {
 
   platformId = inject(PLATFORM_ID);
 
-  ngOnInit() {
-    this.initChart();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['balances'] && changes['balances']?.currentValue) {
+      this.initChart();
+    }
   }
 
   initChart() {
@@ -79,7 +82,7 @@ export class BalanceChartComponent implements OnInit {
 
       this.options = {
         maintainAspectRatio: false,
-        aspectRatio: 0.6,
+        aspectRatio: 0.9,
         plugins: {
           legend: {
             labels: {

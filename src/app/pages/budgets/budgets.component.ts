@@ -129,7 +129,10 @@ export class BudgetsComponent implements OnInit {
     this.transactionsService
       .getMonthlyBalancesThisYear(this.userId)
       .subscribe((balances: Balance[]) => {
-        this.balancesThisYear = balances.map(balance => balance.totalExpenses);
+        this.balancesThisYear = Array.from({ length: 12 }, (_, i) => i + 1).map(m => {
+          const record = balances.find(balance => balance.month === m);
+          return record ? record.totalExpenses : 0;
+        });
       });
   }
 
