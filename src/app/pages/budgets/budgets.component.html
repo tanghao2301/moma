@@ -6,12 +6,23 @@
       @if (!(isLoading$ | async)) { @if (expenses && expenses.length > 0) {
       <div class="flex flex-col gap-12 pb-4">
         @for (expense of expenses; track expense.id) {
-        <ht-card class="pointer" [ngClass]="{'selected': budgetSelected && budgetSelected.id === expense?.id}" (click)="budgetSelected = expense">
+        <ht-card
+          class="pointer"
+          [ngClass]="{
+            selected: budgetSelected && budgetSelected.id === expense?.id
+          }"
+          (click)="budgetSelected = expense"
+        >
           <div
             class="flex gap-16 align-items-center justify-content-space-between"
           >
             <div class="flex gap-8 align-items-center justify-content-start">
-              <div class="icon-container" [ngClass]="{'selected': budgetSelected && budgetSelected.id === expense?.id}">
+              <div
+                class="icon-container"
+                [ngClass]="{
+                  selected: budgetSelected && budgetSelected.id === expense?.id
+                }"
+              >
                 <i class="fontsize-16" [class]="'pi ' + expense.type.icon"></i>
               </div>
               <div class="flex flex-col">
@@ -74,18 +85,23 @@
         </ht-card>
       </div>
       }
-      <ht-button [variant]="'secondary'" class="w-full mt-16" (click)="visible = true"
+      <ht-button
+        [variant]="'secondary'"
+        class="w-full mt-16"
+        (click)="visible = true"
         >Add expense</ht-button
       >
     </div>
     <div class="flex-2">
       <div class="mb-16">
         @if (!!budgetSelected) {
-        <p class="text-display-lg">{{budgetSelected.type.name}}</p>
+        <p class="text-display-lg">{{ budgetSelected.type.name }}</p>
         }
         <p>Budget overview and analysis</p>
       </div>
-      <div class="mb-16 flex gap-16 justify-content-space-between budget-balance-container">
+      <div
+        class="mb-16 flex gap-16 justify-content-space-between budget-balance-container"
+      >
         <ht-card>
           <div class="flex justify-content-space-between min-w-200">
             <div class="flex flex-col">
@@ -105,7 +121,10 @@
               <p class="text-display-sm">Spent</p>
               @if (budgetSelected && budgetSelected.currency) {
               <p class="text-display-lg">
-                {{ budgetSelected.amount | currency : budgetSelected.currency.value || "VND" }}
+                {{
+                  budgetSelected.amount
+                    | currency : budgetSelected.currency.value || "VND"
+                }}
               </p>
               }
             </div>
@@ -120,7 +139,9 @@
               <p class="text-display-sm">Remaining</p>
               @if (budgetSelected && budgetSelected.amount) {
               <p class="text-display-lg">
-                {{ balance.totalIncome - budgetSelected.amount | currency : "VND" }}
+                {{
+                  balance.totalIncome - budgetSelected.amount | currency : "VND"
+                }}
               </p>
               }
             </div>
@@ -130,12 +151,83 @@
           </div>
         </ht-card>
       </div>
-      <ht-card>
-        <app-balance-chart [balances]="balancesThisYear"/>
+      <div class="mb-16">
+        <ht-card title="Spending Analysis">
+          <app-balance-chart [balances]="balancesThisYear" />
+          <div class="flex justify-content-space-between text-display-xs mx-24">
+            <div>
+              <p class="font-semibold">Average</p>
+              {{ average | currency : "VND" }}
+            </div>
+            <div>
+              <p class="font-semibold">Lowest</p>
+              {{ lowest | currency : "VND" }}
+            </div>
+            <div>
+              <p class="font-semibold">Highest</p>
+              {{ highest | currency : "VND" }}
+            </div>
+          </div>
+        </ht-card>
+      </div>
+      <ht-card title="Comparative Analysis">
+        <div class="py-8 flex flex-col gap-16">
+          <ng-container
+            *ngTemplateOutlet="
+              comparativeTemp;
+              context: {
+                $implicit: 'Variance',
+                subTitle: 'Difference from previous',
+                icon: 'pi-credit-card',
+                amount: 3000
+              }
+            "
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              comparativeTemp;
+              context: {
+                $implicit: 'Current Period',
+                subTitle: 'This month\'s spending',
+                icon: 'pi-clipboard',
+                amount: 2000
+              }
+            "
+          ></ng-container>
+          <ng-container
+            *ngTemplateOutlet="
+              comparativeTemp;
+              context: {
+                $implicit: 'Previous Period',
+                subTitle: 'Last month\'s spending',
+                icon: 'pi-dollar',
+                amount: 1000
+              }
+            "
+          ></ng-container>
+        </div>
       </ht-card>
     </div>
   </div>
 </app-dashboard-layout>
+<ng-template
+  #comparativeTemp
+  let-title
+  let-subTitle="subTitle"
+  let-amount="amount"
+  let-icon="icon"
+>
+  <div class="flex justify-content-space-between align-items-center">
+    <div class="flex justify-content-start align-items-center gap-8">
+      <div class="icon-container"><i [class]="'fontsize-16 pi ' + icon"></i></div>
+      <div class="flex flex-col text-display-sm">
+        <p class="font-semibold">{{ title }}</p>
+        <p>{{ subTitle }}</p>
+      </div>
+    </div>
+    <p>{{ amount | currency : "VND" }}</p>
+  </div>
+</ng-template>
 <p-dialog
   [header]="isEdit ? 'Edit expense' : 'Add expense'"
   [(visible)]="visible"

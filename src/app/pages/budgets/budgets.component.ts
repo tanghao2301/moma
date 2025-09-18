@@ -73,6 +73,9 @@ export class BudgetsComponent implements OnInit {
   locale = 'vi-VN';
   budgetSelected!: Transaction;
   balancesThisYear!: number[];
+  average!: number;
+  lowest!: number;
+  highest!: number;
 
   expenseForm: FormGroup = this.fb.group({
     id: [null],
@@ -133,6 +136,10 @@ export class BudgetsComponent implements OnInit {
           const record = balances.find(balance => balance.month === m);
           return record ? record.totalExpenses : 0;
         });
+        const sum = this.balancesThisYear.reduce((acc, val) => acc + val, 0);
+        this.average = sum/this.balancesThisYear.length;
+        this.highest = Math.max(...this.balancesThisYear);
+        this.lowest = Math.min(...this.balancesThisYear);
       });
   }
 
