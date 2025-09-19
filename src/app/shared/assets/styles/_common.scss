@@ -118,14 +118,6 @@
     &r-#{$i} {
       margin-right: #{$i}px;
     }
-    &y-#{$i} {
-      margin-top: #{$i}px;
-      margin-bottom: #{$i}px;
-    }
-    &x-#{$i} {
-      margin-left: #{$i}px;
-      margin-right: #{$i}px;
-    }
   }
 
   .p {
@@ -142,14 +134,6 @@
       padding-left: #{$i}px;
     }
     &r-#{$i} {
-      padding-right: #{$i}px;
-    }
-    &y-#{$i} {
-      padding-top: #{$i}px;
-      padding-bottom: #{$i}px;
-    }
-    &x-#{$i} {
-      padding-left: #{$i}px;
       padding-right: #{$i}px;
     }
   }
@@ -178,5 +162,33 @@
     &-#{$i} {
       min-width: #{$i}px;
     }
+  }
+}
+
+/* Common classes */
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px;
+  border-radius: 8px;
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+
+  &.icon-action {
+    transition: background-color 0.3s ease-in-out;
+    &:hover {
+      background: var(--color-background-200);
+    }
+  }
+
+  &.icon-background {
+    background: var(--color-background-200);
+  }
+
+  &.selected {
+    background: #ffffff33;
   }
 }

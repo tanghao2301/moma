@@ -1,4 +1,9 @@
-import { AsyncPipe, CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
+import {
+  AsyncPipe,
+  CommonModule,
+  CurrencyPipe,
+  DecimalPipe,
+} from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -45,8 +50,8 @@ import { BalanceChartComponent } from '../dashboard/balance-chart/balance-chart.
     DashboardLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
-    BalanceChartComponent
-],
+    BalanceChartComponent,
+  ],
   providers: [UserService, TransactionsService, ToastService],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
@@ -66,8 +71,10 @@ export class BudgetsComponent implements OnInit {
     this.transactionsService.getExpenses();
   isLoading$: Observable<boolean> = this.transactionsService.getIsLoading();
   balance: Balance = {} as Balance;
+  previousBalance: Balance = {} as Balance;
   userId!: string;
   visible: boolean = false;
+  deleteVisible: boolean = false;
   isEdit: boolean = false;
   currency = 'VND';
   locale = 'vi-VN';
@@ -89,6 +96,7 @@ export class BudgetsComponent implements OnInit {
     this.userId = this.userService.getUserId();
     this.getExpenses();
     this.getMonthlyBalance();
+    this.getPreviousMonthlyBalance();
     this.getMonthlyBalancesThisYear();
     this.expenseForm
       .get('currency')
@@ -128,28 +136,53 @@ export class BudgetsComponent implements OnInit {
       });
   }
 
+  getPreviousMonthlyBalance(): void {
+    this.transactionsService
+      .getMonthlyBalanceByOffset(this.userId, -1)
+      .subscribe((balance: Balance) => {
+        this.previousBalance = balance;
+      });
+  }
+
   getMonthlyBalancesThisYear(): void {
     this.transactionsService
       .getMonthlyBalancesThisYear(this.userId)
       .subscribe((balances: Balance[]) => {
-        this.balancesThisYear = Array.from({ length: 12 }, (_, i) => i + 1).map(m => {
-          const record = balances.find(balance => balance.month === m);
-          return record ? record.totalExpenses : 0;
-        });
+        this.balancesThisYear = Array.from({ length: 12 }, (_, i) => i + 1).map(
+          (m) => {
+            const record = balances.find((balance) => balance.month === m);
+            return record ? record.totalExpenses : 0;
+          }
+        );
         const sum = this.balancesThisYear.reduce((acc, val) => acc + val, 0);
-        this.average = sum/this.balancesThisYear.length;
+        this.average = sum / this.balancesThisYear.length;
         this.highest = Math.max(...this.balancesThisYear);
         this.lowest = Math.min(...this.balancesThisYear);
       });
   }
 
+  calculateVariance(previous: number = 0, current: number = 0): number {
+    return Math.abs(previous - current);
+  }
+
   closeDialog(): void {
     this.visible = false;
+    this.deleteVisible = false;
     this.isEdit = false;
     this.expenseForm.reset();
   }
 
-  showEditDialog(): void {}
+  showEditDialog(expense: Transaction): void {
+    this.expenseForm.setValue({
+      id: expense.id,
+      type: expense.type,
+      currency: expense.currency,
+      amount: expense.amount,
+      frequency: expense.frequency,
+    });
+    this.isEdit = true;
+    this.visible = true;
+  }
 
   addExpense(): void {
     this.loadingService.show();
@@ -173,7 +206,47 @@ export class BudgetsComponent implements OnInit {
       });
   }
 
-  editExpense(): void {}
+  editExpense(): void {
+    this.loadingService.show();
+    this.transactionsService
+      .updateTransactionsById(
+        this.userId,
+        this.expenseForm.get('id')?.value,
+        this.expenseForm.getRawValue()
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.loadingService.hide();
+          this.getExpenses();
+          this.closeDialog();
+        },
+        error: () => {
+          this.loadingService.hide();
+          this.toastService.error('Error', `Please contact admin`);
+        },
+      });
+  }
 
-  deleteExpense(): void {}
+  deleteExpense(): void {
+    this.loadingService.show();
+    this.transactionsService
+      .deleteTransactionsById(
+        this.userId,
+        this.expenseForm.get('id')?.value,
+        this.expenseForm.getRawValue()
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.loadingService.hide();
+          this.getExpenses();
+          this.closeDialog();
+        },
+        error: () => {
+          this.loadingService.hide();
+          this.toastService.error('Error', `Please contact admin`);
+        },
+      });
+  }
 }

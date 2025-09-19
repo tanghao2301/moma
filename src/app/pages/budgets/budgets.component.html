@@ -18,7 +18,7 @@
           >
             <div class="flex gap-8 align-items-center justify-content-start">
               <div
-                class="icon-container"
+                class="icon-container icon-background"
                 [ngClass]="{
                   selected: budgetSelected && budgetSelected.id === expense?.id
                 }"
@@ -110,7 +110,7 @@
                 {{ balance.totalIncome | currency : "VND" }}
               </p>
             </div>
-            <div class="icon-container">
+            <div class="icon-container icon-background">
               <i class="pi pi-dollar"></i>
             </div>
           </div>
@@ -128,7 +128,7 @@
               </p>
               }
             </div>
-            <div class="icon-container">
+            <div class="icon-container icon-background">
               <i class="pi pi-credit-card"></i>
             </div>
           </div>
@@ -145,11 +145,80 @@
               </p>
               }
             </div>
-            <div class="icon-container">
+            <div class="icon-container icon-background">
               <i class="pi pi-clipboard"></i>
             </div>
           </div>
         </ht-card>
+      </div>
+      <div class="mb-16">
+        @if (budgetSelected) {
+        <ht-card>
+          <div
+            class="flex gap-16 align-items-center justify-content-space-between"
+          >
+            <div class="flex gap-8 align-items-center justify-content-start">
+              <div class="icon-container icon-background">
+                <i
+                  class="fontsize-16"
+                  [class]="'pi ' + budgetSelected.type.icon"
+                ></i>
+              </div>
+              <div class="flex flex-col">
+                <p class="text-display-md">{{ budgetSelected.type.name }}</p>
+                <p class="text-display-sm capitalize">
+                  {{ budgetSelected.frequency }}
+                </p>
+              </div>
+            </div>
+            <i
+              class="fontsize-16 pi pi-pencil icon-container icon-action"
+              (click)="showEditDialog(budgetSelected)"
+            ></i>
+          </div>
+          <div
+            class="mt-16 mb-4 flex align-items-center justify-content-space-between"
+          >
+            <p class="text-display-sm">
+              {{
+                budgetSelected.amount
+                  | currency : budgetSelected.currency.value || "VND"
+              }}
+            </p>
+            <p class="text-display-sm">
+              {{
+                balance.totalIncome
+                  | currency : budgetSelected.currency.value || "VND"
+              }}
+            </p>
+          </div>
+          <p-progressbar
+            [value]="
+              (budgetSelected.amount / balance.totalIncome) * 100
+                | number : '1.1-1'
+            "
+          >
+            <ng-template #content let-value>
+              <span></span>
+            </ng-template>
+          </p-progressbar>
+          <div class="flex align-items-center justify-content-space-between">
+            <p class="text-display-xs">
+              {{
+                (budgetSelected.amount / balance.totalIncome) * 100
+                  | number : "1.1-1"
+              }}%
+            </p>
+            <p class="text-display-xs">On track</p>
+          </div>
+        </ht-card>
+        } @else {
+        <ht-card>
+          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+        </ht-card>
+        }
       </div>
       <div class="mb-16">
         <ht-card title="Spending Analysis">
@@ -171,15 +240,15 @@
         </ht-card>
       </div>
       <ht-card title="Comparative Analysis">
-        <div class="py-8 flex flex-col gap-16">
+        <div class="pt-16 flex flex-col gap-16 comparative-container">
           <ng-container
             *ngTemplateOutlet="
               comparativeTemp;
               context: {
-                $implicit: 'Variance',
-                subTitle: 'Difference from previous',
-                icon: 'pi-credit-card',
-                amount: 3000
+                $implicit: 'Previous Period',
+                subTitle: 'Last month\'s spending',
+                icon: 'pi-dollar',
+                amount: previousBalance.totalExpenses || 0
               }
             "
           ></ng-container>
@@ -190,7 +259,7 @@
                 $implicit: 'Current Period',
                 subTitle: 'This month\'s spending',
                 icon: 'pi-clipboard',
-                amount: 2000
+                amount: balance.totalExpenses
               }
             "
           ></ng-container>
@@ -198,10 +267,14 @@
             *ngTemplateOutlet="
               comparativeTemp;
               context: {
-                $implicit: 'Previous Period',
-                subTitle: 'Last month\'s spending',
-                icon: 'pi-dollar',
-                amount: 1000
+                $implicit: 'Variance',
+                subTitle: 'Difference from previous',
+                icon: 'pi-credit-card',
+                amount:
+                  calculateVariance(
+                    previousBalance.totalExpenses,
+                    balance.totalExpenses
+                  ) || 0
               }
             "
           ></ng-container>
@@ -219,7 +292,9 @@
 >
   <div class="flex justify-content-space-between align-items-center">
     <div class="flex justify-content-start align-items-center gap-8">
-      <div class="icon-container"><i [class]="'fontsize-16 pi ' + icon"></i></div>
+      <div class="icon-container icon-background">
+        <i [class]="'fontsize-16 pi ' + icon"></i>
+      </div>
       <div class="flex flex-col text-display-sm">
         <p class="font-semibold">{{ title }}</p>
         <p>{{ subTitle }}</p>
@@ -229,13 +304,22 @@
   </div>
 </ng-template>
 <p-dialog
-  [header]="isEdit ? 'Edit expense' : 'Add expense'"
   [(visible)]="visible"
   [style]="{ width: '380px', height: '60%' }"
   [breakpoints]="{ '575px': '80%' }"
   [modal]="true"
   (onHide)="closeDialog()"
 >
+  <ng-template #header>
+    <div class="flex justify-content-start align-items-center gap-4">
+      <p class="text-display-lg">
+        {{ isEdit ? "Edit expense" : "Add expense" }}
+      </p>
+      @if (isEdit) {
+      <i class="fontsize-16 pi pi-trash icon-container icon-action" (click)="deleteVisible = true"></i>
+      }
+    </div>
+  </ng-template>
   <form class="flex flex-col gap-16" [formGroup]="expenseForm">
     <p-select
       class="w-full md:w-14rem"
@@ -341,3 +425,29 @@
     </div>
   </ng-template>
 </p-dialog>
+<p-dialog
+  header="Delete expense"
+  [(visible)]="deleteVisible"
+  [style]="{ width: '380px' }"
+  [breakpoints]="{ '575px': '80%' }"
+  (onHide)="closeDialog()"
+>
+  Do you want to delete this item?
+  <ng-template #footer>
+    <div class="flex justify-end gap-2">
+      <ht-button
+        [variant]="'secondary'"
+        class="w-full"
+        (click)="closeDialog()"
+        >Cancel</ht-button
+      >
+      <ht-button
+        [variant]="'danger'"
+        class="w-fit-content"
+        (click)="deleteExpense()"
+        >Delete</ht-button
+      >
+    </div>
+  </ng-template>
+</p-dialog>
+
