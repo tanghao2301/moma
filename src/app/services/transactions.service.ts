@@ -96,7 +96,8 @@ export class TransactionsService {
             type: transaction.type,
             frequency: transaction.frequency,
             transactionType: transaction.transactionType,
-            convertedAmount: transaction.convertedAmount
+            convertedAmount: transaction.convertedAmount,
+            createdAt: transaction.createdAt
           };
         })
         .filter((t) => t.transactionType === type);

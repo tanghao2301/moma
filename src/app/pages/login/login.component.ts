@@ -28,7 +28,7 @@ import { PasswordModule } from 'primeng/password';
     HtButtonComponent,
     OnboardingLayoutComponent,
   ],
-  providers: [AuthService],
+  providers: [Router, AuthService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
