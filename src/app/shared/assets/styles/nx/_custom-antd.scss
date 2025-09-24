@@ -1,0 +1,84 @@
+nz-date-picker.ant-picker:hover,
+.ant-picker-focused {
+  --_nx-input-border-color: var(--nx-stroke--secondary);
+  --_nx-input-text-color: var(--nx-text--primary-2);
+  --_nx-input-bg-color: var(--nx-fill-surface--container-primary);
+  border-color: var(--_nx-input-border-color);
+  outline: none;
+  box-shadow: unset;
+}
+
+.ant-picker-large.ant-picker {
+  --_nx-input-border-color: var(--nx-stroke--secondary);
+  --_nx-input-text-color: var(--nx-text--primary-2);
+  --_nx-input-bg-color: var(--nx-fill-surface--container-primary);
+  min-width: min(100%, 320px);
+  border-radius: 8px;
+  padding: 7px 11px;
+  color: var(--_nx-input-text-color);
+  background-color: var(--_nx-input-bg-color);
+  background: var(--_nx-input-bg-color);
+  border: 1px solid var(--_nx-input-border-color);
+
+  &:focus-within {
+    --_nx-input-border-color: var(--nx-stroke--primary-1);
+    outline: none;
+  }
+
+  &:has(.ng-invalid) {
+    --_nx-input-border-color: var(--nx-stroke--destructive);
+  }
+
+  &.ant-picker-disabled,
+  &:disabled,
+  &--disabled {
+    --_nx-input-text-color: var(--nx-text--disable);
+    --_nx-input-border-color: var(--nx-stroke--disable);
+    --_nx-input-bg-color: var(--nx-fill-surface--container-disable);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .ant-picker-input>input::placeholder {
+    @include nx-text-body-lg();
+    color: var(--nx-text--tertiary)
+  }
+}
+
+
+input.ant-input,
+input.ant-input-lg {
+  border-radius: 8px;
+  padding: 7px 11px;
+  color: var(--nx-text--primary-2);
+
+  &:hover,
+  &:focus {
+    border-color: var(--nx-stroke--primary-1);
+    box-shadow: unset;
+    outline: none;
+  }
+
+  &::placeholder {
+    @include nx-text-body-lg();
+    color: var(--nx-text--tertiary)
+  }
+}
+
+span.ant-input-group-addon {
+  border-radius: 8px;
+  color: var(--nx-text--primary-2);
+
+  &:focus-within {
+    --_nx-input-border-color: var(--nx-stroke--primary-1);
+    outline: none;
+  }
+}
+
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border-color: var(--nx-stroke--primary-1);
+  box-shadow: unset;
+  outline: none;
+  border-radius: 8px;
+
+}

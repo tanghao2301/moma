@@ -1,0 +1,16 @@
+$nx-modal-selector: nx-modal;
+
+.#{$nx-modal-selector} {
+  &__backdrop {
+    background-color: var(--nx-opacity--black-1);
+    &.cdk-overlay-backdrop.nx-modal__backdrop {
+      opacity: 1 !important;
+    }
+  }
+  &__panel {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+}

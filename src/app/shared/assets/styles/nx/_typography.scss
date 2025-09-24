@@ -1,0 +1,418 @@
+// Font face declaration for NotoSans font
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+// FONT SIZE
+$fontSizeXXS: 10px;
+$fontSizeXS: 12px;
+$fontSizeSM: 14px;
+$fontSizeMD: 16px;
+$fontSizeLG: 18px;
+$fontSizeXL: 22px;
+$fontSizeXXL: 26px;
+$fontSizeXXXL: 32px;
+$fontSizeXXXXL: 40px;
+$fontFamily: "Noto Sans", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", Times, Symbola, Aegyptus, Code2000, Code2001, Code2002, Musica, serif, LastResort, sans-serif !important;
+
+
+//LINE HEIGHT
+$lineHieghtXS: 16px;
+$lineHieghtSM: 20px;
+$lineHieghtMD: 24px;
+$lineHieghtLG: 32px;
+$lineHieghtXL: 40px;
+$lineHieghtXXL: 48px;
+
+//FONT WEIGHT
+$fontWeightXXXS: 100; // thin
+$fontWeightXXS: 200; // ultra light
+$fontWeightXS: 300; // light
+$fontWeightSM: 400; // regular
+$fontWeightMD: 500; // medium
+$fontWeightLG: 600; // semibold
+$fontWeightXL: 700; // bold
+$fontWeightXXL: 800; // extra bold
+$fontWeightXXXL: 900; // black
+
+//LETTER SPACING
+$letterSpacingXS: -0.005em;
+$letterSpacingSM: -0.01em;
+$letterSpacingMD: 0em;
+$letterSpacingLG: 0.0025em;
+$letterSpacingXL: 0.005em;
+$letterSpacingXXL: 0.01em;
+
+//ICON SIZE
+$iconXL: 32px;
+$iconLG: 24px;
+$iconMD: 20px;
+$iconSM: 16px;
+$iconXS: 12px;
+
+@function is-important($important) {
+  @return #{if($important, '!important', '')};
+}
+
+// Display tags mixins
+@mixin nx-text-display-md {
+  font-weight: $fontWeightLG;
+  color: var(--nx-text--primary-2);
+  font-size: $fontSizeXXXXL;
+  line-height: $lineHieghtXXL;
+  letter-spacing: $letterSpacingXS;
+}
+
+@mixin nx-text-display-sm {
+  font-weight: $fontWeightLG;
+  color: var(--nx-text--primary-2);
+  font-size: $fontSizeXXXL;
+  line-height: $lineHieghtXL;
+  letter-spacing: $letterSpacingXS;
+}
+
+// Header tags mixins
+@mixin nx-text-heading-lg {
+  font-weight: $fontWeightLG;
+  color: var(--nx-text--primary-2);
+  font-size: $fontSizeXXL;
+  line-height: $lineHieghtLG;
+  letter-spacing: $letterSpacingXS;
+}
+
+@mixin nx-text-heading-md {
+  font-weight: $fontWeightLG;
+  color: var(--nx-text--primary-2);
+  font-size: $fontSizeXL;
+  line-height: $lineHieghtLG;
+  letter-spacing: $letterSpacingXS;
+}
+
+@mixin nx-text-heading-sm {
+  font-weight: $fontWeightLG;
+  color: var(--nx-text--primary-2);
+  font-size: $fontSizeLG;
+  line-height: $lineHieghtMD;
+  letter-spacing: $letterSpacingMD;
+}
+
+// Title tags mixins
+@mixin nx-text-title-lg {
+  font-weight: $fontWeightLG;
+  font-size: $fontSizeMD;
+  line-height: $lineHieghtMD;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-title-md {
+  font-weight: $fontWeightLG;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-title-sm {
+  font-weight: $fontWeightLG;
+  font-size: $fontSizeXS;
+  line-height: $lineHieghtXS;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-title-xs {
+  font-weight: $fontWeightLG;
+  font-size: $fontSizeXXS;
+  line-height: $lineHieghtXS;
+  letter-spacing: $letterSpacingMD;
+}
+
+// Body Paragraph text mixins
+@mixin nx-text-body-lg($important: false) {
+  font-weight: $fontWeightSM is-important($important);
+  font-size: $fontSizeMD is-important($important);
+  line-height: $lineHieghtMD is-important($important);
+  letter-spacing: $letterSpacingXS is-important($important);
+}
+
+@mixin nx-text-body-md {
+  font-weight: $fontWeightSM;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-body-sm {
+  font-weight: $fontWeightSM;
+  font-size: $fontSizeXS;
+  line-height: $lineHieghtXS;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-body-xs {
+  font-weight: $fontWeightSM;
+  font-size: $fontSizeXXS;
+  line-height: $lineHieghtXS;
+  letter-spacing: $letterSpacingMD;
+}
+
+// CTA text mixins
+@mixin nx-text-cta-lg {
+  font-weight: $fontWeightLG;
+  font-size: $fontSizeMD;
+  line-height: $lineHieghtMD;
+  letter-spacing: $letterSpacingXL;
+}
+
+@mixin nx-text-cta-md {
+  font-weight: $fontWeightLG;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingLG;
+}
+
+@mixin nx-text-cta-sm {
+  font-weight: $fontWeightMD;
+  font-size: $fontSizeXS;
+  line-height: $lineHieghtXS;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-cta-hyperlink {
+  font-weight: $fontWeightLG;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingLG;
+  text-decoration: underline;
+}
+
+// Label tag mixins
+@mixin nx-text-label-lg {
+  font-weight: $fontWeightMD;
+  font-size: $fontSizeMD;
+  line-height: $lineHieghtMD;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-label-md {
+  font-weight: $fontWeightMD;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingSM;
+}
+
+@mixin nx-text-label-sm {
+  font-weight: $fontWeightMD;
+  font-size: $fontSizeXS;
+  line-height: $lineHieghtXS;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-label-xs {
+  font-weight: $fontWeightMD;
+  font-size: $fontSizeXXS;
+  line-height: $lineHieghtXS;
+  letter-spacing: $letterSpacingMD;
+}
+
+// Note mixins
+@mixin nx-text-note-italic {
+  font-style: italic;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-note-regular {
+  font-weight: $fontWeightSM;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingMD;
+}
+
+@mixin nx-text-note-medium {
+  font-weight: $fontWeightMD;
+  font-size: $fontSizeSM;
+  line-height: $lineHieghtSM;
+  letter-spacing: $letterSpacingMD;
+}
+
+// Text Spacing
+// -0.5%
+@mixin nx-letter-spacing-xs {
+  letter-spacing: -0.005em;
+}
+
+// -1%
+@mixin nx-letter-spacing-sm {
+  letter-spacing: -0.01em;
+}
+
+//display tags
+.nx-text-display-md {
+  @include nx-text-display-md();
+}
+
+.nx-text-display-sm {
+  @include nx-text-display-sm();
+}
+
+// header tags
+.nx-text-heading-lg {
+  @include nx-text-heading-lg();
+}
+
+.nx-text-heading-md {
+  @include nx-text-heading-md();
+}
+
+.nx-text-heading-sm {
+  @include nx-text-heading-sm();
+}
+
+// title tags
+.nx-text-title-lg {
+  @include nx-text-title-lg();
+}
+
+.nx-text-title-md {
+  @include nx-text-title-md();
+}
+
+.nx-text-title-sm {
+  @include nx-text-title-sm();
+}
+
+.nx-text-title-xs {
+  @include nx-text-title-xs();
+}
+
+// body/paragraph text
+.nx-text-body-lg {
+  @include nx-text-body-lg();
+}
+
+.nx-text-body-md {
+  @include nx-text-body-md();
+}
+
+.nx-text-body-sm {
+  @include nx-text-body-sm();
+}
+
+.nx-text-body-xs {
+  @include nx-text-body-xs();
+}
+
+// cta text
+.nx-text-cta-lg {
+  @include nx-text-cta-lg();
+}
+
+.nx-text-cta-md {
+  @include nx-text-cta-md();
+}
+
+.nx-text-cta-sm {
+  @include nx-text-cta-sm();
+}
+
+.nx-text-cta-hyperlink {
+  @include nx-text-cta-hyperlink();
+}
+
+// label tags
+.nx-text-label-lg {
+  @include nx-text-label-lg();
+}
+
+.nx-text-label-md {
+  @include nx-text-label-md();
+}
+
+.nx-text-label-sm {
+  @include nx-text-label-sm();
+}
+
+.nx-text-label-xs {
+  @include nx-text-label-xs();
+}
+
+// note
+
+.nx-text-note-italic {
+  @include nx-text-note-italic();
+}
+
+.nx-text-note-regular {
+  @include nx-text-note-regular();
+}
+
+.nx-text-note-medium {
+  @include nx-text-note-medium();
+}
+
+.nx-letter {
+  &-xs {
+    // -0.5%
+    @include nx-letter-spacing-xs();
+  }
+
+  &-sm {
+    // -1%
+    @include nx-letter-spacing-sm();
+  }
+}
+
+// icon mixins
+
+@mixin nx-icon-xl {
+  width: $iconXL;
+  height: $iconXL;
+}
+
+@mixin nx-icon-lg {
+  width: $iconLG;
+  height: $iconLG;
+}
+
+@mixin nx-icon-md {
+  width: $iconMD;
+  height: $iconMD;
+}
+
+@mixin nx-icon-sm {
+  width: $iconSM;
+  height: $iconSM;
+}
+
+@mixin nx-icon-xs {
+  width: $iconXS;
+  height: $iconXS;
+}
+
+// note
+
+.nx-icon-xl {
+  @include nx-icon-xl();
+}
+
+.nx-icon-lg {
+  @include nx-icon-lg();
+}
+
+.nx-icon-md {
+  @include nx-icon-md();
+}
+
+.nx-icon-sm {
+  @include nx-icon-sm();
+}
+
+.nx-icon-xs {
+  @include nx-icon-xs();
+}
+
+
+.nx-text-body-lg-important {
+  font-weight: $fontWeightSM !important;
+  font-size: $fontSizeMD !important;
+  line-height: $lineHieghtMD !important;
+  letter-spacing: $letterSpacingXS !important;
+}

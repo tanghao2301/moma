@@ -1,0 +1,789 @@
+:root {
+  /* Color */
+  /* Primary */
+  --nx-primary-900: #231644;
+  --nx-primary-800: #37236b;
+  --nx-primary-700: #4c3191;
+  --nx-primary-600: #6140b6;
+  --nx-primary-500-main: #764fdb;
+  --nx-primary-400: #8b6fe8;
+  --nx-primary-300: #ad9ef2;
+  --nx-primary-200: #c9c1fa;
+  --nx-primary-100: #e0ddfc;
+  --nx-primary-50: #f2f2ff;
+
+  /* Grayscale */
+  --nx-grayscale-900: #121926;
+  --nx-grayscale-800: #202939;
+  --nx-grayscale-700: #364152;
+  --nx-grayscale-600: #4b5565;
+  --nx-grayscale-500: #697586;
+  --nx-grayscale-400: #9aa3b2;
+  --nx-grayscale-300: #cdd5df;
+  --nx-grayscale-200: #e3e8ef;
+  --nx-grayscale-100: #f1f5fa;
+  --nx-grayscale-50: #f8fafc;
+  --nx-grayscale-white: #ffff;
+
+  /* Semantic */
+  /* Semantic--Error */
+  --nx-semantic-error-900: #8d0e0e;
+  --nx-semantic-error-700: #be211c;
+  --nx-semantic-error-500-main: #eb5146;
+  --nx-semantic-error-300: #fda59b;
+  --nx-semantic-error-100: #fed9d5;
+  --nx-semantic-error-50: #fef3f2;
+
+  /* Semantic--warning */
+  --nx-semantic-warning-900: #8b3603;
+  --nx-semantic-warning-700: #cc6f13;
+  --nx-semantic-warning-500-main: #f08d14;
+  --nx-semantic-warning-300: #ffc465;
+  --nx-semantic-warning-100: #ffe0a2;
+  --nx-semantic-warning-50: #fffae7;
+
+  /* Semantic--success */
+  --nx-semantic-success-900: #036034;
+  --nx-semantic-success-700: #079047;
+  --nx-semantic-success-500-main: #13c05d;
+  --nx-semantic-success-300: #4be18a;
+  --nx-semantic-success-100: #9ff9c1;
+  --nx-semantic-success-50: #e0ffeb;
+
+  /* Accent */
+  /* Accent--Purple Orchid */
+  --nx-accent-purple-orchid-900: #8430ab;
+  --nx-accent-purple-orchid-700: #b72ae1;
+  --nx-accent-purple-orchid-500-main: #e269fa;
+  --nx-accent-purple-orchid-300: #ee90fc;
+  --nx-accent-purple-orchid-100: #fbccff;
+  --nx-accent-purple-orchid-50: #fdebff;
+
+  /* Accent--Blue */
+  --nx-accent-blue-900: #152a73;
+  --nx-accent-blue-700: #2652b9;
+  --nx-accent-blue-500-main: #3984fd;
+  --nx-accent-blue-300: #6dabff;
+  --nx-accent-blue-100: #a7d1ff;
+  --nx-accent-blue-50: #e8f4ff;
+
+  /* Accent--Cyan */
+  --nx-accent-cyan-900: #0f5391;
+  --nx-accent-cyan-700: #1989c4;
+  --nx-accent-cyan-500-main: #25c9f5;
+  --nx-accent-cyan-300: #5fddff;
+  --nx-accent-cyan-100: #9fedff;
+  --nx-accent-cyan-50: #e6fbff;
+
+  /* Accent--Gold */
+  --nx-accent-gold-900: #735900;
+  --nx-accent-gold-700: #a28300;
+  --nx-accent-gold-500-main: #cead00;
+  --nx-accent-gold-300: #e4cb4d;
+  --nx-accent-gold-100: #f4e499;
+  --nx-accent-gold-50: #fdf9e6;
+
+  /* Accent--Lime Green */
+  --nx-accent-lime-green-900: #5aa10a;
+  --nx-accent-lime-green-700: #8dc41d;
+  --nx-accent-lime-green-500-main: #b7e334;
+  --nx-accent-lime-green-300: #d4f562;
+  --nx-accent-lime-green-100: #eafc9f;
+  --nx-accent-lime-green-50: #f3fcca;
+
+  /* Opacity */
+  --nx-opacity--dark-8: #12192614;
+  --nx-opacity--dark-12: #1219261f;
+  --nx-opacity--dark-30: #1219264d;
+  --nx-opacity--dark-60: #12192699;
+  --nx-opacity--dark-80: #121926cc;
+  --nx-opacity--white-12: #ffffff1f;
+  --nx-opacity--white-30: #ffffff4d;
+  --nx-opacity--white-60: #ffffff99;
+  --nx-opacity--white-80: #ffffffcc;
+  --nx-opacity--primary-purple-12: #764fdb1f;
+  --nx-opacity--primary-purple-30: #764fdb4d;
+  --nx-opacity--primary-purple-60: #764fdb99;
+  --nx-opacity--primary-purple-80: #764fdbcc;
+
+  /* TODO: Define your combination color here. Because of I don't see we use the color combination on Help Desk module */
+  /* Color Combination */
+  /* Palette 1*/
+  /* Palette 2*/
+  /* Palette 3*/
+  /* Palette 4*/
+
+  /* Theme - Light Mode*/
+  /* NOTICED: I defined this with default in light mode.*/
+  /* Fill/Surface */
+  --nx-fill-surface--bg-default: var(--nx-fill-surface--bg-default-light);
+  --nx-fill-surface--container-primary: var(--nx-fill-surface--container-primary-light);
+  --nx-fill-surface--container-secondary: var(--nx-fill-surface--container-secondary-light);
+  --nx-fill-surface--container-tertiary: var(--nx-fill-surface--container-tertiary-light);
+  --nx-fill-surface--container-disable: var(--nx-fill-surface--container-disable-light);
+  --nx-fill-surface--container-highlight-1: var(--nx-fill-surface--container-highlight-1-light);
+  --nx-fill-surface--container-highlight-2: var(--nx-fill-surface--container-highlight-2-light);
+  --nx-fill-surface--container-tooltip: var(--nx-fill-surface--container-tooltip-light);
+  --nx-fill-surface--container-backdrop: var(--nx-fill-surface--container-backdrop-light);
+  --nx-fill-surface--container-modal: var(--nx-fill-surface--container-modal-light);
+  --nx-fill-surface--bubble-chat-sent: var(--nx-fill-surface--bubble-chat-sent-light);
+  --nx-fill-surface--bubble-chat-received: var(--nx-fill-surface--bubble-chat-received-light);
+
+  /* Fill/CTA */
+  --nx-fill-cta--primary-default: var(--nx-fill-cta--primary-default-light);
+  --nx-fill-cta--primary-hover: var(--nx-fill-cta--primary-hover-light);
+  --nx-fill-cta--primary-pressed: var(--nx-fill-cta--primary-pressed-light);
+  --nx-fill-cta--primary-disable: var(--nx-fill-cta--primary-disable-light);
+  --nx-fill-cta--alternative-default: var(--nx-fill-cta--alternative-default-light);
+  --nx-fill-cta--alternative-hover: var(--nx-fill-cta--alternative-hover-light);
+  --nx-fill-cta--alternative-pressed: var(--nx-fill-cta--alternative-pressed-light);
+  --nx-fill-cta--alternative-disable: var(--nx-fill-cta--alternative-disable-light);
+  --nx-fill-cta--others-default: var(--nx-fill-cta--others-default-light);
+  --nx-fill-cta--others-hover: var(--nx-fill-cta--others-hover-light);
+  --nx-fill-cta--others-pressed: var(--nx-fill-cta--others-pressed-light);
+  --nx-fill-cta--others-disable: var(--nx-fill-cta--others-disable-light);
+
+  /* Fill/Others */
+  --nx-fill-others--scroll-bar-default: var(--nx-fill-others--scroll-bar-default-light);
+  --nx-fill-others--scroll-bar-active: var(--nx-fill-others--scroll-bar-active-light);
+  --nx-fill-others--platter: var(--nx-fill-others--platter-light);
+
+  /* Text */
+  --nx-text--primary-1: var(--nx-text--primary-1-light);
+  --nx-text--primary-2: var(--nx-text--primary-2-light);
+  --nx-text--secondary: var(--nx-text--secondary-light);
+  --nx-text--tertiary: var(--nx-text--tertiary-light);
+  --nx-text--disable: var(--nx-text--disable-light);
+  --nx-text--interactive: var(--nx-text--interactive-light);
+  --nx-text--white: var(--nx-text--white-light);
+  --nx-text--black: var(--nx-text--black-light);
+  --nx-text--inverted: var(--nx-text--inverted-light);
+  --nx-text--success: var(--nx-semantic-success-500-main);
+  --nx-text--warning: var(--nx-semantic-warning-500-main);
+
+  /* Text/CTA */
+  --nx-text-cta--primary-disable: var(--nx-text-cta--primary-disable-light);
+  --nx-text-cta--others-default: var(--nx-text-cta--others-default-light);
+  --nx-text-cta--others-pressed: var(--nx-text-cta--others-pressed-light);
+
+  /* Icon */
+  --nx-icon--primary-1: var(--nx-icon--primary-1-light);
+  --nx-icon--primary-2: var(--nx-icon--primary-2-light);
+  --nx-icon--secondary: var(--nx-icon--secondary-light);
+  --nx-icon--tertiary: var(--nx-icon--tertiary-light);
+  --nx-icon--disable: var(--nx-icon--disable-light);
+  --nx-icon--interactive: var(--nx-icon--interactive-light);
+  --nx-icon--inverted: var(--nx-icon--inverted-light);
+  --nx-icon--white: var(--nx-icon--white-light);
+  --nx-icon--black: var(--nx-icon--black-light);
+
+  /* Icon/CTA */
+  --nx-icon-cta--primary-disable: var(--nx-icon-cta--primary-disable-light);
+  --nx-icon-cta--orthers-default: var(--nx-icon-cta--orthers-default-light);
+  --nx-icon-cta--orthers-pressed: var(--nx-icon-cta--orthers-pressed-light);
+
+  /* Icon/Featured Icon */
+  --nx-icon-feature--error-1: var(--nx-icon-feature--error-1-light);
+  --nx-icon-feature--error-2: var(--nx-icon-feature--error-2-light);
+  --nx-icon-feature--error-3: var(--nx-icon-feature--error-3-light);
+  --nx-icon-feature--warning-1: var(--nx-icon-feature--warning-1-light);
+  --nx-icon-feature--warning-2: var(--nx-icon-feature--warning-2-light);
+  --nx-icon-feature--warning-3: var(--nx-icon-feature--warning-3-light);
+  --nx-icon-feature--success-1: var(--nx-icon-feature--success-1-light);
+  --nx-icon-feature--success-2: var(--nx-icon-feature--success-2-light);
+  --nx-icon-feature--success-3: var(--nx-icon-feature--success-3-light);
+  --nx-icon-feature--gray: var(--nx-icon-feature--gray-light);
+  --nx-icon-feature--primary: var(--nx-icon-feature--primary-light);
+
+  /* Stroke */
+  --nx-stroke--primary-1: var(--nx-stroke--primary-1-light);
+  --nx-stroke--primary-2: var(--nx-stroke--primary-2-light);
+  --nx-stroke--secondary: var(--nx-stroke--secondary-light);
+  --nx-stroke--disable: var(--nx-stroke--disable-light);
+  --nx-stroke--highlight: var(--nx-stroke--highlight-light);
+  --nx-stroke--white: var(--nx-stroke--white-light);
+  --nx-stroke--inverted: var(--nx-stroke--inverted-light);
+  --nx-stroke--destructive: var(--nx-stroke--destructive-light);
+  --nx-stroke--successful: var(--nx-stroke--successful-light);
+
+  /* Stroke/CTA */
+  --nx-stroke-cta--default: var(--nx-stroke-cta--default-light);
+  --nx-stroke-cta--pressed: var(--nx-stroke-cta--pressed-light);
+
+  /* Badge/Outline Badge */
+  --nx-badge-outline--error: var(--nx-badge-outline--error-light);
+  --nx-badge-outline--warning: var(--nx-badge-outline--warning-light);
+  --nx-badge-outline--success: var(--nx-badge-outline--success-light);
+  --nx-badge-outline--purple-orchid: var(--nx-badge-outline--purple-orchid-light);
+  --nx-badge-outline--blue: var(--nx-badge-outline--blue-light);
+  --nx-badge-outline--cyan: var(--nx-badge-outline--cyan-light);
+  --nx-badge-outline--gold: var(--nx-badge-outline--gold-light);
+  --nx-badge-outline--lime-green: var(--nx-badge-outline--lime-green-light);
+  --nx-badge-outline-gray: var(--nx-badge-outline-gray-light);
+  /* Badge/Filled Badge */
+  --nx-badge-fill--error: var(--nx-badge-fill--error-light);
+  --nx-badge-fill--warning: var(--nx-badge-fill--warning-light);
+  --nx-badge-fill--success: var(--nx-badge-fill--success-light);
+  --nx-badge-fill--purple-orchid: var(--nx-badge-fill--purple-orchid-light);
+  --nx-badge-fill--blue: var(--nx-badge-fill--blue-light);
+  --nx-badge-fill--cyan: var(--nx-badge-fill--cyan-light);
+  --nx-badge-fill--gold: var(--nx-badge-fill--gold-light);
+  --nx-badge-fill--lime-green: var(--nx-badge-fill--lime-green-light);
+  --nx-badge-fill--gray: var(--nx-badge-fill--gray-light);
+
+  /* Theme/Color */
+  --nx-theme-color--color-1: var(--nx-theme-color--color-1-light);
+  --nx-theme-color--color-2: var(--nx-theme-color--color-2-light);
+  --nx-theme-color--color-3: var(--nx-theme-color--color-3-light);
+  --nx-theme-color--color-4: var(--nx-theme-color--color-4-light);
+  --nx-theme-color--color-5: var(--nx-theme-color--color-5-light);
+  --nx-theme-color--color-6: var(--nx-theme-color--color-6-light);
+  --nx-theme-color--color-7: var(--nx-theme-color--color-7-light);
+  --nx-theme-color--color-8: var(--nx-theme-color--color-8-light);
+
+  /* Theme/Neutral */
+  --nx-theme-neutral--color-1: var(--nx-theme-neutral--color-1-light);
+  --nx-theme-neutral--color-2: var(--nx-theme-neutral--color-2-light);
+  --nx-theme-neutral--color-3: var(--nx-theme-neutral--color-3-light);
+  --nx-theme-neutral--color-4: var(--nx-theme-neutral--color-4-light);
+  --nx-theme-neutral--color-5: var(--nx-theme-neutral--color-5-light);
+  --nx-theme-neutral--color-6: var(--nx-theme-neutral--color-6-light);
+  --nx-theme-neutral--color-7: var(--nx-theme-neutral--color-7-light);
+  --nx-theme-neutral--color-8: var(--nx-theme-neutral--color-8-light);
+
+  /* Theme/Semantic/ Error */
+  --nx-theme-semantic-error--color-1: var(--nx-theme-semantic-error--color-1-light);
+  --nx-theme-semantic-error--color-2: var(--nx-theme-semantic-error--color-2-light);
+  --nx-theme-semantic-error--color-3: var(--nx-theme-semantic-error--color-3-light);
+  --nx-theme-semantic-error--color-4: var(--nx-theme-semantic-error--color-4-light);
+  --nx-theme-semantic-error--color-5: var(--nx-theme-semantic-error--color-5-light);
+  --nx-theme-semantic-error--error-interactive-1: var(--nx-theme-semantic-error--error-interactive-1-light);
+  --nx-theme-semantic-error--error-interactive-2: var(--nx-theme-semantic-error--error-interactive-2-light);
+
+  /* Theme/Semantic/ Warning */
+  --nx-theme-semantic-warning--color-1: var(--nx-theme-semantic-warning--color-1-light);
+  --nx-theme-semantic-warning--color-2: var(--nx-theme-semantic-warning--color-2-light);
+  --nx-theme-semantic-warning--color-3: var(--nx-theme-semantic-warning--color-3-light);
+  --nx-theme-semantic-warning--color-4: var(--nx-theme-semantic-warning--color-4-light);
+  --nx-theme-semantic-warning--color-5: var(--nx-theme-semantic-warning--color-5-light);
+  --nx-theme-semantic-warning--warning-interactive-1: var(--nx-theme-semantic-warning--warning-interactive-1-light);
+  --nx-theme-semantic-warning--warning-interactive-2: var(--nx-theme-semantic-warning--warning-interactive-2-light);
+
+  /* Theme/Semantic/ Warning */
+  --nx-theme-semantic-success--color-1: var(--nx-theme-semantic-success--color-1-light);
+  --nx-theme-semantic-success--color-2: var(--nx-theme-semantic-success--color-2-light);
+  --nx-theme-semantic-success--color-3: var(--nx-theme-semantic-success--color-3-light);
+  --nx-theme-semantic-success--color-4: var(--nx-theme-semantic-success--color-4-light);
+  --nx-theme-semantic-success--color-5: var(--nx-theme-semantic-success--color-5-light);
+  --nx-theme-semantic-success--success-interactive-1: var(--nx-theme-semantic-success--success-interactive-1-light);
+  --nx-theme-semantic-success--success-interactive-2: var(--nx-theme-semantic-success--success-interactive-2-light);
+
+  /* Theme/Accent/ Purple Orchid */
+  --nx-theme-accent-purple-orchid: var(--nx-theme-accent-purple-orchid-light);
+  --nx-theme-accent-purple-orchid--color-1: var(--nx-theme-accent-purple-orchid--color-1-light);
+  --nx-theme-accent-purple-orchid--color-2: var(--nx-theme-accent-purple-orchid--color-2-light);
+  --nx-theme-accent-purple-orchid--color-3: var(--nx-theme-accent-purple-orchid--color-3-light);
+  --nx-theme-accent-purple-orchid--color-4: var(--nx-theme-accent-purple-orchid--color-4-light);
+  --nx-theme-accent-purple-orchid--color-5: var(--nx-theme-accent-purple-orchid--color-5-light);
+
+  /* Theme/Accent/ Blue */
+  --nx-theme-accent-blue: var(--nx-theme-accent-blue-light);
+  --nx-theme-accent-blue--color-1: var(--nx-theme-accent-blue--color-1-light);
+  --nx-theme-accent-blue--color-2: var(--nx-theme-accent-blue--color-2-light);
+  --nx-theme-accent-blue--color-3: var(--nx-theme-accent-blue--color-3-light);
+  --nx-theme-accent-blue--color-4: var(--nx-theme-accent-blue--color-4-light);
+  --nx-theme-accent-blue--color-5: var(--nx-theme-accent-blue--color-5-light);
+
+  /* Theme/Accent/ Cyan */
+  --nx-theme-accent-cyan: var(--nx-theme-accent-cyan-light);
+  --nx-theme-accent-cyan--color-1: var(--nx-theme-accent-cyan--color-1-light);
+  --nx-theme-accent-cyan--color-2: var(--nx-theme-accent-cyan--color-2-light);
+  --nx-theme-accent-cyan--color-3: var(--nx-theme-accent-cyan--color-3-light);
+  --nx-theme-accent-cyan--color-4: var(--nx-theme-accent-cyan--color-4-light);
+  --nx-theme-accent-cyan--color-5: var(--nx-theme-accent-cyan--color-5-light);
+
+  /* Theme/Accent/ Gold */
+  --nx-theme-accent-gold: var(--nx-theme-accent-gold-light);
+  --nx-theme-accent-gold--color-1: var(--nx-theme-accent-gold--color-1-light);
+  --nx-theme-accent-gold--color-2: var(--nx-theme-accent-gold--color-2-light);
+  --nx-theme-accent-gold--color-3: var(--nx-theme-accent-gold--color-3-light);
+  --nx-theme-accent-gold--color-4: var(--nx-theme-accent-gold--color-4-light);
+  --nx-theme-accent-gold--color-5: var(--nx-theme-accent-gold--color-5-light);
+
+  /* Theme/Accent/ Lime Green */
+  --nx-theme-accent-lime-green: var(--nx-theme-accent-lime-green-light);
+  --nx-theme-accent-lime-green--color-1: var(--nx-theme-accent-lime-green--color-1-light);
+  --nx-theme-accent-lime-green--color-2: var(--nx-theme-accent-lime-green--color-2-light);
+  --nx-theme-accent-lime-green--color-3: var(--nx-theme-accent-lime-green--color-3-light);
+  --nx-theme-accent-lime-green--color-4: var(--nx-theme-accent-lime-green--color-4-light);
+  --nx-theme-accent-lime-green--color-5: var(--nx-theme-accent-lime-green--color-5-light);
+
+  /* Opacity */
+  --nx-opacity--primary-opacity-12: var(--nx-opacity--primary-purple-12-light);
+  --nx-opacity--primary-opacity-30: var(--nx-opacity--primary-purple-30-light);
+  --nx-opacity--primary-opacity-60: var(--nx-opacity--primary-purple-60-light);
+  --nx-opacity--primary-opacity-80: var(--nx-opacity--primary-purple-80-light);
+  --nx-opacity--white-0: var(--nx-opacity--white-0-light);
+  --nx-opacity--white-1: var(--nx-opacity--white-1-light);
+  --nx-opacity--white-2: var(--nx-opacity--white-2-light);
+  --nx-opacity--white-3: var(--nx-opacity--white-3-light);
+  --nx-opacity--black-0: var(--nx-opacity--black-0-light);
+  --nx-opacity--black-1: var(--nx-opacity--black-1-light);
+  --nx-opacity--black-2: var(--nx-opacity--black-2-light);
+  --nx-opacity--black-3: var(--nx-opacity--black-3-light);
+  --nx-opacity--reply-chat: var(--nx-opacity--reply-chat-light);
+  --nx-opacity--chat-sent: var(--nx-opacity--chat-sent-light);
+  --nx-opacity--chat-received: var(--nx-opacity--chat-received-light);
+  --nx-opacity--interactive-1: var(--nx-opacity--interactive-1-light);
+  --nx-opacity--interactive-2: var(--nx-opacity--interactive-2-light);
+  --nx-opacity--interactive-3: var(--nx-opacity--interactive-3-light);
+
+  /* Theme - Light Mode*/
+  /* NOTICED: The light mode will have a suffix "-light" based on default*;
+  /* Fill/Surface */
+  --nx-fill-surface--bg-default-light: var(--nx-grayscale-50);
+  --nx-fill-surface--container-primary-light: var(--nx-grayscale-white);
+  --nx-fill-surface--container-secondary-light: var(--nx-grayscale-50);
+  --nx-fill-surface--container-tertiary-light: var(--nx-grayscale-100);
+  --nx-fill-surface--container-disable-light: var(--nx-grayscale-100);
+  --nx-fill-surface--container-highlight-1-light: var(--nx-primary-50);
+  --nx-fill-surface--container-highlight-2-light: var(--nx-primary-500-main);
+  --nx-fill-surface--container-tooltip-light: var(--nx-grayscale-900);
+  --nx-fill-surface--container-backdrop-light: #1219260d;
+  --nx-fill-surface--container-modal-light: var(--nx-grayscale-white);
+  --nx-fill-surface--bubble-chat-sent-light: var(--nx-primary-100);
+  --nx-fill-surface--bubble-chat-received-light: var(--nx-grayscale-100);
+  --nx-fill-surface--chat-icon-text-light: var(--nx-grayscale-600);
+
+  /* Fill/CTA */
+  --nx-fill-cta--primary-default-light: var(--nx-primary-500-main);
+  --nx-fill-cta--primary-hover-light: var(--nx-primary-400);
+  --nx-fill-cta--primary-pressed-light: var(--nx-primary-600);
+  --nx-fill-cta--primary-disable-light: var(--nx-grayscale-300);
+  --nx-fill-cta--alternative-default-light: var(--nx-grayscale-100);
+  --nx-fill-cta--alternative-hover-light: var(--nx-grayscale-50);
+  --nx-fill-cta--alternative-pressed-light: var(--nx-grayscale-200);
+  --nx-fill-cta--alternative-disable-light: var(--nx-grayscale-50);
+  --nx-fill-cta--others-default-light: var(--nx-fill-surface--container-primary);
+  --nx-fill-cta--others-hover-light: var(--nx-primary-50);
+  --nx-fill-cta--others-pressed-light: var(--nx-primary-100);
+  --nx-fill-cta--others-disable-light: var(--nx-fill-surface--container-primary);
+
+  /* Fill/Others */
+  --nx-fill-others--scroll-bar-default-light: var(--nx-grayscale-200);
+  --nx-fill-others--scroll-bar-active-light: var(--nx-primary-500-main);
+  --nx-fill-others--platter-light: var(--nx-grayscale-100);
+
+  /* Text */
+  --nx-text--primary-1-light: var(--nx-primary-500-main);
+  --nx-text--primary-2-light: var(--nx-grayscale-900);
+  --nx-text--secondary-light: var(--nx-grayscale-600);
+  --nx-text--tertiary-light: var(--nx-grayscale-500);
+  --nx-text--disable-light: var(--nx-grayscale-300);
+  --nx-text--interactive-light: var(--nx-primary-500-main);
+  --nx-text--white-light: var(--nx-grayscale-white);
+  --nx-text--black-light: var(--nx-grayscale-900);
+  --nx-text--inverted-light: var(--nx-grayscale-white);
+
+  /* Text/CTA */
+  --nx-text-cta--primary-disable-light: var(--nx-grayscale-white);
+  --nx-text-cta--others-default-light: var(--nx-primary-500-main);
+  --nx-text-cta--others-pressed-light: var(--nx-primary-600);
+
+  /* Icon */
+  --nx-icon--primary-1-light: var(--nx-primary-500-main);
+  --nx-icon--primary-2-light: var(--nx-grayscale-900);
+  --nx-icon--secondary-light: var(--nx-grayscale-600);
+  --nx-icon--tertiary-light: var(--nx-grayscale-500);
+  --nx-icon--disable-light: var(--nx-grayscale-300);
+  --nx-icon--interactive-light: var(--nx-primary-500-main);
+  --nx-icon--inverted-light: var(--nx-grayscale-white);
+  --nx-icon--white-light: var(--nx-grayscale-white);
+  --nx-icon--black-light: var(--nx-grayscale-900);
+
+  /* Icon/CTA */
+  --nx-icon-cta--primary-disable-light: var(--nx-grayscale-white);
+  --nx-icon-cta--orthers-default-light: var(--nx-primary-500-main);
+  --nx-icon-cta--orthers-pressed-light: var(--nx-primary-600);
+
+  /* Icon/Featured Icon */
+  --nx-icon-feature--error-1-light: var(--nx-semantic-error-500-main);
+  --nx-icon-feature--error-2-light: var(--nx-semantic-error-100);
+  --nx-icon-feature--error-3-light: var(--nx-semantic-error-50);
+  --nx-icon-feature--warning-1-light: var(--nx-semantic-warning-500-main);
+  --nx-icon-feature--warning-2-light: var(--nx-semantic-warning-100);
+  --nx-icon-feature--warning-3-light: var(--nx-semantic-warning-50);
+  --nx-icon-feature--success-1-light: var(--nx-semantic-success-500-main);
+  --nx-icon-feature--success-2-light: var(--nx-semantic-success-100);
+  --nx-icon-feature--success-3-light: var(--nx-semantic-success-50);
+  --nx-icon-feature--gray-light: var(--nx-grayscale-50);
+  --nx-icon-feature--primary-light: var(--nx-primary-50);
+
+  /* Stroke */
+  --nx-stroke--primary-1-light: var(--nx-primary-500-main);
+  --nx-stroke--primary-2-light: var(--nx-grayscale-200);
+  --nx-stroke--secondary-light: var(--nx-grayscale-300);
+  --nx-stroke--disable-light: var(--nx-grayscale-300);
+  --nx-stroke--highlight-light: var(--nx-primary-500-main);
+  --nx-stroke--white-light: var(--nx-grayscale-white);
+  --nx-stroke--inverted-light: var(--nx-grayscale-white);
+  --nx-stroke--destructive-light: var(--nx-semantic-error-300);
+  --nx-stroke--successful-light: var(--nx-semantic-success-300);
+
+  /* Stroke/CTA */
+  --nx-stroke-cta--default-light: var(--nx-primary-500-main);
+  --nx-stroke-cta--pressed-light: var(--nx-primary-600);
+
+  /* Badge/Outline Badge */
+  --nx-badge-outline--error-light: var(--nx-semantic-error-500-main);
+  --nx-badge-outline--warning-light: var(--nx-semantic-warning-700);
+  --nx-badge-outline--success-light: var(--nx-semantic-success-700);
+  --nx-badge-outline--purple-orchid-light: var(--nx-accent-purple-orchid-700);
+  --nx-badge-outline--blue-light: var(--nx-accent-blue-700);
+  --nx-badge-outline--cyan-light: var(--nx-accent-cyan-700);
+  --nx-badge-outline--gold-light: var(--nx-accent-gold-700);
+  --nx-badge-outline--lime-green-light: var(--nx-accent-lime-green-900);
+  --nx-badge-outline-gray-light: var(--nx-grayscale-600);
+  /* Badge/Filled Badge */
+  --nx-badge-fill--error-light: var(--nx-semantic-error-500-main);
+  --nx-badge-fill--warning-light: var(--nx-semantic-warning-700);
+  --nx-badge-fill--success-light: var(--nx-semantic-success-700);
+  --nx-badge-fill--purple-orchid-light: var(--nx-accent-purple-orchid-700);
+  --nx-badge-fill--blue-light: var(--nx-accent-blue-700);
+  --nx-badge-fill--cyan-light: var(--nx-accent-cyan-700);
+  --nx-badge-fill--gold-light: var(--nx-accent-gold-700);
+  --nx-badge-fill--lime-green-light: var(--nx-accent-lime-green-900);
+  --nx-badge-fill--gray-light: var(--nx-grayscale-600);
+  /* Theme/Color */
+  --nx-theme-color--color-1-light: var(--nx-primary-900);
+  --nx-theme-color--color-2-light: var(--nx-primary-800);
+  --nx-theme-color--color-3-light: var(--nx-primary-700);
+  --nx-theme-color--color-4-light: var(--nx-primary-600);
+  --nx-theme-color--color-5-light: var(--nx-primary-400);
+  --nx-theme-color--color-6-light: var(--nx-primary-300);
+  --nx-theme-color--color-7-light: var(--nx-primary-200);
+  --nx-theme-color--color-8-light: var(--nx-primary-100);
+
+  /* Theme/Neutral */
+  --nx-theme-neutral--color-1-light: var(--nx-grayscale-800);
+  --nx-theme-neutral--color-2-light: var(--nx-grayscale-700);
+  --nx-theme-neutral--color-3-light: var(--nx-grayscale-600);
+  --nx-theme-neutral--color-4-light: var(--nx-grayscale-500);
+  --nx-theme-neutral--color-5-light: var(--nx-grayscale-400);
+  --nx-theme-neutral--color-6-light: var(--nx-grayscale-300);
+  --nx-theme-neutral--color-7-light: var(--nx-grayscale-200);
+  --nx-theme-neutral--color-8-light: var(--nx-grayscale-100);
+
+  /* Theme/Semantic/ Error */
+  --nx-theme-semantic-error--color-1-light: var(--nx-semantic-error-50);
+  --nx-theme-semantic-error--color-2-light: var(--nx-semantic-error-100);
+  --nx-theme-semantic-error--color-3-light: var(--nx-semantic-error-300);
+  --nx-theme-semantic-error--color-4-light: var(--nx-semantic-error-500-main);
+  --nx-theme-semantic-error--color-5-light: var(--nx-semantic-error-700);
+  --nx-theme-semantic-error--error-interactive-1-light: var(--nx-semantic-error-50);
+  --nx-theme-semantic-error--error-interactive-2-light: var(--nx-semantic-error-700);
+
+  /* Theme/Semantic/ Warning */
+  --nx-theme-semantic-warning--color-1-light: var(--nx-semantic-warning-50);
+  --nx-theme-semantic-warning--color-2-light: var(--nx-semantic-warning-100);
+  --nx-theme-semantic-warning--color-3-light: var(--nx-semantic-warning-300);
+  --nx-theme-semantic-warning--color-4-light: var(--nx-semantic-warning-500-main);
+  --nx-theme-semantic-warning--color-5-light: var(--nx-semantic-warning-700);
+  --nx-theme-semantic-warning--warning-interactive-1-light: var(--nx-semantic-warning-50);
+  --nx-theme-semantic-warning--warning-interactive-2-light: var(--nx-semantic-warning-700);
+
+  /* Theme/Semantic/ Warning */
+  --nx-theme-semantic-success--color-1-light: var(--nx-semantic-success-50);
+  --nx-theme-semantic-success--color-2-light: var(--nx-semantic-success-100);
+  --nx-theme-semantic-success--color-3-light: var(--nx-semantic-success-300);
+  --nx-theme-semantic-success--color-4-light: var(--nx-semantic-success-500-main);
+  --nx-theme-semantic-success--color-5-light: var(--nx-semantic-success-700);
+  --nx-theme-semantic-success--success-interactive-1-light: var(--nx-semantic-success-50);
+  --nx-theme-semantic-success--success-interactive-2-light: var(--nx-semantic-success-700);
+
+  /* Theme/Accent/ Purple Orchid */
+  --nx-theme-accent-purple-orchid-light: var(--nx-accent-purple-orchid-500-main);
+  --nx-theme-accent-purple-orchid--color-1-light: var(--nx-accent-purple-orchid-700);
+  --nx-theme-accent-purple-orchid--color-2-light: var(--nx-accent-purple-orchid-500-main);
+  --nx-theme-accent-purple-orchid--color-3-light: var(--nx-accent-purple-orchid-300);
+  --nx-theme-accent-purple-orchid--color-4-light: var(--nx-accent-purple-orchid-100);
+  --nx-theme-accent-purple-orchid--color-5-light: var(--nx-accent-purple-orchid-50);
+
+  /* Theme/Accent/ Blue */
+  --nx-theme-accent-blue-light: var(--nx-accent-blue-500-main);
+  --nx-theme-accent-blue--color-1-light: var(--nx-accent-blue-700);
+  --nx-theme-accent-blue--color-2-light: var(--nx-accent-blue-500-main);
+  --nx-theme-accent-blue--color-3-light: var(--nx-accent-blue-300);
+  --nx-theme-accent-blue--color-4-light: var(--nx-accent-blue-100);
+  --nx-theme-accent-blue--color-5-light: var(--nx-accent-blue-50);
+
+  /* Theme/Accent/ Cyan */
+  --nx-theme-accent-cyan-light: var(--nx-accent-cyan-500-main);
+  --nx-theme-accent-cyan--color-1-light: var(--nx-accent-cyan-700);
+  --nx-theme-accent-cyan--color-2-light: var(--nx-accent-cyan-500-main);
+  --nx-theme-accent-cyan--color-3-light: var(--nx-accent-cyan-300);
+  --nx-theme-accent-cyan--color-4-light: var(--nx-accent-cyan-100);
+  --nx-theme-accent-cyan--color-5-light: var(--nx-accent-cyan-50);
+
+  /* Theme/Accent/ Gold */
+  --nx-theme-accent-gold-light: var(--nx-accent-gold-500-main);
+  --nx-theme-accent-gold--color-1-light: var(--nx-accent-gold-700);
+  --nx-theme-accent-gold--color-2-light: var(--nx-accent-gold-500-main);
+  --nx-theme-accent-gold--color-3-light: var(--nx-accent-gold-300);
+  --nx-theme-accent-gold--color-4-light: var(--nx-accent-gold-100);
+  --nx-theme-accent-gold--color-5-light: var(--nx-accent-gold-50);
+
+  /* Theme/Accent/ Lime Green */
+  --nx-theme-accent-lime-green-light: var(--nx-accent-lime-green-500-main);
+  --nx-theme-accent-lime-green--color-1-light: var(--nx-accent-lime-green-700);
+  --nx-theme-accent-lime-green--color-2-light: var(--nx-accent-lime-green-500-main);
+  --nx-theme-accent-lime-green--color-3-light: var(--nx-accent-lime-green-300);
+  --nx-theme-accent-lime-green--color-4-light: var(--nx-accent-lime-green-100);
+  --nx-theme-accent-lime-green--color-5-light: var(--nx-accent-lime-green-50);
+
+  /* Opacity */
+  --nx-opacity--primary-opacity-12-light: var(--nx-opacity--primary-purple-12);
+  --nx-opacity--primary-opacity-30-light: var(--nx-opacity--primary-purple-30);
+  --nx-opacity--primary-opacity-60-light: var(--nx-opacity--primary-purple-60);
+  --nx-opacity--primary-opacity-80-light: var(--nx-opacity--primary-purple-80);
+  --nx-opacity--white-0-light: var(--nx-opacity--white-12);
+  --nx-opacity--white-1-light: var(--nx-opacity--white-30);
+  --nx-opacity--white-2-light: var(--nx-opacity--white-60);
+  --nx-opacity--white-3-light: var(--nx-opacity--white-80);
+  --nx-opacity--black-0-light: var(--nx-opacity--dark-12);
+  --nx-opacity--black-1-light: var(--nx-opacity--dark-30);
+  --nx-opacity--black-2-light: var(--nx-opacity--dark-60);
+  --nx-opacity--black-3-light: var(--nx-opacity--dark-80);
+  --nx-opacity--reply-chat-light: var(--nx-opacity--dark-8);
+  --nx-opacity--chat-sent-light: var(--nx-opacity--white-60);
+  --nx-opacity--chat-received-light: var(--nx-opacity--primary-purple-12);
+  --nx-opacity--interactive-1-light: var(--nx-opacity--white-80);
+  --nx-opacity--interactive-2-light: var(--nx-opacity--dark-30);
+  --nx-opacity--interactive-3-light: var(--nx-opacity--primary-purple-60);
+
+  /* Theme - Dark Mode*/
+  /* NOTICED: I defined this as light mode. The dark mode will have a suffix "-dark" based on default*/
+  /* Fill/Surface */
+  --nx-fill-surface--bg-default-dark: var(--nx-grayscale-900);
+  --nx-fill-surface--container-primary-dark: var(--nx-grayscale-800);
+  --nx-fill-surface--container-secondary-dark: var(--nx-grayscale-700);
+  --nx-fill-surface--container-tertiary-dark: var(--nx-grayscale-600);
+  --nx-fill-surface--container-disable-dark: var(--nx-grayscale-700);
+  --nx-fill-surface--container-highlight-1-dark: var(--nx-primary-700);
+  --nx-fill-surface--container-highlight-2-dark: var(--nx-primary-500-main);
+  --nx-fill-surface--container-tooltip-dark: var(--nx-grayscale-white);
+  --nx-fill-surface--container-backdrop-dark: #ffffff4d;
+  --nx-fill-surface--container-modal-dark: #283142;
+  --nx-fill-surface--bubble-chat-sent-dark: var(--nx-primary-600);
+  --nx-fill-surface--bubble-chat-received-dark: var(--nx-grayscale-700);
+
+  /* Fill/CTA */
+  --nx-fill-cta--primary-default-dark: var(--nx-primary-500-main);
+  --nx-fill-cta--primary-hover-dark: var(--nx-primary-400);
+  --nx-fill-cta--primary-pressed-dark: var(--nx-primary-600);
+  --nx-fill-cta--primary-disable-dark: var(--nx-grayscale-700);
+  --nx-fill-cta--alternative-default-dark: var(--nx-grayscale-700);
+  --nx-fill-cta--alternative-hover-dark: var(--nx-grayscale-600);
+  --nx-fill-cta--alternative-pressed-dark: var(--nx-grayscale-700);
+  --nx-fill-cta--alternative-disable-dark: var(--nx-grayscale-700);
+  --nx-fill-cta--others-default-dark: var(--nx-fill-surface--container-primary-dark);
+  --nx-fill-cta--others-hover-dark: var(--nx-primary-800);
+  --nx-fill-cta--others-pressed-dark: var(--nx-primary-900);
+  --nx-fill-cta--others-disable-dark: var(--nx-fill-surface--container-primary-dark);
+
+  /* Fill/Others */
+  --nx-fill-others--scroll-bar-default-dark: var(--nx-grayscale-500);
+  --nx-fill-others--scroll-bar-active-dark: var(--nx-primary-400);
+  --nx-fill-others--platter-dark: var(--nx-fill-surface--container-modal-dark);
+
+  /* Text */
+  --nx-text--primary-1-dark: var(--nx-primary-400);
+  --nx-text--primary-2-dark: var(--nx-grayscale-white);
+  --nx-text--secondary-dark: var(--nx-grayscale-300);
+  --nx-text--tertiary-dark: var(--nx-grayscale-400);
+  --nx-text--disable-dark: var(--nx-grayscale-500);
+  --nx-text--interactive-dark: var(--nx-primary-50);
+  --nx-text--white-dark: var(--nx-grayscale-white);
+  --nx-text--black-dark: var(--nx-grayscale-900);
+  --nx-text--inverted-dark: var(--nx-grayscale-900);
+
+  /* Text/CTA */
+  --nx-text-cta--primary-disable-dark: var(--nx-grayscale-500);
+  --nx-text-cta--others-default-dark: var(--nx-primary-400);
+  --nx-text-cta--others-pressed-dark: var(--nx-primary-400);
+
+  /* Icon */
+  --nx-icon--primary-1-dark: var(--nx-primary-400);
+  --nx-icon--primary-2-dark: var(--nx-grayscale-white);
+  --nx-icon--secondary-dark: var(--nx-grayscale-300);
+  --nx-icon--tertiary-dark: var(--nx-grayscale-400);
+  --nx-icon--disable-dark: var(--nx-grayscale-500);
+  --nx-icon--interactive-dark: var(--nx-primary-100);
+  --nx-icon--inverted-dark: var(--nx-grayscale-900);
+  --nx-icon--white-dark: var(--nx-grayscale-white);
+  --nx-icon--black-dark: var(--nx-grayscale-900);
+
+  /* Icon/CTA */
+  --nx-icon-cta--primary-disable-dark: var(--nx-grayscale-500);
+  --nx-icon-cta--orthers-default-dark: var(--nx-primary-400);
+  --nx-icon-cta--orthers-pressed-dark: var(--nx-primary-400);
+
+  /* Icon/Featured Icon */
+  --nx-icon-feature--error-1-dark: var(--nx-semantic-error-100);
+  --nx-icon-feature--error-2-dark: var(--nx-semantic-error-500-main);
+  --nx-icon-feature--error-3-dark: var(--nx-semantic-error-900);
+  --nx-icon-feature--warning-1-dark: var(--nx-semantic-warning-100);
+  --nx-icon-feature--warning-2-dark: var(--nx-semantic-warning-500-main);
+  --nx-icon-feature--warning-3-dark: var(--nx-semantic-warning-900);
+  --nx-icon-feature--success-1-dark: var(--nx-semantic-success-100);
+  --nx-icon-feature--success-2-dark: var(--nx-semantic-success-500-main);
+  --nx-icon-feature--success-3-dark: var(--nx-semantic-success-900);
+  --nx-icon-feature--gray-dark: var(--nx-grayscale-800);
+  --nx-icon-feature--primary-dark: var(--nx-primary-900);
+
+  /* Stroke */
+  --nx-stroke--primary-1-dark: var(--nx-primary-400);
+  --nx-stroke--primary-2-dark: var(--nx-grayscale-700);
+  --nx-stroke--secondary-dark: var(--nx-grayscale-600);
+  --nx-stroke--disable-dark: var(--nx-grayscale-600);
+  --nx-stroke--highlight-dark: var(--nx-primary-50);
+  --nx-stroke--white-dark: var(--nx-grayscale-white);
+  --nx-stroke--inverted-dark: var(--nx-grayscale-800);
+  --nx-stroke--destructive-dark: var(--nx-semantic-error-500-main);
+  --nx-stroke--successful-dark: var(--nx-semantic-success-500-main);
+
+  /* Stroke/CTA */
+  --nx-stroke-cta--default-dark: var(--nx-primary-400);
+  --nx-stroke-cta--pressed-dark: var(--nx-primary-600);
+
+  /* Badge/Outline Badge */
+  --nx-badge-outline--error-dark: var(--nx-semantic-error-500-main);
+  --nx-badge-outline--warning-dark: var(--nx-semantic-warning-500-main);
+  --nx-badge-outline--success-dark: var(--nx-semantic-success-500-main);
+  --nx-badge-outline--purple-orchid-dark: var(--nx-accent-purple-orchid-500-main);
+  --nx-badge-outline--blue-dark: var(--nx-accent-blue-500-main);
+  --nx-badge-outline--cyan-dark: var(--nx-accent-cyan-500-main);
+  --nx-badge-outline--gold-dark: var(--nx-accent-gold-500-main);
+  --nx-badge-outline--lime-green-dark: var(--nx-accent-lime-green-700);
+
+  /* Badge/Filled Badge */
+  --nx-badge-fill--error-dark: var(--nx-semantic-error-50);
+  --nx-badge-fill--warning-dark: var(--nx-semantic-warning-50);
+  --nx-badge-fill--success-dark: var(--nx-semantic-success-50);
+  --nx-badge-fill--success: var(--nx-semantic-success-700);
+  --nx-badge-fill--purple-orchid-dark: var(--nx-accent-purple-orchid-50);
+  --nx-badge-fill--blue-dark: var(--nx-accent-blue-50);
+  --nx-badge-fill--cyan-dark: var(--nx-accent-cyan-50);
+  --nx-badge-fill--gold-dark: var(--nx-accent-gold-50);
+  --nx-badge-fill--lime-green-dark: var(--nx-accent-lime-green-50);
+
+  /* Theme/Color */
+  --nx-theme-color--color-1-dark: var(--nx-primary-100);
+  --nx-theme-color--color-2-dark: var(--nx-primary-200);
+  --nx-theme-color--color-3-dark: var(--nx-primary-300);
+  --nx-theme-color--color-4-dark: var(--nx-primary-400);
+  --nx-theme-color--color-5-dark: var(--nx-primary-600);
+  --nx-theme-color--color-6-dark: var(--nx-primary-700);
+  --nx-theme-color--color-7-dark: var(--nx-primary-800);
+  --nx-theme-color--color-8-dark: var(--nx-primary-900);
+
+  /* Theme/Neutral */
+  --nx-theme-neutral--color-1-dark: var(--nx-grayscale-100);
+  --nx-theme-neutral--color-2-dark: var(--nx-grayscale-200);
+  --nx-theme-neutral--color-3-dark: var(--nx-grayscale-300);
+  --nx-theme-neutral--color-4-dark: var(--nx-grayscale-400);
+  --nx-theme-neutral--color-5-dark: var(--nx-grayscale-500);
+  --nx-theme-neutral--color-6-dark: var(--nx-grayscale-600);
+  --nx-theme-neutral--color-7-dark: var(--nx-grayscale-700);
+  --nx-theme-neutral--color-8-dark: var(--nx-grayscale-800);
+
+  /* Theme/Semantic/ Error */
+  --nx-theme-semantic-error--color-1-dark: var(--nx-semantic-error-50);
+  --nx-theme-semantic-error--color-2-dark: var(--nx-semantic-error-100);
+  --nx-theme-semantic-error--color-3-dark: var(--nx-semantic-error-300);
+  --nx-theme-semantic-error--color-4-dark: var(--nx-semantic-error-500-main);
+  --nx-theme-semantic-error--color-5-dark: var(--nx-semantic-error-700);
+  --nx-theme-semantic-error--error-interactive-1-dark: var(--nx-semantic-error-900);
+  --nx-theme-semantic-error--error-interactive-2-dark: var(--nx-semantic-error-50);
+
+  /* Theme/Semantic/ Warning */
+  --nx-theme-semantic-warning--color-1-dark: var(--nx-semantic-warning-50);
+  --nx-theme-semantic-warning--color-2-dark: var(--nx-semantic-warning-100);
+  --nx-theme-semantic-warning--color-3-dark: var(--nx-semantic-warning-300);
+  --nx-theme-semantic-warning--color-4-dark: var(--nx-semantic-warning-500-main);
+  --nx-theme-semantic-warning--color-5-dark: var(--nx-semantic-warning-700);
+  --nx-theme-semantic-warning--warning-interactive-1-dark: var(--nx-semantic-warning-700);
+  --nx-theme-semantic-warning--warning-interactive-2-dark: var(--nx-semantic-warning-50);
+
+  /* Theme/Semantic/ Warning */
+  --nx-theme-semantic-success--color-1-dark: var(--nx-semantic-success-50);
+  --nx-theme-semantic-success--color-2-dark: var(--nx-semantic-success-100);
+  --nx-theme-semantic-success--color-3-dark: var(--nx-semantic-success-300);
+  --nx-theme-semantic-success--color-4-dark: var(--nx-semantic-success-500-main);
+  --nx-theme-semantic-success--color-5-dark: var(--nx-semantic-success-700);
+  --nx-theme-semantic-success--success-interactive-1-dark: var(--nx-semantic-success-700);
+  --nx-theme-semantic-success--success-interactive-2-dark: var(--nx-semantic-success-50);
+
+  /* Theme/Accent/ Purple Orchid */
+  --nx-theme-accent-purple-orchid-dark: var(--nx-accent-purple-orchid-500-main);
+  --nx-theme-accent-purple-orchid--color-1-dark: var(--nx-accent-purple-orchid-50);
+  --nx-theme-accent-purple-orchid--color-2-dark: var(--nx-accent-purple-orchid-100);
+  --nx-theme-accent-purple-orchid--color-3-dark: var(--nx-accent-purple-orchid-300);
+  --nx-theme-accent-purple-orchid--color-4-dark: var(--nx-accent-purple-orchid-500-main);
+  --nx-theme-accent-purple-orchid--color-5-dark: var(--nx-accent-purple-orchid-700);
+
+  /* Theme/Accent/ Blue */
+  --nx-theme-accent-blue-dark: var(--nx-accent-blue-500-main);
+  --nx-theme-accent-blue--color-1-dark: var(--nx-accent-blue-50);
+  --nx-theme-accent-blue--color-2-dark: var(--nx-accent-blue-100);
+  --nx-theme-accent-blue--color-3-dark: var(--nx-accent-blue-300);
+  --nx-theme-accent-blue--color-4-dark: var(--nx-accent-blue-500-main);
+  --nx-theme-accent-blue--color-5-dark: var(--nx-accent-blue-700);
+
+  /* Theme/Accent/ Cyan */
+  --nx-theme-accent-cyan-dark: var(--nx-accent-cyan-500-main);
+  --nx-theme-accent-cyan--color-1-dark: var(--nx-accent-cyan-50);
+  --nx-theme-accent-cyan--color-2-dark: var(--nx-accent-cyan-100);
+  --nx-theme-accent-cyan--color-3-dark: var(--nx-accent-cyan-300);
+  --nx-theme-accent-cyan--color-4-dark: var(--nx-accent-cyan-500-main);
+  --nx-theme-accent-cyan--color-5-dark: var(--nx-accent-cyan-700);
+
+  /* Theme/Accent/ Gold */
+  --nx-theme-accent-gold-dark: var(--nx-accent-gold-500-main);
+  --nx-theme-accent-gold--color-1-dark: var(--nx-accent-gold-50);
+  --nx-theme-accent-gold--color-2-dark: var(--nx-accent-gold-100);
+  --nx-theme-accent-gold--color-3-dark: var(--nx-accent-gold-300);
+  --nx-theme-accent-gold--color-4-dark: var(--nx-accent-gold-500-main);
+  --nx-theme-accent-gold--color-5-dark: var(--nx-accent-gold-700);
+
+  /* Theme/Accent/ Lime Green */
+  --nx-theme-accent-lime-green-dark: var(--nx-accent-lime-green-500-main);
+  --nx-theme-accent-lime-green--color-1-dark: var(--nx-accent-lime-green-50);
+  --nx-theme-accent-lime-green--color-2-dark: var(--nx-accent-lime-green-100);
+  --nx-theme-accent-lime-green--color-3-dark: var(--nx-accent-lime-green-300);
+  --nx-theme-accent-lime-green--color-4-dark: var(--nx-accent-lime-green-500-main);
+  --nx-theme-accent-lime-green--color-5-dark: var(--nx-accent-lime-green-700);
+
+  /* TODO: Define your opacity color here. Because of I don't see we use the opacity color on Help Desk module */
+  /* Opacity */
+  --nx-opacity--primary-opacity-12-dark: var(--nx-opacity--primary-purple-12);
+  --nx-opacity--primary-opacity-30-dark: var(--nx-opacity--primary-purple-30);
+  --nx-opacity--primary-opacity-60-dark: var(--nx-opacity--primary-purple-60);
+  --nx-opacity--primary-opacity-80-dark: var(--nx-opacity--primary-purple-80);
+  --nx-opacity--white-0-dark: var(--nx-opacity--dark-12);
+  --nx-opacity--white-1-dark: var(--nx-opacity--white-80);
+  --nx-opacity--white-2-dark: var(--nx-opacity--white-60);
+  --nx-opacity--white-3-dark: var(--nx-opacity--white-30);
+  --nx-opacity--black-0-dark: var(--nx-opacity--white-12);
+  --nx-opacity--black-1-dark: var(--nx-opacity--dark-80);
+  --nx-opacity--black-2-dark: var(--nx-opacity--dark-60);
+  --nx-opacity--black-3-dark: var(--nx-opacity--dark-30);
+  --nx-opacity--reply-chat-dark: var(--nx-opacity--white-12);
+  --nx-opacity--chat-sent-dark: var(--nx-opacity--white-30);
+  --nx-opacity--chat-received-dark: var(--nx-opacity--white-12);
+  --nx-opacity--interactive-1-dark: var(--nx-opacity--dark-30);
+  --nx-opacity--interactive-2-dark: var(--nx-opacity--white-80);
+  --nx-opacity--interactive-3-dark: var(--nx-opacity--white-60);
+
+  /* End of Color Definition */
+}

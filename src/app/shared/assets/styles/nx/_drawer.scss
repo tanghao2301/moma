@@ -1,0 +1,11 @@
+$nx-drawer-selector: nx-drawer;
+
+.#{$nx-drawer-selector} {
+  @include nx-shadow-md();
+  &__backdrop {
+    background-color: var(--nx-opacity--black-1);
+    &.cdk-overlay-backdrop.nx-drawer__backdrop {
+      opacity: 1 !important;
+    }
+  }
+}

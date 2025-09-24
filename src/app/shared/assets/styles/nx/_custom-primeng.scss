@@ -1,0 +1,485 @@
+body {
+  .p-component {
+    font-family: "Noto Sans", sans-serif !important;
+  }
+}
+
+.nx-tabview {
+  --_nx-tab-badge-bg-color: var(--nx-fill-surface--container-tertiary);
+  --_nx-tab-badge-text-color: var(--nx-theme-neutral--color-2);
+
+  .p-tabview-nav,
+  .p-tabview-panels {
+    background-color: var(--nx-fill-surface--container-primary);
+    margin: 0;
+    padding: 0;
+  }
+
+  .p-tabview-nav {
+    gap: 16px;
+    border-width: 0 0 1px 0;
+    border-color: var(--nx-stroke--primary-2);
+  }
+
+  .p-tabview-nav-link {
+    padding-top: 8px;
+    padding-bottom: 10px;
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--nx-text--secondary);
+    text-decoration: none;
+    @include nx-text-label-md();
+    @include nx-letter-spacing-xs();
+
+    .nx-badge {
+      @include nx-text-label-sm();
+      color: var(--_nx-tab-badge-text-color);
+      background-color: var(--_nx-tab-badge-bg-color);
+      padding: 2px 8px;
+      border-radius: 16px;
+    }
+  }
+
+  .p-highlight {
+    .p-tabview-nav-link {
+      color: var(--nx-text--primary-1);
+    }
+
+    .nx-badge {
+      --_nx-tab-badge-bg-color: var(--nx-fill-surface--container-highlight-1);
+      --_nx-tab-badge-text-color: var(--nx-text--interactive);
+    }
+  }
+
+  .p-tabview-ink-bar {
+    z-index: 1;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--nx-stroke--primary-1);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    transition: 250ms cubic-bezier(0.35, 0, 0.25, 1);
+  }
+}
+
+p-toast[key="nx-toast-custom-message"] .p-toast {
+  min-width: 480px;
+  width: auto;
+  max-width: 532px;
+  background-color: transparent;
+  z-index: 1112;
+}
+
+.nx-toast {
+  border: 0.5px solid var(--nx-stroke--primary-2);
+  border-radius: 8px;
+}
+
+.nx-sidebar__backdrop {
+  z-index: 1110 !important;
+}
+
+.nx-checkbox {
+  --_nx-checkbox-bg-color: var(--nx-fill-surface--container-primary);
+  --_nx-checkbox-icon-color: var(--nx-fill-surface--container-primary);
+  --_nx-checkbox-border-color: var(--nx-theme-neutral--color-5);
+  --_nx-checkbox-border-radius: 5px;
+  --_nx-checkbox-size: 20px;
+  border-radius: var(--_nx-checkbox-border-radius);
+
+  &-lg {
+    --_nx-checkbox-size: 24px;
+  }
+
+  .p-checkbox {
+    width: var(--_nx-checkbox-size);
+    height: var(--_nx-checkbox-size);
+    background-color: var(--_nx-checkbox-bg-color);
+    border-radius: var(--_nx-checkbox-border-radius);
+
+    &:not(.p-checkbox-disabled).p-checkbox-focused,
+    .p-checkbox-checked:not(.p-checkbox-disabled):hover,
+    .p-checkbox-checked:not(.p-checkbox-disabled).p-checkbox-focused {
+      box-shadow: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    .p-checkbox-box {
+      width: var(--_nx-checkbox-size);
+      height: var(--_nx-checkbox-size);
+      background-color: var(--_nx-checkbox-bg-color);
+      border-radius: var(--_nx-checkbox-border-radius);
+      border: 2px solid var(--_nx-checkbox-border-color);
+      color: var(--_nx-checkbox-icon-color);
+
+      .p-checkbox-icon {
+        scale: 0.9 1.1;
+        color: var(--_nx-checkbox-icon-color);
+      }
+    }
+  }
+
+  .p-checkbox-label {
+    color: var(--nx-text--secondary);
+    @include nx-text-label-md();
+  }
+
+  &:has(.p-checkbox-checked) {
+    --_nx-checkbox-bg-color: var(--nx-icon--primary-1);
+    --_nx-checkbox-border-color: var(--nx-icon--primary-1);
+  }
+}
+
+.nx-calendar {
+  --_nx-calendar-bg-color: var(--nx-fill-surface--container-primary);
+  --_nx-calendar-icon-color: var(--nx-fill-surface--container-primary);
+  --_nx-calendar-border-color: var(--nx-stroke--secondary);
+  --_nx-calendar-border-radius: 5px;
+  --_nx-calendar-size: 20px;
+
+  .p-calendar {
+    &.p-focus > .p-inputtext {
+      box-shadow: none;
+    }
+
+    .p-inputtext {
+      background-color: var(--_nx-calendar-bg-color);
+      border-color: var(--_nx-calendar-border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+
+      &:hover {
+        border-color: var(--_nx-calendar-border-color);
+      }
+
+      &::placeholder {
+        color: var(--nx-text--tertiary);
+        @include nx-text-body-lg();
+      }
+    }
+  }
+
+  &__inline {
+    display: inline-block;
+    width: fit-content;
+
+    .p-calendar {
+      display: inline-block;
+
+      .p-inputtext {
+        border-width: 0px 0px 1px 0px;
+        border-radius: 0;
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: var(--nx-fill-surface--container-tertiary);
+          }
+        }
+      }
+    }
+  }
+}
+
+.nx-radio.nx-radio {
+  --_nx-radio-border-color: var(--nx-theme-neutral--color-5);
+  --_nx-radio-border-icon-bg-color: transparent;
+
+  .p-focus,
+  .p-radiobutton-focused {
+    box-shadow: none !important;
+  }
+
+  .p-radiobutton,
+  .p-radiobutton-box {
+    background-color: transparent;
+    height: 20px;
+    width: 20px;
+  }
+
+  .p-radiobutton-icon {
+    height: 10px;
+    width: 10px;
+    background-color: var(--_nx-radio-border-icon-bg-color);
+  }
+
+  .p-radiobutton-box.p-radiobutton-box {
+    border-color: var(--_nx-radio-border-color);
+
+    &:hover:not(:disabled),
+    &.p-highlight {
+      background-color: transparent;
+      --_nx-radio-border-color: var(--nx-icon--primary-1);
+    }
+
+    &.p-highlight {
+      .p-radiobutton-icon {
+        --_nx-radio-border-icon-bg-color: var(--nx-icon--primary-1);
+      }
+    }
+  }
+}
+
+*[role="tooltip"].p-tooltip:not(.nx-popover) {
+  background-color: transparent;
+  pointer-events: all !important;
+  --_nx-border-color: var(--nx-fill-surface--container-tooltip) transparent transparent transparent;
+
+  &.p-tooltip-top {
+    --_nx-border-color: var(--nx-fill-surface--container-tooltip) transparent transparent transparent;
+  }
+
+  &.p-tooltip-right {
+    --_nx-border-color: transparent var(--nx-fill-surface--container-tooltip) transparent transparent;
+  }
+
+  &.p-tooltip-bottom {
+    --_nx-border-color: transparent transparent var(--nx-fill-surface--container-tooltip) transparent;
+  }
+
+  &.p-tooltip-left {
+    --_nx-border-color: transparent transparent transparent var(--nx-fill-surface--container-tooltip);
+  }
+
+  .p-tooltip-arrow {
+    border-color: var(--_nx-border-color);
+  }
+
+  .p-tooltip-text {
+    background-color: var(--nx-fill-surface--container-tooltip);
+    border-radius: 8px;
+    color: var(--nx-text--inverted);
+    @include nx-text-label-md();
+    @include nx-shadow-lg();
+  }
+}
+
+.nx-popover {
+  pointer-events: all !important;
+  --_nx-border-color: var(--nx-fill-surface--container-primary) transparent transparent transparent;
+
+  &.p-tooltip-top {
+    --_nx-border-color: var(--nx-fill-surface--container-primary) transparent transparent transparent;
+  }
+
+  &.p-tooltip-right {
+    --_nx-border-color: transparent var(--nx-fill-surface--container-primary) transparent transparent;
+  }
+
+  &.p-tooltip-bottom {
+    --_nx-border-color: transparent transparent var(--nx-fill-surface--container-primary) transparent;
+  }
+
+  &.p-tooltip-left {
+    --_nx-border-color: transparent transparent transparent var(--nx-fill-surface--container-primary);
+  }
+
+  .p-tooltip-arrow {
+    border-color: var(--_nx-border-color);
+  }
+
+  .p-tooltip-text {
+    background-color: var(--nx-fill-surface--container-primary);
+    border-radius: 8px;
+    @include nx-shadow-lg();
+  }
+}
+
+.nx-overlay-panel {
+  .p-overlaypanel-content {
+    background-color: var(--nx-fill-surface--container-primary) !important;
+    border-radius: 8px;
+    @include nx-shadow-md();
+  }
+}
+
+.nx-select__overlay {
+  .p-overlaypanel .p-overlaypanel-content {
+    min-width: auto;
+    padding: unset;
+  }
+}
+
+.message-poll-calendar {
+  &--selected {
+    border-color: var(--nx-stroke--primary-1);
+  }
+
+  border: 1px solid var(--nx-stroke--secondary);
+  border-radius: 8px;
+  align-items: center;
+  max-height: 40px;
+  background: var(--nx-fill-surface--container-primary);
+
+  .p-calendar {
+    height: unset;
+
+    .p-inputtext {
+      height: unset;
+      background: transparent;
+      padding: 0px;
+      cursor: pointer;
+      @include nx-text-body-lg(true);
+    }
+
+    .p-datepicker-trigger.p-button-icon-only {
+      background-color: transparent;
+      border: none;
+      box-shadow: none !important;
+
+      &.p-button-icon-only:hover {
+        background-color: transparent !important;
+      }
+    }
+  }
+}
+
+.message-poll-editable-dropdown {
+  &--selected {
+    border-color: var(--nx-stroke--primary-1);
+  }
+
+  border: 1px solid var(--nx-stroke--secondary);
+  align-items: center;
+  max-height: 40px;
+  border-radius: 8px;
+
+  .p-dropdown {
+    height: unset;
+    background: transparent;
+    padding: 0px;
+    min-width: 100%;
+    box-shadow: none;
+
+    &.p-focus {
+      box-shadow: none;
+    }
+
+    .p-dropdown-label.p-placeholder {
+      color: var(--nx-text--primary-2) !important;
+    }
+
+    .p-dropdown-trigger {
+      padding-right: 0px !important;
+      width: auto;
+      color: var(--nx-text--tertiary);
+    }
+
+    .p-inputtext {
+      height: unset;
+      background: transparent;
+      padding: 0px;
+      align-content: center;
+      @include nx-text-body-lg(true);
+    }
+  }
+}
+
+.message-poll-editable-dropdown-panel {
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid var(--nx-stroke--primary-2);
+
+  .p-dropdown-header {
+    display: none;
+  }
+
+  .p-dropdown-items-wrapper {
+    max-height: 320px;
+    width: 320px;
+
+    .p-dropdown-items {
+      padding: unset;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .p-dropdown-item {
+        border-radius: 6px;
+        padding: unset;
+      }
+    }
+  }
+}
+
+.message-calendar-panel {
+  width: 320px;
+  padding: 20px 24px;
+  border: 1px solid var(--nx-stroke--primary-2);
+  border-radius: 8px;
+
+  .p-datepicker-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .p-datepicker-header {
+      padding: unset;
+    }
+
+    .p-datepicker-calendar-container {
+      display: flex;
+
+      table.p-datepicker-calendar {
+        display: flex;
+        flex-direction: column;
+        margin: unset;
+
+        tr {
+          display: flex;
+          justify-content: space-between;
+          gap: 8px;
+        }
+
+        thead {
+          th {
+            padding: unset;
+            width: 32px;
+            height: 32px;
+            align-content: center;
+            text-align: center;
+            display: flex;
+
+            span {
+              width: 100%;
+              height: 100%;
+              @include nx-text-title-md();
+            }
+          }
+        }
+
+        tbody {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          td {
+            padding: unset;
+            width: 32px;
+            height: 32px;
+            align-content: center;
+            text-align: center;
+            display: flex;
+            box-shadow: unset;
+
+            span {
+              box-shadow: unset;
+              width: 100%;
+              height: 100%;
+              border-radius: 20px;
+              @include nx-text-body-md();
+
+              &.p-highlight {
+                background: var(--nx-fill-surface--container-highlight-2);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
