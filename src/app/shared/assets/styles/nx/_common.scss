@@ -426,7 +426,7 @@
   &-ellipsis {
     --_nx-ellipsis-clamp: 1;
     --_nx-ellipsis-overflow: ellipsis;
-    -webkit-line-clamp: var(--_nx-ellipsis-clamp);
+    line-clamp: var(--_nx-ellipsis-clamp);
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
