@@ -31,7 +31,7 @@ import { take } from 'rxjs';
     MessageModule,
     OnboardingLayoutComponent
   ],
-  providers: [LoadingService, ToastService, AuthService, Router, FormBuilder],
+  providers: [LoadingService, AuthService, Router, FormBuilder],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })

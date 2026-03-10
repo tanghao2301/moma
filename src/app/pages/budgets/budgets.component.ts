@@ -52,7 +52,7 @@ import { BalanceChartComponent } from '../dashboard/balance-chart/balance-chart.
     HtButtonComponent,
     BalanceChartComponent,
   ],
-  providers: [UserService, TransactionsService, ToastService],
+  providers: [UserService, TransactionsService],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.scss',
 })

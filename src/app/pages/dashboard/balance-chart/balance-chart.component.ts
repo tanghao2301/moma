@@ -61,6 +61,7 @@ export class BalanceChartComponent implements OnChanges {
             data: this.balances(),
             fill: true,
             borderColor: documentStyle.getPropertyValue('--color-primary'),
+            borderWidth: 1,
             tension: 0.4,
             backgroundColor: (context: any) => {
               const chart = context.chart;

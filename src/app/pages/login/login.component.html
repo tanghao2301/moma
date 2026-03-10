@@ -4,7 +4,6 @@
     class="flex flex-col gap-8 w-full"
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
-    autocomplete="off"
   >
     <p-floatlabel variant="on">
       <input
@@ -12,7 +11,6 @@
         pInputText
         id="email"
         formControlName="email"
-        autocomplete="off"
       />
       <label for="email">Email</label>
     </p-floatlabel>
