@@ -9,7 +9,7 @@ import { UserService } from '@services/user.service';
 import { DashboardLayoutComponent } from "@shared/layouts/dashboard-layout/dashboard-layout.component";
 import { SkeletonModule } from 'primeng/skeleton';
 import { Tooltip } from 'primeng/tooltip';
-import { forkJoin } from 'rxjs';
+import { delay, forkJoin } from 'rxjs';
 import { AbsPipe } from 'src/app/pipes/absolute.pipe';
 import { BalanceChartComponent } from './balance-chart/balance-chart.component';
 
@@ -51,6 +51,8 @@ export class DashboardComponent implements OnInit {
   percentagePeriodChange: number = 0;
   percentageTotalExpenses: number = 0;
   percentageTotalIncome: number = 0;
+  periodChange: number = 0;
+  previousPeriodChange: number = 0;
   user!: UserModel;
 
   ngOnInit(): void {
@@ -68,7 +70,7 @@ export class DashboardComponent implements OnInit {
         this.userService.getUserId(),
         -2
       ),
-    ]).subscribe((response) => {
+    ]).pipe(delay(300)).subscribe((response) => {
       this.isLoading = false;
       if (!response[0]?.value && !response[1]?.value) return;
       this.balance = {
@@ -83,37 +85,25 @@ export class DashboardComponent implements OnInit {
         ...this.defaultBalance,
         ...response[2],
       };
-      this.percentageBalance = this.percent2Months(
+      this.percentageBalance = this.transactionsService.percent2Months(
         this.balance.value,
         this.previousBalance.value
       );
-      const periodChange = this.balance.value - this.previousBalance.value;
-      const previousPeriodChange =
+      this.periodChange = this.balance.value - this.previousBalance.value;
+      this.previousPeriodChange =
         this.previousBalance.value - this.beforePrevBalance.value;
-      this.percentagePeriodChange = this.percent2Months(
-        periodChange,
-        previousPeriodChange
+      this.percentagePeriodChange = this.transactionsService.percent2Months(
+        this.periodChange,
+        this.previousPeriodChange
       );
-      this.percentageTotalExpenses = this.percent2Months(
+      this.percentageTotalExpenses = this.transactionsService.percent2Months(
         this.balance.totalExpenses,
         this.previousBalance.totalExpenses
       );
-      this.percentageTotalIncome = this.percent2Months(
+      this.percentageTotalIncome = this.transactionsService.percent2Months(
         this.balance.totalIncome,
         this.previousBalance.totalIncome
       );
     });
-  }
-
-  change2Months(current: number, previous: number): number {
-    return current - previous;
-  }
-
-  percent2Months(current: number, previous: number): number {
-    return previous === 0
-      ? current === 0
-        ? 0
-        : 100
-      : ((current - previous) / Math.abs(previous || 0)) * 100;
   }
 }

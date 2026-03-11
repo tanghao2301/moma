@@ -11,7 +11,8 @@ import {
   signInWithPopup,
   User
 } from 'firebase/auth';
-import { catchError, from, Observable, switchMap, take } from 'rxjs';
+import { catchError, from, Observable, of, switchMap, take } from 'rxjs';
+import { UserModel } from '../models/user.model';
 import { FirebaseService } from './firebase.service';
 import { ToastService } from './toast.service';
 import { UserService } from './user.service';
@@ -25,13 +26,13 @@ export class AuthService {
   private toastService: ToastService = inject(ToastService);
   private firebaseService: FirebaseService = inject(FirebaseService);
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<UserModel | null> {
     return from(
       signInWithEmailAndPassword(this.firebaseAuth, email, password)
     ).pipe(
       switchMap(() => this.firebaseService.user$.pipe(take(1))),
       switchMap((user) =>
-        this.userService.getUserById(user.uid)
+        user ? this.userService.getUserById(user.uid) : of(null)
       ),
       catchError((error) => {
         throw error;
@@ -46,7 +47,7 @@ export class AuthService {
     return from(promise);
   }
 
-  signup(email: string, password: string): Observable<any> {
+  signup(email: string, password: string): Observable<UserModel | null> {
     const promise = createUserWithEmailAndPassword(
       this.firebaseAuth,
       email,
@@ -69,7 +70,7 @@ export class AuthService {
 
       this.storeUser(user).subscribe({
         next: (userSnap) => {
-          if (userSnap?.income) {
+          if ((userSnap as any)?.income) {
             this.router.navigateByUrl('/dashboard');
           } else {
             this.router.navigateByUrl('/onboarding/personal-info');
@@ -82,7 +83,7 @@ export class AuthService {
     }
   }
 
-  private storeUser(user: User): Observable<any> {
+  private storeUser(user: User): Observable<UserModel | null> {
     return new Observable((subscriber) => {
       this.userService.setUserById(user.uid, user).subscribe({
         next: (user) => subscriber.next(user),

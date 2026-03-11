@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import {
   Auth,
-  user
+  user,
+  User
 } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import {
@@ -15,7 +16,7 @@ import { Observable } from 'rxjs';
 export class FirebaseService {
   private firebaseAuth: Auth = inject(Auth);
   firestore: Firestore = inject(Firestore);
-  user$: Observable<any>;
+  user$: Observable<User | null>;
   constructor() {
     this.setSessionStoragePersistence();
     this.user$ = user(this.firebaseAuth);

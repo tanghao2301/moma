@@ -48,7 +48,7 @@ export class UserService {
     });
   }
 
-  updateUserById(id: string, userInfo: User | UserModel): Observable<any> {
+  updateUserById(id: string, userInfo: Partial<UserModel>): Observable<any> {
     return defer(async () => {
       await updateDoc(this.getUserDocById(id), userInfo);
       return userInfo;

@@ -69,10 +69,9 @@ export class LoginComponent implements OnInit {
               'Error',
               `Invalid Login Credentials, Please try again`
             );
+            return;
           }
-          if (user) {
-            localStorage.setItem('user', JSON.stringify({ uid: user.uid }));
-          }
+          localStorage.setItem('user', JSON.stringify({ uid: user.uid }));
           switch (user.onboardingStep) {
             case 1:
               this.router.navigateByUrl('/onboarding/income');

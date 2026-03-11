@@ -10,7 +10,8 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
-  where
+  where,
+  increment
 } from '@angular/fire/firestore';
 import { Balance } from '@models/balance.model';
 import { Transaction, TransactionType } from '@models/transaction.model';
@@ -211,35 +212,29 @@ export class TransactionsService {
       monthlyBalanceDocId
     );
 
-    // 1. Fetch existing monthly balance doc (if any)
-    const docSnap = await getDoc(monthlyBalanceRef);
-    let totalIncome = 0;
-    let totalExpenses = 0;
-    if (docSnap.exists()) {
-      const data = docSnap.data() as Balance;
-      totalIncome = data.totalIncome || 0;
-      totalExpenses = data.totalExpenses || 0;
-    }
+    const incAmount = transaction.convertedAmount || 0;
+    const isIncome = transaction.transactionType === 'Income';
 
-    // 2. Update totals based on transaction type
-    if (transaction.transactionType === 'Income') {
-      totalIncome += transaction.convertedAmount;
-    } else if (transaction.transactionType === 'Expense') {
-      totalExpenses += transaction.convertedAmount;
-    }
-
-    // 3. Save updated monthly balance doc
+    // Atomic update to avoid race conditions
     await setDoc(
       monthlyBalanceRef,
       {
         year,
         month,
-        totalIncome,
-        totalExpenses,
-        value: totalIncome - totalExpenses,
+        totalIncome: isIncome ? increment(incAmount) : increment(0),
+        totalExpenses: !isIncome ? increment(incAmount) : increment(0),
+        value: isIncome ? increment(incAmount) : increment(-incAmount),
         lastUpdated: serverTimestamp(),
       },
       { merge: true }
     );
+  }
+
+  percent2Months(current: number, previous: number): number {
+    return previous === 0
+      ? current === 0
+        ? 0
+        : 100
+      : ((current - previous) / Math.abs(previous || 0)) * 100;
   }
 }

@@ -19,12 +19,9 @@
         informationCard;
         context: {
           $implicit: 'Total Period Change',
-          value: change2Months(balance.value, previousBalance.value),
+          value: periodChange,
           percentage: percentagePeriodChange,
-          previousValue: change2Months(
-            previousBalance.value,
-            beforePrevBalance.value
-          )
+          previousValue: previousPeriodChange
         }
       "
     ></ng-container>
