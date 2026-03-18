@@ -23,6 +23,15 @@ export const TYPE_EXPENSE_OPTIONS = [
   { value: 'other', name: 'Other Expenses', icon: 'pi pi-ellipsis-h' },
 ];
 
+export const TYPE_INSTALLMENT_OPTIONS = [
+  { value: 'loan', name: 'Loan', icon: 'pi pi-wallet' },
+  { value: 'credit_card', name: 'Credit Card', icon: 'pi pi-credit-card' },
+  { value: 'auto_loan', name: 'Vehicle Loan', icon: 'pi pi-car' },
+  { value: 'mortgage', name: 'Mortgage', icon: 'pi pi-home' },
+  { value: 'insurance', name: 'Insurance Premium', icon: 'pi pi-heart' },
+  { value: 'other', name: 'Other Installments', icon: 'pi pi-calendar-clock' },
+];
+
 export const CURRENCY_OPTIONS = [
   { label: 'Vietnamese Dong (VND)', value: 'VND', locale: 'vi-VN' },
   { label: 'US Dollar (USD)', value: 'USD', locale: 'en-US' }

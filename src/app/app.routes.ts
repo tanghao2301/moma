@@ -41,6 +41,14 @@ export const routes: Routes = [
             (c) => c.BudgetsComponent
           ),
       },
+      {
+        path: 'installment',
+        title: 'Installment',
+        loadComponent: () =>
+          import('./pages/installment/installment.component').then(
+            (c) => c.InstallmentComponent
+          ),
+      },
     ],
     canActivate: [AuthGuard],
   },

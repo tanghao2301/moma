@@ -27,8 +27,10 @@ export class TransactionsService {
   private commonService: CommonService = inject(CommonService);
   private incomes$ = new BehaviorSubject<Transaction[] | null>(null);
   private expenses$ = new BehaviorSubject<Transaction[] | null>(null);
+  private installments$ = new BehaviorSubject<Transaction[] | null>(null);
   private balance$ = new BehaviorSubject<Balance | null>(null);
   private isLoading$ = new BehaviorSubject<boolean>(false);
+
 
   private getTransactionsDocById(id: string): any {
     return collection(
@@ -104,11 +106,17 @@ export class TransactionsService {
         .filter((t) => t.transactionType === type);
       if (type === 'Income') {
         this.incomes$.next(transactions);
-      } else {
+      } else if (type === 'Expense') {
         this.expenses$.next(transactions);
+      } else {
+        this.installments$.next(transactions);
       }
       this.isLoading$.next(false);
     });
+  }
+
+  getInstallments(): Observable<Transaction[] | null> {
+    return this.installments$.asObservable()!;
   }
 
   createTransactionsById(

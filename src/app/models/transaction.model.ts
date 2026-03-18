@@ -30,4 +30,33 @@ export interface Frequency {
   icon: string;
 }
 
-export type TransactionType = 'Income' | 'Expense';
+export type TransactionType = 'Income' | 'Expense' | 'Installment';
+
+export interface Installment {
+  id: string;
+  name: string;
+  totalAmount: number;
+  monthlyAmount: number;
+  paidAmount: number;
+  remainingAmount: number;
+  currency: Currency;
+  startDate: Date;
+  nextPaymentDate: Date;
+  durationMonths: number;
+  completedMonths: number;
+  category: string;
+  icon: string;
+  note?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  schedule?: PaymentScheduleItem[];
+}
+
+export interface PaymentScheduleItem {
+  id: string;
+  period: string; // e.g., "1 of 12"
+  dueDate: Date;
+  amount: number;
+  status: 'Paid' | 'Upcoming' | 'Next';
+}
+

@@ -1,0 +1,185 @@
+@let installments = installments$ | async;
+
+<app-dashboard-layout title="Installment Plans">
+  <div class="installment-container">
+    <!-- Header Section -->
+    <div class="header-section flex justify-content-space-between align-items-center mb-24">
+      <div>
+        <p class="text-display-lg font-bold">Installment Plans</p>
+        <p class="text-display-sm text-gray-500">Manage and track your active payment schedules</p>
+      </div>
+      <ht-button (click)="visible = true" icon="pi pi-plus">
+        Add New Plan
+      </ht-button>
+    </div>
+
+    <!-- Stats Cards Section -->
+    <div class="stats-grid mb-24">
+      <ht-card>
+        <div class="flex flex-col gap-8">
+          <p class="text-display-xs text-gray-500 uppercase font-semibold">Total Remaining Balance</p>
+          <p class="text-display-xl font-bold">{{ totalRemainingBalance | currency : 'USD' }}</p>
+          <div class="flex align-items-center gap-4 text-danger text-display-xs">
+            <i class="pi pi-arrow-up"></i>
+            <span>2.4% from last month</span>
+          </div>
+        </div>
+      </ht-card>
+      
+      <ht-card>
+        <div class="flex flex-col gap-8">
+          <p class="text-display-xs text-gray-500 uppercase font-semibold">Next Payment Due Date</p>
+          <p class="text-display-xl font-bold">{{ nextPaymentDate | date: 'MMM dd, yyyy' }}</p>
+          <div class="flex align-items-center gap-4 text-success text-display-xs">
+            <i class="pi pi-calendar"></i>
+            <span>12 days remaining</span>
+          </div>
+        </div>
+      </ht-card>
+      
+      <ht-card>
+        <div class="flex flex-col gap-8">
+          <p class="text-display-xs text-gray-500 uppercase font-semibold">Active Installments</p>
+          <p class="text-display-xl font-bold">{{ activeInstallmentsCount }} Plans</p>
+          <div class="flex align-items-center gap-4 text-gray-500 text-display-xs">
+            <i class="pi pi-check"></i>
+            <span>1 completed this month</span>
+          </div>
+        </div>
+      </ht-card>
+    </div>
+
+    <div class="content-grid">
+      <!-- Active Installments Table -->
+      <div class="table-section">
+        <ht-card>
+          <div class="flex justify-content-space-between align-items-center mb-16 px-8">
+            <p class="text-display-md font-bold">Active Installments</p>
+            <a class="text-primary text-display-sm font-semibold cursor-pointer">View All</a>
+          </div>
+          
+          <div class="responsive-table">
+            <table class="installment-table">
+              <thead>
+                <tr>
+                  <th>ITEM NAME</th>
+                  <th>TOTAL AMOUNT</th>
+                  <th>PAID</th>
+                  <th>REMAINING</th>
+                  <th>PROGRESS</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (!(isLoading$ | async)) {
+                  @for (item of installments; track item.id) {
+                    <tr [class.selected]="selectedInstallment?.id === item.id" (click)="selectedInstallment = item">
+                      <td>
+                        <div class="flex align-items-center gap-12">
+                          <div class="icon-circle">
+                            <i [class]="'pi ' + item.type.icon"></i>
+                          </div>
+                          <div class="flex flex-col">
+                            <span class="font-bold text-display-sm">{{ item.note || item.type.name }}</span>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{ item.amount * 12 | currency : 'USD' }}</td> <!-- Mocked total -->
+                      <td>{{ item.amount * 4 | currency : 'USD' }}</td> <!-- Mocked paid -->
+                      <td>{{ item.amount * 8 | currency : 'USD' }}</td> <!-- Mocked remaining -->
+                      <td>
+                        <div class="flex align-items-center gap-8">
+                          <div class="progress-bar-container">
+                            <div class="progress-bar-fill" [style.width.%]="calculateProgress(item)"></div>
+                          </div>
+                          <span class="text-display-xs font-bold">{{ calculateProgress(item) }}%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                } @else {
+                  @for (i of [1,2,3]; track i) {
+                    <tr>
+                      <td colspan="5"><p-skeleton width="100%" height="24px"></p-skeleton></td>
+                    </tr>
+                  }
+                }
+              </tbody>
+            </table>
+          </div>
+        </ht-card>
+      </div>
+
+      <!-- Payment Schedule Sidebar -->
+      <div class="schedule-section">
+        <ht-card>
+          <div class="flex justify-content-space-between align-items-center mb-24">
+            <p class="text-display-md font-bold">Payment Schedule</p>
+            @if (selectedInstallment) {
+              <span class="badge-tag uppercase">{{ selectedInstallment.note || selectedInstallment.type.name }}</span>
+            }
+          </div>
+
+          <div class="timeline">
+            @for (payment of getMockSchedule(); track payment.period) {
+              <div class="timeline-item" [class.future]="payment.status === 'Upcoming'">
+                <div class="timeline-marker">
+                  @if (payment.status === 'Paid') {
+                    <div class="marker-circle checked"><i class="pi pi-check text-white fontsize-10"></i></div>
+                  } @else if (payment.status === 'Next') {
+                    <div class="marker-circle active"></div>
+                  } @else {
+                    <div class="marker-circle future"></div>
+                  }
+                  <div class="marker-line"></div>
+                </div>
+                
+                <div class="timeline-content">
+                  <div class="flex justify-content-space-between w-full">
+                    <div>
+                      <p class="text-display-sm font-bold">Payment {{ payment.period }}</p>
+                      <p class="text-display-xs text-gray-500">Status: <span [class]="'status-' + payment.status.toLowerCase()">{{ payment.status }}</span></p>
+                    </div>
+                    <p class="text-display-xs text-gray-500">{{ payment.date | date: 'MMM dd, yyyy' }}</p>
+                  </div>
+                  
+                  @if (payment.status === 'Next') {
+                    <div class="next-payment-card mt-12 p-12">
+                      <div class="flex justify-content-space-between align-items-center mb-12">
+                        <div class="flex flex-col">
+                          <p class="text-display-xs font-bold text-success">Next Payment</p>
+                          <p class="text-display-md font-bold">{{ payment.amount | currency : 'USD' }}</p>
+                        </div>
+                        <p class="text-display-xs text-gray-500">{{ payment.date | date: 'MMM dd, yyyy' }}</p>
+                      </div>
+                      <ht-button class="w-full" size="sm">Pay Now</ht-button>
+                    </div>
+                  } @else {
+                    <p class="text-display-md font-bold mt-4">{{ payment.amount | currency : 'USD' }}</p>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <ht-button [variant]="'secondary'" class="w-full mt-24">View Full Schedule</ht-button>
+        </ht-card>
+      </div>
+    </div>
+  </div>
+</app-dashboard-layout>
+
+<!-- Minimal Dialog for adding -->
+<p-dialog [(visible)]="visible" [header]="'Add New Plan'" [modal]="true" [style]="{width: '450px'}">
+  <form [formGroup]="installmentForm" class="flex flex-col gap-16 pt-16">
+    <p-select formControlName="type" [options]="TYPE_INSTALLMENT_OPTIONS" optionLabel="name" placeholder="Select Item Type" class="w-full"></p-select>
+    <p-inputnumber formControlName="amount" placeholder="Monthly Amount" mode="currency" currency="USD" class="w-full"></p-inputnumber>
+    <p-inputnumber formControlName="totalAmount" placeholder="Total Amount" mode="currency" currency="USD" class="w-full"></p-inputnumber>
+    <input pInputText formControlName="note" placeholder="Note (e.g. MacBook Pro)" />
+    <p-select formControlName="currency" [options]="CURRENCY_OPTIONS" optionLabel="label" placeholder="Currency" class="w-full"></p-select>
+    <p-select formControlName="frequency" [options]="FREQUENCY_OPTIONS" optionLabel="label" optionValue="value" placeholder="Frequency" class="w-full"></p-select>
+  </form>
+  <ng-template #footer>
+    <ht-button [variant]="'secondary'" (click)="visible = false">Cancel</ht-button>
+    <ht-button [disabled]="installmentForm.invalid" (click)="addInstallment()">Create Plan</ht-button>
+  </ng-template>
+</p-dialog>
