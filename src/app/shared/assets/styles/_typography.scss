@@ -1,9 +1,9 @@
 @use "./variables";
 
 .text-title-sm {
-    font-size: variables.$fontSizeMD;
-    font-weight: variables.$fontWeightSM;
-    line-height: variables.$lineHeightMD;
+  font-size: variables.$fontSizeMD;
+  font-weight: variables.$fontWeightSM;
+  line-height: variables.$lineHeightMD;
 }
 
 .text-title-md {
@@ -13,9 +13,9 @@
 }
 
 .text-title-lg {
-    font-size: variables.$fontSizeXXL;
-    font-weight: variables.$fontWeightMD;
-    line-height: variables.$lineHeightXXL;
+  font-size: variables.$fontSizeXXL;
+  font-weight: variables.$fontWeightMD;
+  line-height: variables.$lineHeightXXL;
 }
 
 .text-display-xs {
@@ -40,4 +40,31 @@
   font-size: variables.$fontSizeLG;
   font-weight: variables.$fontWeightLG;
   line-height: variables.$lineHeightLG;
+}
+
+.text-display-xl {
+  font-size: variables.$fontSizeXL;
+  font-weight: variables.$fontWeightXL;
+  line-height: variables.$lineHeightXL;
+}
+
+.text-color {
+  &-primary {
+    color: variables.$color-text-primary;
+  }
+  &-secondary {
+    color: variables.$color-text-secondary;
+  }
+  &-success {
+    color: variables.$color-text-success;
+  }
+  &-danger {
+    color: variables.$color-text-danger;
+  }
+  &-blue {
+    color: variables.$color-text-primary-blue;
+  }
+  &-warning {
+    color: variables.$color-text-warning;
+  }
 }

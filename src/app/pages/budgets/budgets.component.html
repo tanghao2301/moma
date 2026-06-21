@@ -3,87 +3,102 @@
 <app-dashboard-layout title="Budgets">
   <div class="flex gap-16">
     <div class="flex-1 h-100 flex flex-col min-w-300">
-      @if (!(isLoading$ | async)) { @if (expenses && expenses.length > 0) {
-      <div class="flex flex-col gap-12 pb-4">
-        @for (expense of expenses; track expense.id) {
-        <ht-card
-          class="pointer"
-          [ngClass]="{
-            selected: budgetSelected && budgetSelected.id === expense?.id
-          }"
-          (click)="budgetSelected = expense"
-        >
-          <div
-            class="flex gap-16 align-items-center justify-content-space-between"
-          >
-            <div class="flex gap-8 align-items-center justify-content-start">
-              <div
-                class="icon-container icon-background"
+      @if (!(isLoading$ | async)) {
+        @if (expenses && expenses.length > 0) {
+          <div class="flex flex-col gap-12 pb-4">
+            @for (expense of expenses; track expense.id) {
+              <ht-card
+                class="pointer"
                 [ngClass]="{
-                  selected: budgetSelected && budgetSelected.id === expense?.id
+                  selected: budgetSelected && budgetSelected.id === expense?.id,
                 }"
+                (click)="budgetSelected = expense"
               >
-                <i class="fontsize-16" [class]="'pi ' + expense.type.icon"></i>
-              </div>
-              <div class="flex flex-col">
-                <p class="text-display-md">{{ expense.type.name }}</p>
-                <p class="text-display-sm capitalize">
-                  {{ expense.frequency }}
-                </p>
-              </div>
-            </div>
-            <i class="fontsize-16 pi pi-angle-right"></i>
+                <div
+                  class="flex gap-16 align-items-center justify-content-space-between"
+                >
+                  <div
+                    class="flex gap-8 align-items-center justify-content-start"
+                  >
+                    <div
+                      class="icon-container icon-background"
+                      [ngClass]="{
+                        selected:
+                          budgetSelected && budgetSelected.id === expense?.id,
+                      }"
+                    >
+                      <i
+                        class="fontsize-16"
+                        [class]="'pi ' + expense.type.icon"
+                      ></i>
+                    </div>
+                    <div class="flex flex-col">
+                      <p class="text-display-md">{{ expense.type.name }}</p>
+                      <p class="text-display-sm capitalize">
+                        {{ expense.frequency }}
+                      </p>
+                    </div>
+                  </div>
+                  <i class="fontsize-16 pi pi-angle-right"></i>
+                </div>
+                <div
+                  class="mt-16 mb-4 flex align-items-center justify-content-space-between"
+                >
+                  <p class="text-display-sm">
+                    {{
+                      expense.amount | currency: expense.currency.value || "VND"
+                    }}
+                  </p>
+                  <p class="text-display-sm">
+                    {{
+                      balance.totalIncome
+                        | currency: expense.currency.value || "VND"
+                    }}
+                  </p>
+                </div>
+                <p-progressbar
+                  [value]="
+                    (expense.amount / balance.totalIncome) * 100
+                      | number: '1.1-1'
+                  "
+                >
+                  <ng-template #content let-value>
+                    <span></span>
+                  </ng-template>
+                </p-progressbar>
+                <div
+                  class="flex align-items-center justify-content-space-between"
+                >
+                  <p class="text-display-xs">
+                    {{
+                      (expense.amount / balance.totalIncome) * 100
+                        | number: "1.1-1"
+                    }}%
+                  </p>
+                  <p class="text-display-xs">On track</p>
+                </div>
+              </ht-card>
+            }
           </div>
+        } @else {
           <div
-            class="mt-16 mb-4 flex align-items-center justify-content-space-between"
+            class="flex flex-col items-center justify-center p-8 text-center border border-dashed rounded-lg bg-gray-50 text-gray-500"
           >
-            <p class="text-display-sm">
-              {{ expense.amount | currency : expense.currency.value || "VND" }}
-            </p>
-            <p class="text-display-sm">
-              {{
-                balance.totalIncome | currency : expense.currency.value || "VND"
-              }}
+            <i class="pi pi-wallet text-4xl mb-4 text-gray-400"></i>
+            <h3 class="text-lg font-semibold mb-2">No expense entries yet</h3>
+            <p class="mb-4">
+              Start tracking your expense to better manage your finances.
             </p>
           </div>
-          <p-progressbar
-            [value]="
-              (expense.amount / balance.totalIncome) * 100 | number : '1.1-1'
-            "
-          >
-            <ng-template #content let-value>
-              <span></span>
-            </ng-template>
-          </p-progressbar>
-          <div class="flex align-items-center justify-content-space-between">
-            <p class="text-display-xs">
-              {{
-                (expense.amount / balance.totalIncome) * 100 | number : "1.1-1"
-              }}%
-            </p>
-            <p class="text-display-xs">On track</p>
-          </div>
-        </ht-card>
         }
-      </div>
       } @else {
-      <div
-        class="flex flex-col items-center justify-center p-8 text-center border border-dashed rounded-lg bg-gray-50 text-gray-500"
-      >
-        <i class="pi pi-wallet text-4xl mb-4 text-gray-400"></i>
-        <h3 class="text-lg font-semibold mb-2">No expense entries yet</h3>
-        <p class="mb-4">
-          Start tracking your expense to better manage your finances.
-        </p>
-      </div>
-      } } @else {
-      <div class="flex flex-col gap-12 pb-4">
-        <ht-card>
-          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
-          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
-          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
-        </ht-card>
-      </div>
+        <div class="flex flex-col gap-12 pb-4">
+          <ht-card>
+            <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+            <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+            <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+          </ht-card>
+        </div>
       }
       <ht-button
         [variant]="'secondary'"
@@ -95,7 +110,7 @@
     <div class="flex-2">
       <div class="mb-16">
         @if (!!budgetSelected) {
-        <p class="text-display-lg">{{ budgetSelected.type.name }}</p>
+          <p class="text-display-lg">{{ budgetSelected.type.name }}</p>
         }
         <p>Budget overview and analysis</p>
       </div>
@@ -107,7 +122,7 @@
             <div class="flex flex-col">
               <p class="text-display-sm">Total Budget</p>
               <p class="text-display-lg">
-                {{ balance.totalIncome | currency : "VND" }}
+                {{ balance.totalIncome | currency: "VND" }}
               </p>
             </div>
             <div class="icon-container icon-background">
@@ -120,12 +135,12 @@
             <div class="flex flex-col">
               <p class="text-display-sm">Spent</p>
               @if (budgetSelected && budgetSelected.currency) {
-              <p class="text-display-lg">
-                {{
-                  budgetSelected.amount
-                    | currency : budgetSelected.currency.value || "VND"
-                }}
-              </p>
+                <p class="text-display-lg">
+                  {{
+                    budgetSelected.amount
+                      | currency: budgetSelected.currency.value || "VND"
+                  }}
+                </p>
               }
             </div>
             <div class="icon-container icon-background">
@@ -138,11 +153,12 @@
             <div class="flex flex-col">
               <p class="text-display-sm">Remaining</p>
               @if (budgetSelected && budgetSelected.amount) {
-              <p class="text-display-lg">
-                {{
-                  balance.totalIncome - budgetSelected.amount | currency : "VND"
-                }}
-              </p>
+                <p class="text-display-lg">
+                  {{
+                    balance.totalIncome - budgetSelected.amount
+                      | currency: "VND"
+                  }}
+                </p>
               }
             </div>
             <div class="icon-container icon-background">
@@ -153,71 +169,71 @@
       </div>
       <div class="mb-16">
         @if (budgetSelected) {
-        <ht-card>
-          <div
-            class="flex gap-16 align-items-center justify-content-space-between"
-          >
-            <div class="flex gap-8 align-items-center justify-content-start">
-              <div class="icon-container icon-background">
-                <i
-                  class="fontsize-16"
-                  [class]="'pi ' + budgetSelected.type.icon"
-                ></i>
+          <ht-card>
+            <div
+              class="flex gap-16 align-items-center justify-content-space-between"
+            >
+              <div class="flex gap-8 align-items-center justify-content-start">
+                <div class="icon-container icon-background">
+                  <i
+                    class="fontsize-16"
+                    [class]="'pi ' + budgetSelected.type.icon"
+                  ></i>
+                </div>
+                <div class="flex flex-col">
+                  <p class="text-display-md">{{ budgetSelected.type.name }}</p>
+                  <p class="text-display-sm capitalize">
+                    {{ budgetSelected.frequency }}
+                  </p>
+                </div>
               </div>
-              <div class="flex flex-col">
-                <p class="text-display-md">{{ budgetSelected.type.name }}</p>
-                <p class="text-display-sm capitalize">
-                  {{ budgetSelected.frequency }}
-                </p>
-              </div>
+              <i
+                class="fontsize-16 pi pi-pencil icon-container icon-action"
+                (click)="showEditDialog(budgetSelected)"
+              ></i>
             </div>
-            <i
-              class="fontsize-16 pi pi-pencil icon-container icon-action"
-              (click)="showEditDialog(budgetSelected)"
-            ></i>
-          </div>
-          <div
-            class="mt-16 mb-4 flex align-items-center justify-content-space-between"
-          >
-            <p class="text-display-sm">
-              {{
-                budgetSelected.amount
-                  | currency : budgetSelected.currency.value || "VND"
-              }}
-            </p>
-            <p class="text-display-sm">
-              {{
-                balance.totalIncome
-                  | currency : budgetSelected.currency.value || "VND"
-              }}
-            </p>
-          </div>
-          <p-progressbar
-            [value]="
-              (budgetSelected.amount / balance.totalIncome) * 100
-                | number : '1.1-1'
-            "
-          >
-            <ng-template #content let-value>
-              <span></span>
-            </ng-template>
-          </p-progressbar>
-          <div class="flex align-items-center justify-content-space-between">
-            <p class="text-display-xs">
-              {{
+            <div
+              class="mt-16 mb-4 flex align-items-center justify-content-space-between"
+            >
+              <p class="text-display-sm">
+                {{
+                  budgetSelected.amount
+                    | currency: budgetSelected.currency.value || "VND"
+                }}
+              </p>
+              <p class="text-display-sm">
+                {{
+                  balance.totalIncome
+                    | currency: budgetSelected.currency.value || "VND"
+                }}
+              </p>
+            </div>
+            <p-progressbar
+              [value]="
                 (budgetSelected.amount / balance.totalIncome) * 100
-                  | number : "1.1-1"
-              }}%
-            </p>
-            <p class="text-display-xs">On track</p>
-          </div>
-        </ht-card>
+                  | number: '1.1-1'
+              "
+            >
+              <ng-template #content let-value>
+                <span></span>
+              </ng-template>
+            </p-progressbar>
+            <div class="flex align-items-center justify-content-space-between">
+              <p class="text-display-xs">
+                {{
+                  (budgetSelected.amount / balance.totalIncome) * 100
+                    | number: "1.1-1"
+                }}%
+              </p>
+              <p class="text-display-xs">On track</p>
+            </div>
+          </ht-card>
         } @else {
-        <ht-card>
-          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
-          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
-          <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
-        </ht-card>
+          <ht-card>
+            <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+            <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+            <p-skeleton width="100%" height="1rem" class="mb-1"></p-skeleton>
+          </ht-card>
         }
       </div>
       <div class="mb-16">
@@ -226,15 +242,15 @@
           <div class="flex justify-content-space-between text-display-xs mx-24">
             <div>
               <p class="font-semibold">Average</p>
-              {{ average | currency : "VND" }}
+              {{ average | currency: "VND" }}
             </div>
             <div>
               <p class="font-semibold">Lowest</p>
-              {{ lowest | currency : "VND" }}
+              {{ lowest | currency: "VND" }}
             </div>
             <div>
               <p class="font-semibold">Highest</p>
-              {{ highest | currency : "VND" }}
+              {{ highest | currency: "VND" }}
             </div>
           </div>
         </ht-card>
@@ -248,7 +264,7 @@
                 $implicit: 'Previous Period',
                 subTitle: 'Last month\'s spending',
                 icon: 'pi-dollar',
-                amount: previousBalance.totalExpenses || 0
+                amount: previousBalance.totalExpenses || 0,
               }
             "
           ></ng-container>
@@ -259,7 +275,7 @@
                 $implicit: 'Current Period',
                 subTitle: 'This month\'s spending',
                 icon: 'pi-clipboard',
-                amount: balance.totalExpenses
+                amount: balance.totalExpenses,
               }
             "
           ></ng-container>
@@ -274,7 +290,7 @@
                   calculateVariance(
                     previousBalance.totalExpenses,
                     balance.totalExpenses
-                  ) || 0
+                  ) || 0,
               }
             "
           ></ng-container>
@@ -300,7 +316,7 @@
         <p>{{ subTitle }}</p>
       </div>
     </div>
-    <p>{{ amount | currency : "VND" }}</p>
+    <p>{{ amount | currency: "VND" }}</p>
   </div>
 </ng-template>
 <p-dialog
@@ -316,7 +332,10 @@
         {{ isEdit ? "Edit expense" : "Add expense" }}
       </p>
       @if (isEdit) {
-      <i class="fontsize-16 pi pi-trash icon-container icon-action" (click)="deleteVisible = true"></i>
+        <i
+          class="fontsize-16 pi pi-trash icon-container icon-action"
+          (click)="deleteVisible = true"
+        ></i>
       }
     </div>
   </ng-template>
@@ -334,12 +353,12 @@
     >
       <ng-template let-selected pTemplate="selectedItem">
         @if (selected) {
-        <div class="w-full md:w-14rem">
-          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
-          {{ selected.name }}
-        </div>
+          <div class="w-full md:w-14rem">
+            <i [class]="'pi ' + selected.icon" class="mr-2"></i>
+            {{ selected.name }}
+          </div>
         } @else {
-        <span>Select Type</span>
+          <span>Select Type</span>
         }
       </ng-template>
       <ng-template let-option pTemplate="item">
@@ -381,12 +400,12 @@
     >
       <ng-template let-selected pTemplate="selectedItem">
         @if (selected) {
-        <div class="w-full md:w-14rem">
-          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
-          {{ selected.label }}
-        </div>
+          <div class="w-full md:w-14rem">
+            <i [class]="'pi ' + selected.icon" class="mr-2"></i>
+            {{ selected.label }}
+          </div>
         } @else {
-        <span>Select Frequency</span>
+          <span>Select Frequency</span>
         }
       </ng-template>
       <ng-template let-option pTemplate="item">
@@ -406,21 +425,21 @@
         >Cancel</ht-button
       >
       @if (isEdit) {
-      <ht-button
-        [variant]="'primary'"
-        [disabled]="expenseForm.invalid"
-        class="w-fit-content"
-        (click)="editExpense()"
-        >Edit expense</ht-button
-      >
+        <ht-button
+          [variant]="'primary'"
+          [disabled]="expenseForm.invalid"
+          class="w-fit-content"
+          (click)="editExpense()"
+          >Edit expense</ht-button
+        >
       } @else {
-      <ht-button
-        [variant]="'primary'"
-        [disabled]="expenseForm.invalid"
-        class="w-fit-content"
-        (click)="addExpense()"
-        >Add expense</ht-button
-      >
+        <ht-button
+          [variant]="'primary'"
+          [disabled]="expenseForm.invalid"
+          class="w-fit-content"
+          (click)="addExpense()"
+          >Add expense</ht-button
+        >
       }
     </div>
   </ng-template>
@@ -451,4 +470,3 @@
     </div>
   </ng-template>
 </p-dialog>
-

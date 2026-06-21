@@ -49,6 +49,50 @@ export const routes: Routes = [
             (c) => c.InstallmentComponent
           ),
       },
+      {
+        path: 'assets',
+        title: 'Assets',
+        loadComponent: () =>
+          import('./pages/assets/assets.component').then((c) => c.AssetsComponent),
+      },
+      {
+        path: 'goals',
+        title: 'Goals',
+        loadComponent: () =>
+          import('./pages/goals/goals.component').then((c) => c.GoalsComponent),
+      },
+      {
+        path: 'savings',
+        title: 'Savings',
+        loadComponent: () =>
+          import('./pages/savings/savings.component').then(
+            (c) => c.SavingsComponent
+          ),
+      },
+      {
+        path: 'report',
+        title: 'Report',
+        loadComponent: () =>
+          import('./pages/report/report.component').then(
+            (c) => c.ReportComponent
+          ),
+      },
+      {
+        path: 'referral',
+        title: 'Referral',
+        loadComponent: () =>
+          import('./pages/referral/referral.component').then(
+            (c) => c.ReferralComponent
+          ),
+      },
+      {
+        path: 'setting',
+        title: 'Setting',
+        loadComponent: () =>
+          import('./pages/setting/setting.component').then(
+            (c) => c.SettingComponent
+          ),
+      },
     ],
     canActivate: [AuthGuard],
   },

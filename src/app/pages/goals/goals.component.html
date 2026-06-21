@@ -1,0 +1,195 @@
+<app-dashboard-layout title="Financial Goals">
+  <div class="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-700">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <p class="text-slate-500 mt-1">Track your dreams and plan your future</p>
+      </div>
+      <ht-button (click)="showAddDialog()" [icon]="'pi pi-plus'" [variant]="'primary'" [size]="'lg'" class="w-fit-content">New Goal</ht-button>
+    </div>
+
+    <!-- Goals Grid -->
+    @if ((goals$ | async); as goals) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      @if (goals.length === 0) {
+      <div class="col-span-full flex flex-col items-center justify-center p-12 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-4">
+          <i class="pi pi-flag text-2xl text-slate-400"></i>
+        </div>
+        <p class="text-slate-500 font-medium">No goals found. Start by creating your first goal!</p>
+        <ht-button (click)="showAddDialog()" [variant]="'secondary'" class="mt-4 w-fit-content">Create Goal</ht-button>
+      </div>
+      }
+
+      @for (goal of goals; track goal.id) {
+      <ht-card hoverable class="rounded-3xl">
+        <div class="flex flex-col h-full space-y-4">
+          <!-- Icon & Title -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <div [style.backgroundColor]="goal.color + '20'" [style.color]="goal.color" class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                <i [class]="'pi ' + getGoalIcon(goal.icon || '')"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 line-clamp-1">{{ goal.name }}</h3>
+                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">{{ goal.status }}</span>
+              </div>
+            </div>
+            
+            <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button (click)="showEditDialog(goal)" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors cursor-pointer border-none bg-transparent">
+                <i class="pi pi-pencil"></i>
+              </button>
+              <button (click)="showDeleteDialog(goal)" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer border-none bg-transparent">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress -->
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="font-semibold text-slate-900 font-mono">{{ goal.currentAmount | currency:goal.currency:'symbol':'1.0-2' }}</span>
+              <span class="text-slate-400 font-mono">of {{ goal.targetAmount | currency:goal.currency:'symbol':'1.0-2' }}</span>
+            </div>
+            <p-progressbar [value]="calculateProgress(goal)" [showValue]="false" [style]="{'height': '8px', 'border-radius': '99px'}"></p-progressbar>
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-indigo-600">{{ calculateProgress(goal) }}% reached</span>
+              @if (getRemainingAmount(goal) > 0) {
+              <span class="text-slate-500 font-mono">{{ getRemainingAmount(goal) | currency:goal.currency:'symbol':'1.0-2' }} left</span>
+              }
+              @if (getRemainingAmount(goal) <= 0) {
+              <span class="text-green-600 font-bold"><i class="pi pi-check"></i> Completed</span>
+              }
+            </div>
+          </div>
+
+          <!-- Bottom Info -->
+          <div class="pt-2 flex items-center justify-between border-t border-slate-50 mt-auto">
+            @if (goal.targetDate) {
+            <div class="flex items-center gap-1.5 text-slate-500 text-xs">
+              <i class="pi pi-calendar"></i>
+              <span>Target: {{ goal.targetDate | date:'MMM dd, yyyy' }}</span>
+            </div>
+            }
+            @if (!goal.targetDate) {
+            <div class="text-slate-300 text-xs">No target date</div>
+            }
+            
+            <span class="text-[10px] text-slate-300">Updated {{ goal.lastUpdated | date:'shortDate' }}</span>
+          </div>
+        </div>
+      </ht-card>
+      }
+    </div>
+    } @else {
+    <!-- Loading State -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (i of [1,2,3]; track i) {
+      <div class="p-6 bg-white rounded-3xl border border-slate-100 space-y-4">
+        <div class="flex gap-3">
+          <p-skeleton shape="circle" size="3rem"></p-skeleton>
+          <div class="space-y-2 flex-1">
+            <p-skeleton width="70%"></p-skeleton>
+            <p-skeleton width="40%"></p-skeleton>
+          </div>
+        </div>
+        <p-skeleton height="8px"></p-skeleton>
+        <div class="flex justify-between">
+          <p-skeleton width="30%"></p-skeleton>
+          <p-skeleton width="30%"></p-skeleton>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Add/Edit Goal Dialog -->
+  <p-dialog [(visible)]="visible" [header]="isEdit ? 'Edit Goal' : 'Create New Goal'" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid rounded-3xl shadow-2xl overflow-hidden">
+    <form [formGroup]="goalForm" (ngSubmit)="saveGoal()" class="space-y-6 pt-4">
+      
+      <div class="space-y-2">
+        <label for="name" class="text-sm font-semibold text-slate-700">Goal Name</label>
+        <input pInputText id="name" formControlName="name" placeholder="e.g. Dream House" class="rounded-xl border-slate-200 focus:ring-2 focus:ring-indigo-500" />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label for="currency" class="text-sm font-semibold text-slate-700">Currency</label>
+          <p-select [options]="CURRENCY_OPTIONS" formControlName="currency" optionLabel="label" placeholder="Select Currency" class="rounded-xl overflow-hidden"></p-select>
+        </div>
+        <div class="space-y-2">
+          <label for="status" class="text-sm font-semibold text-slate-700">Status</label>
+          <p-select [options]="GOAL_STATUS_OPTIONS" formControlName="status" optionLabel="label" optionValue="value" placeholder="Status" class="rounded-xl overflow-hidden"></p-select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label for="targetAmount" class="text-sm font-semibold text-slate-700">Target Amount</label>
+          <p-inputnumber id="targetAmount" formControlName="targetAmount" mode="currency" [currency]="goalForm.get('currency')?.value?.value || 'USD'" [locale]="goalForm.get('currency')?.value?.locale || 'en-US'" class="rounded-xl"></p-inputnumber>
+        </div>
+        <div class="space-y-2">
+          <label for="currentAmount" class="text-sm font-semibold text-slate-700">Current Amount</label>
+          <p-inputnumber id="currentAmount" formControlName="currentAmount" mode="currency" [currency]="goalForm.get('currency')?.value?.value || 'USD'" [locale]="goalForm.get('currency')?.value?.locale || 'en-US'" class="rounded-xl"></p-inputnumber>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label for="targetDate" class="text-sm font-semibold text-slate-700">Target Date (Optional)</label>
+        <p-datepicker id="targetDate" formControlName="targetDate" [showIcon]="true" placeholder="Plan ahead..." class="rounded-xl"></p-datepicker>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label for="icon" class="text-sm font-semibold text-slate-700">Icon</label>
+          <p-select [options]="GOAL_ICON_OPTIONS" formControlName="icon" optionLabel="label" optionValue="value" class="rounded-xl overflow-hidden">
+            <ng-template let-selected pTemplate="selectedItem" >
+              <div class="flex items-center gap-2" *ngIf="selected">
+                <i [class]="'pi ' + selected.value"></i>
+                <span>{{ selected.label }}</span>
+              </div>
+            </ng-template>
+            <ng-template let-option pTemplate="item">
+              <div class="flex items-center gap-2">
+                <i [class]="'pi ' + option.value"></i>
+                <span>{{ option.label }}</span>
+              </div>
+            </ng-template>
+          </p-select>
+        </div>
+        <div class="space-y-2">
+          <label for="color" class="text-sm font-semibold text-slate-700">Color Tag</label>
+          <div class="flex items-center gap-2 mt-1">
+             <input type="color" id="color" formControlName="color" class="w-10 h-10 rounded-lg cursor-pointer border-none p-0 overflow-hidden shadow-sm" />
+             <span class="text-xs text-slate-400 font-mono">{{ goalForm.get('color')?.value }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-50">
+        <ht-button (click)="closeDialog()" [variant]="'secondary'" class="w-fit-content">Cancel</ht-button>
+        <ht-button (click)="saveGoal()" [variant]="'primary'" [disabled]="goalForm.invalid" class="w-fit-content">{{ isEdit ? 'Update Goal' : 'Launch Goal' }}</ht-button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <!-- Delete Confirmation Dialog -->
+  <p-dialog [(visible)]="deleteVisible" header="Discard Goal?" [modal]="true" [style]="{width: '350px'}" styleClass="rounded-3xl shadow-2xl">
+    <div class="flex flex-col items-center text-center space-y-4 py-4">
+      <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-2xl">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+      <div>
+        <p class="text-slate-600 font-medium">Are you sure you want to delete <span class="font-bold text-slate-900">"{{ goalSelected?.name }}"</span>?</p>
+        <p class="text-xs text-slate-400 mt-2">This action cannot be undone.</p>
+      </div>
+    </div>
+    <div class="flex justify-center gap-3 pt-4 border-t border-slate-50">
+      <ht-button (click)="deleteVisible = false" [variant]="'secondary'" class="w-fit-content">Keep it</ht-button>
+      <ht-button (click)="confirmDelete()" [variant]="'danger'" class="w-fit-content">Delete Goal</ht-button>
+    </div>
+  </p-dialog>
+</app-dashboard-layout>

@@ -5,7 +5,6 @@
     <!-- Header Section -->
     <div class="header-section flex justify-content-space-between align-items-center mb-24">
       <div>
-        <p class="text-display-lg font-bold">Installment Plans</p>
         <p class="text-display-sm text-gray-500">Manage and track your active payment schedules</p>
       </div>
       <ht-button (click)="visible = true" icon="pi pi-plus">
@@ -15,32 +14,32 @@
 
     <!-- Stats Cards Section -->
     <div class="stats-grid mb-24">
-      <ht-card>
+      <ht-card hoverable>
         <div class="flex flex-col gap-8">
           <p class="text-display-xs text-gray-500 uppercase font-semibold">Total Remaining Balance</p>
-          <p class="text-display-xl font-bold">{{ totalRemainingBalance | currency : 'USD' }}</p>
-          <div class="flex align-items-center gap-4 text-danger text-display-xs">
+          <p class="fontsize-32 font-bold">{{ totalRemainingBalance | currency : 'USD' }}</p>
+          <div class="flex align-items-center gap-4 text-color-danger text-display-xs">
             <i class="pi pi-arrow-up"></i>
             <span>2.4% from last month</span>
           </div>
         </div>
       </ht-card>
       
-      <ht-card>
+      <ht-card hoverable>
         <div class="flex flex-col gap-8">
           <p class="text-display-xs text-gray-500 uppercase font-semibold">Next Payment Due Date</p>
-          <p class="text-display-xl font-bold">{{ nextPaymentDate | date: 'MMM dd, yyyy' }}</p>
-          <div class="flex align-items-center gap-4 text-success text-display-xs">
+          <p class="fontsize-32 font-bold">{{ nextPaymentDate | date: 'MMM dd, yyyy' }}</p>
+          <div class="flex align-items-center gap-4 text-color-success text-display-xs">
             <i class="pi pi-calendar"></i>
             <span>12 days remaining</span>
           </div>
         </div>
       </ht-card>
       
-      <ht-card>
+      <ht-card hoverable>
         <div class="flex flex-col gap-8">
           <p class="text-display-xs text-gray-500 uppercase font-semibold">Active Installments</p>
-          <p class="text-display-xl font-bold">{{ activeInstallmentsCount }} Plans</p>
+          <p class="fontsize-32 font-bold">{{ activeInstallmentsCount }} Plans</p>
           <div class="flex align-items-center gap-4 text-gray-500 text-display-xs">
             <i class="pi pi-check"></i>
             <span>1 completed this month</span>
@@ -146,7 +145,7 @@
                     <div class="next-payment-card mt-12 p-12">
                       <div class="flex justify-content-space-between align-items-center mb-12">
                         <div class="flex flex-col">
-                          <p class="text-display-xs font-bold text-success">Next Payment</p>
+                          <p class="text-display-xs font-bold text-color-success">Next Payment</p>
                           <p class="text-display-md font-bold">{{ payment.amount | currency : 'USD' }}</p>
                         </div>
                         <p class="text-display-xs text-gray-500">{{ payment.date | date: 'MMM dd, yyyy' }}</p>

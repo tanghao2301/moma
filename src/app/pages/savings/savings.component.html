@@ -1,0 +1,168 @@
+<app-dashboard-layout title="Savings & Accounts">
+  <div class="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-700">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <p class="text-slate-500 mt-1">Manage your liquid assets and savings accounts</p>
+      </div>
+      <ht-button (click)="showAddDialog()" [icon]="'pi pi-plus'" [variant]="'primary'" [size]="'lg'" class="w-fit-content">Add Account</ht-button>
+    </div>
+
+    <!-- Savings Grid -->
+    @if ((savings$ | async); as savings) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      @if (savings.length === 0) {
+      <div class="col-span-full flex flex-col items-center justify-center p-12 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-4">
+          <i class="pi pi-briefcase text-2xl text-slate-400"></i>
+        </div>
+        <p class="text-slate-500 font-medium">No savings accounts found. Start by adding one!</p>
+        <ht-button (click)="showAddDialog()" [variant]="'secondary'" class="mt-4 w-fit-content">Add Account</ht-button>
+      </div>
+      }
+
+      @for (saving of savings; track saving.id) {
+      <ht-card hoverable class="rounded-3xl">
+        <div class="flex flex-col h-full space-y-4">
+          <!-- Icon & Title -->
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <div class="p-3 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                <i [class]="'pi ' + getTypeIcon(saving.type)"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 line-clamp-1">{{ saving.name }}</h3>
+                <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">{{ saving.institution }}</span>
+              </div>
+            </div>
+            
+            <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button (click)="showEditDialog(saving)" class="p-2 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors cursor-pointer border-none bg-transparent">
+                <i class="pi pi-pencil"></i>
+              </button>
+              <button (click)="showDeleteDialog(saving)" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer border-none bg-transparent">
+                <i class="pi pi-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Account Details -->
+          <div class="space-y-3 py-2">
+            <div class="flex flex-col">
+              <span class="text-xs text-slate-400 uppercase tracking-tight font-semibold">Current Balance</span>
+              <span class="text-2xl font-bold text-slate-900 font-mono">{{ saving.balance | currency:saving.currency:'symbol':'1.0-2' }}</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 pt-2">
+               @if (saving.interestRate) {
+                  <div class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-bold border border-emerald-100">
+                    <i class="pi pi-percentage mr-1"></i>{{ saving.interestRate }}% APY
+                  </div>
+               }
+               <div class="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full text-[10px] font-bold">
+                 {{ saving.type }}
+               </div>
+            </div>
+          </div>
+
+          <!-- Bottom Info -->
+          <div class="pt-3 flex items-center justify-between border-t border-slate-50 mt-auto">
+            <div class="flex items-center gap-1.5 text-slate-400 text-xs">
+              <i class="pi pi-info-circle"></i>
+              <span>{{ saving.accountNumber ? '****' + saving.accountNumber.slice(-4) : 'No account number' }}</span>
+            </div>
+            <span class="text-[10px] text-slate-300">Updated {{ saving.lastUpdated | date:'shortDate' }}</span>
+          </div>
+        </div>
+      </ht-card>
+      }
+    </div>
+    } @else {
+    <!-- Loading State -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (i of [1,2,3]; track i) {
+      <div class="p-6 bg-white rounded-3xl border border-slate-100 space-y-4">
+        <div class="flex gap-3">
+          <p-skeleton shape="circle" size="3rem"></p-skeleton>
+          <div class="space-y-2 flex-1">
+            <p-skeleton width="70%"></p-skeleton>
+            <p-skeleton width="40%"></p-skeleton>
+          </div>
+        </div>
+        <p-skeleton height="20px" width="60%"></p-skeleton>
+        <div class="flex gap-2">
+          <p-skeleton width="30%" height="20px" borderRadius="10px"></p-skeleton>
+          <p-skeleton width="30%" height="20px" borderRadius="10px"></p-skeleton>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+
+  <!-- Add/Edit Saving Dialog -->
+  <p-dialog [(visible)]="visible" [header]="isEdit ? 'Edit Account' : 'Add New Account'" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid rounded-3xl shadow-2xl overflow-hidden">
+    <form [formGroup]="savingForm" (ngSubmit)="saveSaving()" class="space-y-6 pt-4">
+      
+      <div class="space-y-2">
+        <label for="name" class="text-sm font-semibold text-slate-700">Account Name</label>
+        <input pInputText id="name" formControlName="name" placeholder="e.g. Primary Savings" class="rounded-xl border-slate-200 focus:ring-2 focus:ring-teal-500" />
+      </div>
+
+      <div class="space-y-2">
+        <label for="institution" class="text-sm font-semibold text-slate-700">Financial Institution</label>
+        <input pInputText id="institution" formControlName="institution" placeholder="e.g. Chase Bank" class="rounded-xl border-slate-200 focus:ring-2 focus:ring-teal-500" />
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label for="currency" class="text-sm font-semibold text-slate-700">Currency</label>
+          <p-select [options]="CURRENCY_OPTIONS" formControlName="currency" optionLabel="label" placeholder="Select" class="rounded-xl overflow-hidden"></p-select>
+        </div>
+        <div class="space-y-2">
+          <label for="type" class="text-sm font-semibold text-slate-700">Account Type</label>
+          <p-select [options]="SAVING_TYPE_OPTIONS" formControlName="type" optionLabel="label" optionValue="value" placeholder="Type" class="rounded-xl overflow-hidden"></p-select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <label for="balance" class="text-sm font-semibold text-slate-700">Current Balance</label>
+          <p-inputnumber id="balance" formControlName="balance" mode="currency" [currency]="savingForm.get('currency')?.value?.value || 'USD'" [locale]="savingForm.get('currency')?.value?.locale || 'en-US'" class="rounded-xl"></p-inputnumber>
+        </div>
+        <div class="space-y-2">
+          <label for="interestRate" class="text-sm font-semibold text-slate-700">Interest Rate (% APY)</label>
+          <p-inputnumber id="interestRate" formControlName="interestRate" suffix="%" [minFractionDigits]="2" [maxFractionDigits]="2" class="rounded-xl"></p-inputnumber>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label for="accountNumber" class="text-sm font-semibold text-slate-700">Account Number (Optional)</label>
+        <input pInputText id="accountNumber" formControlName="accountNumber" placeholder="Last 4 digits or full number" class="rounded-xl border-slate-200" />
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-50">
+        <ht-button (click)="closeDialog()" [variant]="'secondary'" class="w-fit-content">Cancel</ht-button>
+        <ht-button (click)="saveSaving()" [variant]="'primary'" [disabled]="savingForm.invalid" class="w-fit-content">{{ isEdit ? 'Update Account' : 'Add Account' }}</ht-button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <!-- Delete Confirmation Dialog -->
+  <p-dialog [(visible)]="deleteVisible" header="Remove Account?" [modal]="true" [style]="{width: '350px'}" styleClass="rounded-3xl shadow-2xl">
+    <div class="flex flex-col items-center text-center space-y-4 py-4">
+      <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-2xl">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+      <div>
+        <p class="text-slate-600 font-medium">Are you sure you want to remove <span class="font-bold text-slate-900">"{{ savingSelected?.name }}"</span>?</p>
+        <p class="text-xs text-slate-400 mt-2">This will remove the record from your dashboard. This action cannot be undone.</p>
+      </div>
+    </div>
+    <div class="flex justify-center gap-3 pt-4 border-t border-slate-50">
+      <ht-button (click)="deleteVisible = false" [variant]="'secondary'" class="w-fit-content">Keep it</ht-button>
+      <ht-button (click)="confirmDelete()" [variant]="'danger'" class="w-fit-content">Remove</ht-button>
+    </div>
+  </p-dialog>
+</app-dashboard-layout>

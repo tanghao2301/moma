@@ -1,5 +1,6 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   ContentChildren,
   input,
@@ -24,6 +25,9 @@ export class HtCardComponent {
   footer!: TemplateRef<any>;
   icon!: TemplateRef<any>;
   title = input('');
+  hoverable = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   getVariantClass(): string {
     switch (this.variant()) {

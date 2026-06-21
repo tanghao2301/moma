@@ -1,0 +1,77 @@
+:host {
+  display: block;
+}
+
+::ng-deep {
+  .p-dialog {
+    max-width: 95vw;
+    
+    .p-dialog-header {
+      padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+      border-top-left-radius: 1.5rem;
+      border-top-right-radius: 1.5rem;
+      border-bottom: none;
+      
+      .p-dialog-title {
+        font-weight: 800;
+        color: #1e293b;
+        font-size: 1.25rem;
+      }
+    }
+    
+    .p-dialog-content {
+      padding: 0 1.5rem 1.5rem 1.5rem;
+      border-bottom-left-radius: 1.5rem;
+      border-bottom-right-radius: 1.5rem;
+    }
+  }
+
+  .p-inputtext, .p-inputnumber-input, .p-datepicker-input {
+    border-radius: 0.75rem !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    transition: all 0.2s ease;
+    
+    &:focus {
+      border-color: #14b8a6 !important; // teal-500
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.1) !important;
+    }
+  }
+
+  .p-select {
+    border-radius: 0.75rem !important;
+    border: 1px solid #e2e8f0 !important;
+    
+    &:not(.p-disabled).p-focus {
+      border-color: #14b8a6 !important;
+      box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.1) !important;
+    }
+  }
+
+  .p-datepicker {
+    border-radius: 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+// Animations
+.animate-in {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,42 @@
+@use '../../shared/assets/styles/variables' as vars;
+
+:host {
+  display: block;
+}
+
+.animate-in {
+  animation: fadeIn 0.7s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:host ::ng-deep {
+  .p-inputtext {
+    padding: 0.75rem 1rem;
+    font-size: vars.$fontSizeSM;
+    transition: all 0.2s;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(var(--color-primary), 0.1);
+      border-color: var(--color-primary);
+    }
+  }
+
+  .p-floatlabel label {
+    margin-left: 0.5rem;
+  }
+}
+
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}

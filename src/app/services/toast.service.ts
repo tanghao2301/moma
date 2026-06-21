@@ -29,6 +29,13 @@ export class ToastService {
     this.toastSubject.next({ severity: type, summary: title, detail: content });
   }
 
+  success(
+    title: string = '',
+    content: string = ''
+  ): void {
+    this.toastSubject.next({ severity: 'success', summary: title, detail: content });
+  }
+
   error(
     title: string = '',
     content: string = ''

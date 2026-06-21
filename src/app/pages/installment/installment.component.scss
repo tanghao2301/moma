@@ -1,19 +1,10 @@
 :host {
   display: block;
-  padding: 24px;
-  background-color: #f9f9fb;
-  min-height: 100vh;
+  height: 100%;
 
   .installment-container {
     max-width: 1440px;
     margin: 0 auto;
-  }
-
-  .header-section {
-    p.text-display-lg {
-      font-size: 28px;
-      color: #1a202c;
-    }
   }
 
   .stats-grid {
@@ -21,14 +12,7 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 24px;
 
-    ht-card {
-      transition: all 0.2s ease;
-      &:hover { transform: translateY(-4px); }
-      
-      .text-display-xl { font-size: 32px; color: #1a202c; }
-      .text-success { color: #10b981; }
-      .text-danger { color: #ef4444; }
-    }
+
   }
 
   .content-grid {
@@ -162,18 +146,7 @@
       border-radius: 12px;
       border: 1px dashed #10b981;
       
-      .text-success { color: #10b981; }
-      
-      ::ng-deep ht-button button {
-        background: #10b981;
-        color: white;
-        &:hover { background: #059669; }
-      }
-    }
-  }
 
-  ::ng-deep .ht-card-container {
-    border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
   }
 }

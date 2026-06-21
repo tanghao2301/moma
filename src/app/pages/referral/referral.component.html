@@ -1,0 +1,136 @@
+<app-dashboard-layout title="Refer & Earn">
+  <div class="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-700">
+    <p-toast></p-toast>
+    
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <p class="text-slate-500 mt-1">Invite your friends and grow your wealth together</p>
+      </div>
+    </div>
+
+    <!-- Referral Stats & Code -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Main Referral Card -->
+      <ht-card class="lg:col-span-2 overflow-hidden relative">
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-teal-50 rounded-full blur-3xl opacity-50"></div>
+        <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-50"></div>
+        
+        <div class="relative z-10 space-y-8 p-4">
+          <div class="flex flex-col md:flex-row md:items-center gap-8">
+            <div class="w-32 h-32 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-3xl flex items-center justify-center shadow-lg transform rotate-3">
+              <i class="pi pi-gift text-5xl text-white"></i>
+            </div>
+            <div class="flex-1 space-y-2">
+              <h2 class="text-2xl font-bold text-slate-900">Invite a friend</h2>
+              <p class="text-slate-500">Share your referral link with friends. When they sign up, you both get a reward!</p>
+            </div>
+          </div>
+
+          @if (referralInfo$ | async; as info) {
+          <div class="space-y-4">
+            <label class="text-sm font-semibold text-slate-700">Personal Referral Link</label>
+            <div class="flex items-center gap-2 p-1 pl-4 bg-slate-50 rounded-2xl border border-slate-200">
+              <span class="text-slate-600 font-medium truncate flex-1">{{ info.referralLink }}</span>
+              <ht-button 
+                (click)="copyToClipboard(info.referralLink)"
+                [variant]="'primary'" 
+                [size]="'md'" 
+                class="rounded-xl"
+              >
+                Copy Link
+              </ht-button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-4 pt-2">
+            <button (click)="shareOnSocial('facebook', info.referralLink)" class="flex items-center gap-2 px-6 py-3 bg-[#1877F2] text-white rounded-2xl font-bold transition-transform hover:scale-105 border-none cursor-pointer">
+              <i class="pi pi-facebook"></i> Facebook
+            </button>
+            <button (click)="shareOnSocial('twitter', info.referralLink)" class="flex items-center gap-2 px-6 py-3 bg-[#1DA1F2] text-white rounded-2xl font-bold transition-transform hover:scale-105 border-none cursor-pointer">
+              <i class="pi pi-twitter"></i> Twitter
+            </button>
+            <button (click)="shareOnSocial('linkedin', info.referralLink)" class="flex items-center gap-2 px-6 py-3 bg-[#0A66C2] text-white rounded-2xl font-bold transition-transform hover:scale-105 border-none cursor-pointer">
+              <i class="pi pi-linkedin"></i> LinkedIn
+            </button>
+          </div>
+          } @else {
+            <div class="space-y-4">
+              <p-skeleton height="20px" width="30%"></p-skeleton>
+              <p-skeleton height="50px" width="100%" borderRadius="16px"></p-skeleton>
+              <div class="flex gap-4">
+                <p-skeleton height="45px" width="120px" borderRadius="16px"></p-skeleton>
+                <p-skeleton height="45px" width="120px" borderRadius="16px"></p-skeleton>
+              </div>
+            </div>
+          }
+        </div>
+      </ht-card>
+
+      <!-- Stats -->
+      <div class="space-y-6">
+        @if (referralInfo$ | async; as info) {
+        <ht-card class="bg-gradient-to-br from-slate-900 to-slate-800 text-white">
+          <div class="space-y-2">
+            <p class="text-slate-400 text-sm font-medium uppercase tracking-wider">Total Rewards</p>
+            <h3 class="text-4xl font-bold">{{ info.totalRewards | currency:'VND':'symbol':'1.0-0' }}</h3>
+          </div>
+          <div class="mt-6 flex items-center gap-2 text-emerald-400 text-sm">
+            <i class="pi pi-arrow-up-right"></i>
+            <span>Increasing with every friend</span>
+          </div>
+        </ht-card>
+
+        <ht-card>
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-slate-500 font-medium">Invited Friends</p>
+            <span class="px-3 py-1 bg-teal-50 text-teal-600 rounded-full text-xs font-bold">{{ info.totalReferrals }} Joined</span>
+          </div>
+          <p class="text-xs text-slate-400">Keep sharing to earn more!</p>
+        </ht-card>
+        } @else {
+          <p-skeleton height="140px" borderRadius="24px"></p-skeleton>
+          <p-skeleton height="100px" borderRadius="24px"></p-skeleton>
+        }
+      </div>
+    </div>
+
+    <!-- Recent Referrals -->
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold text-slate-800">Recent Referrals</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        @if (recentReferrals$ | async; as referrals) {
+          @if (referrals.length === 0) {
+            <div class="col-span-full flex flex-col items-center justify-center p-12 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+              <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-4 text-slate-300">
+                <i class="pi pi-users text-2xl"></i>
+              </div>
+              <p class="text-slate-400 font-medium">No one has joined yet. Start sharing!</p>
+            </div>
+          }
+
+          @for (referral of referrals; track referral.id) {
+            <ht-card class="flex items-center gap-4 py-4">
+              <div class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-500">
+                <i class="pi pi-user"></i>
+              </div>
+              <div class="flex-1">
+                <p class="font-bold text-slate-900 text-sm">User ID: {{ referral.referredUserId.substring(0, 8) }}...</p>
+                <p class="text-xs text-slate-400">{{ referral.createdAt | date:'MMM dd, yyyy' }}</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-emerald-600 text-sm">+{{ referral.rewardAmount | currency:'VND':'symbol':'1.0-0' }}</p>
+                <span class="text-[10px] px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-full font-bold uppercase">{{ referral.status }}</span>
+              </div>
+            </ht-card>
+          }
+        } @else {
+          @for (i of [1,2,3,4]; track i) {
+            <p-skeleton height="80px" borderRadius="20px"></p-skeleton>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</app-dashboard-layout>

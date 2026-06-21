@@ -3,7 +3,6 @@ import {
   CommonModule,
   CurrencyPipe,
   DatePipe,
-  DecimalPipe,
 } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -43,7 +42,6 @@ import { Observable } from 'rxjs';
     AsyncPipe,
     CurrencyPipe,
     DatePipe,
-    DecimalPipe,
     SkeletonModule,
     SelectModule,
     ProgressBarModule,

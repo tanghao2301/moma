@@ -1,16 +1,12 @@
-import { CurrencyPipe, DecimalPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
-import { LayoutCardDirective } from '@components/ht-card/ht-card.directive';
+import { HtMetricCardComponent } from '@components/ht-metric-card/ht-metric-card.component';
 import { Balance } from '@models/balance.model';
 import { UserModel } from '@models/user.model';
 import { TransactionsService } from '@services/transactions.service';
 import { UserService } from '@services/user.service';
 import { DashboardLayoutComponent } from "@shared/layouts/dashboard-layout/dashboard-layout.component";
-import { SkeletonModule } from 'primeng/skeleton';
-import { Tooltip } from 'primeng/tooltip';
 import { delay, forkJoin } from 'rxjs';
-import { AbsPipe } from 'src/app/pipes/absolute.pipe';
 import { BalanceChartComponent } from './balance-chart/balance-chart.component';
 
 
@@ -18,14 +14,7 @@ import { BalanceChartComponent } from './balance-chart/balance-chart.component';
   selector: 'app-dashboard',
   imports: [
     HtCardComponent,
-    LayoutCardDirective,
-    CurrencyPipe,
-    NgClass,
-    AbsPipe,
-    DecimalPipe,
-    NgTemplateOutlet,
-    SkeletonModule,
-    Tooltip,
+    HtMetricCardComponent,
     BalanceChartComponent,
     DashboardLayoutComponent
 ],

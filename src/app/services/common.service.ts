@@ -32,8 +32,8 @@ export class CommonService {
       icon: 'pi-bullseye',
     },
     {
-      title: 'Saving',
-      url: '/saving',
+      title: 'Savings',
+      url: '/savings',
       icon: 'pi-inbox',
     },
     {

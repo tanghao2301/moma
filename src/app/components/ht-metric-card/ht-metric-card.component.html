@@ -1,0 +1,34 @@
+@if (!isLoading()) {
+  <ht-card hoverable>
+    <ng-template layoutCardTemplate="header">
+      <span class="text-display-sm">{{ title() }}</span>
+      <span class="text-title-lg">{{
+        value() || 0 | abs | currency: "VND"
+      }}</span>
+    </ng-template>
+    <div class="text-display-sm">
+      <span [ngClass]="percentage() > 0 ? 'text-primary' : 'text-danger'">
+        <i
+          [style]="{ fontSize: '14px' }"
+          [ngClass]="percentage() > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"
+        ></i
+        >{{ percentage() | number: "1.1-2" }}%
+      </span>
+      <span
+        class="pointer"
+        pTooltip="{{ previousValue() || 0 | abs | currency: 'VND' }}"
+        tooltipPosition="top"
+        placeholder="Top"
+        >Last month</span
+      >
+    </div>
+  </ht-card>
+} @else {
+  <ht-card>
+    <ng-template layoutCardTemplate="header">
+      <p-skeleton />
+      <p-skeleton height="2rem" />
+    </ng-template>
+    <p-skeleton />
+  </ht-card>
+}

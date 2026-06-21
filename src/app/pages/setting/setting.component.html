@@ -1,0 +1,138 @@
+<app-dashboard-layout title="Settings">
+  <div class="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-700">
+    <p-toast></p-toast>
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <p class="text-slate-500 mt-1">Manage your account and preferences</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Profile Side Section -->
+      <div class="md:col-span-1 space-y-6">
+        <ht-card class="text-center p-8 overflow-hidden relative">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-primary-50 rounded-full blur-2xl opacity-50"></div>
+          
+          <div class="relative z-10 flex flex-col items-center">
+            <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 p-1 mb-4 shadow-lg">
+              <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                <i class="pi pi-user text-4xl text-primary"></i>
+              </div>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900">{{ (userForm.get('firstName')?.value || '') + ' ' + (userForm.get('lastName')?.value || '') }}</h2>
+            <p class="text-sm text-slate-500">{{ userForm.get('email')?.value }}</p>
+          </div>
+        </ht-card>
+
+        <ht-card>
+          <div class="space-y-4">
+            <h3 class="text-sm font-semibold text-slate-400 uppercase tracking-wider">Quick Actions</h3>
+            <div class="space-y-2">
+              <button class="w-full flex items-center gap-3 px-4 py-3 text-slate-700 font-medium rounded-xl hover:bg-slate-50 transition-colors border-none bg-transparent cursor-pointer">
+                <i class="pi pi-lock text-primary"></i>
+                <span>Change Password</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-4 py-3 text-slate-700 font-medium rounded-xl hover:bg-slate-50 transition-colors border-none bg-transparent cursor-pointer">
+                <i class="pi pi-bell text-primary"></i>
+                <span>Notifications</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-4 py-3 text-red-500 font-medium rounded-xl hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer">
+                <i class="pi pi-trash"></i>
+                <span>Delete Account</span>
+              </button>
+            </div>
+          </div>
+        </ht-card>
+      </div>
+
+      <!-- Main Settings Form -->
+      <div class="md:col-span-2">
+        <ht-card class="p-6">
+          <form [formGroup]="userForm" (ngSubmit)="saveProfile()" class="space-y-6">
+            <div class="flex items-center gap-2 mb-6 border-b pb-4">
+              <i class="pi pi-user-edit text-xl text-primary"></i>
+              <h2 class="text-xl font-bold text-slate-800">Personal Information</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="flex flex-col gap-2">
+                <label for="firstName" class="text-sm font-semibold text-slate-700">First Name</label>
+                <input 
+                  type="text" 
+                  pInputText 
+                  id="firstName" 
+                  formControlName="firstName" 
+                  class="w-full rounded-xl border-slate-200"
+                  placeholder="Enter first name"
+                />
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <label for="lastName" class="text-sm font-semibold text-slate-700">Last Name</label>
+                <input 
+                  type="text" 
+                  pInputText 
+                  id="lastName" 
+                  formControlName="lastName" 
+                  class="w-full rounded-xl border-slate-200"
+                  placeholder="Enter last name"
+                />
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <label for="email" class="text-sm font-semibold text-slate-700">Email Address (Read-only)</label>
+                <input 
+                  type="email" 
+                  pInputText 
+                  id="email" 
+                  formControlName="email" 
+                  class="w-full rounded-xl bg-slate-50 border-slate-200 text-slate-400 cursor-not-allowed"
+                />
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <label for="phoneNumber" class="text-sm font-semibold text-slate-700">Phone Number</label>
+                <input 
+                  type="text" 
+                  pInputText 
+                  id="phoneNumber" 
+                  formControlName="phoneNumber" 
+                  class="w-full rounded-xl border-slate-200"
+                  placeholder="Enter phone number"
+                />
+              </div>
+            </div>
+
+            <div class="flex justify-end pt-6">
+              <ht-button 
+                type="submit" 
+                [variant]="'primary'" 
+                [size]="'lg'" 
+                class="min-w-[150px]"
+                [disabled]="userForm.invalid"
+              >
+                Save Changes
+              </ht-button>
+            </div>
+          </form>
+        </ht-card>
+
+        <ht-card class="mt-8 p-6 bg-slate-50 border-dashed border-2 border-slate-200">
+          <div class="flex items-start gap-4">
+            <div class="p-3 bg-white rounded-2xl shadow-sm">
+              <i class="pi pi-info-circle text-2xl text-primary"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-slate-800">Security Note</h3>
+              <p class="text-sm text-slate-500 mt-1">
+                Your email address is linked to your authentication session. To change your email, please contact support or update it through the security dashboard.
+              </p>
+            </div>
+          </div>
+        </ht-card>
+      </div>
+    </div>
+  </div>
+</app-dashboard-layout>

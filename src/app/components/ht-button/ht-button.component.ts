@@ -17,9 +17,6 @@ type ButtonSize = 'sm' | 'md' | 'lg';
   styleUrl: './ht-button.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.nx-btn-icon-shadowless]': `nxBooleanShadowless`,
-  },
 })
 export class HtButtonComponent {
   variant = input<ButtonType>('primary');
@@ -34,7 +31,7 @@ export class HtButtonComponent {
   getVariantClass(): string {
     switch (this.variant()) {
       case 'primary':
-        return 'bg-primary text-white hover:bg-primary/90';
+        return 'bg-primary text-white hover:bg-primary-hover active:bg-primary-active focus:ring-2 focus:ring-primary-focus';
       case 'secondary':
         return 'border text-primary hover:bg-secondary/90';
       case 'danger':
