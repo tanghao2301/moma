@@ -1,4 +1,8 @@
-<app-dashboard-layout title="Dashboard">
+<app-dashboard-layout title="Dashboard" subtitle="Institutional analysis of your current monthly fiscal performance.">
+  <div header-actions class="flex gap-3">
+    <button class="px-4 py-2 border border-border text-primary font-semibold text-xs rounded-lg hover:bg-gray-50 transition-colors">Export Report</button>
+    <button class="px-4 py-2 bg-primary text-white font-semibold text-xs rounded-lg hover:opacity-90 transition-opacity">Manage Limits</button>
+  </div>
   <!-- Hero Balance Area -->
   <section class="mb-8">
     <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#065f46] to-[#047857] p-8 text-white shadow-lg">
@@ -121,7 +125,7 @@
           }
           @for (t of recentTransactions; track t.id) {
             <div class="flex items-center gap-3 group cursor-pointer">
-              <div class="w-9 h-9 rounded-full bg-[#f7f9fb] border border-border flex items-center justify-center flex-shrink-0 group-hover:bg-[#d1fae5] transition-colors">
+              <div class="w-36 h-9 rounded-full bg-[#f7f9fb] border border-border flex items-center justify-center flex-shrink-0 group-hover:bg-[#d1fae5] transition-colors">
                 <i class="pi" [ngClass]="t.transactionType === 'Income' ? 'pi-arrow-down-left text-[#065f46]' : 'pi-arrow-up-right text-rose-600'" style="font-size: 12px;"></i>
               </div>
               <div class="flex-1 min-w-0">
@@ -154,7 +158,7 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
       <ht-card class="flex flex-col items-center text-center p-6">
         <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Equities</p>
-        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+        <div class="relative w-80 h-20 flex items-center justify-center mb-3">
           <svg class="w-full h-full transform -rotate-90">
             <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
             <circle cx="40" cy="40" r="34" stroke="#065f46" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="74.7" />
@@ -166,7 +170,7 @@
 
       <ht-card class="flex flex-col items-center text-center p-6">
         <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Fixed Income</p>
-        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+        <div class="relative w-80 h-20 flex items-center justify-center mb-3">
           <svg class="w-full h-full transform -rotate-90">
             <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
             <circle cx="40" cy="40" r="34" stroke="#065f46" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="170.9" />
@@ -178,7 +182,7 @@
 
       <ht-card class="flex flex-col items-center text-center p-6">
         <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Real Estate</p>
-        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+        <div class="relative w-80 h-20 flex items-center justify-center mb-3">
           <svg class="w-full h-full transform -rotate-90">
             <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
             <circle cx="40" cy="40" r="34" stroke="#10b981" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="192.2" />
@@ -190,13 +194,13 @@
 
       <ht-card class="flex flex-col items-center text-center p-6">
         <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Cash & Alts</p>
-        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+        <div class="relative w-80 h-20 flex items-center justify-center mb-3">
           <svg class="w-full h-full transform -rotate-90">
             <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
             <circle cx="40" cy="40" r="34" stroke="#bec9c2" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="202.9" />
           </svg>
           <span class="absolute text-sm font-bold text-color-primary">5%</span>
-        </div>
+         </div>
         <p class="text-xs font-bold text-color-primary">$241,120</p>
       </ht-card>
     </div>

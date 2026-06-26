@@ -12,9 +12,13 @@
   border: 1px solid rgba(6, 95, 70, 0.05);
 }
 
-:host-context(.selected) div {
-  background-color: var(--color-primary-active);
-  color: var(--color-white);
+:host(.selected) > div {
+  background: var(--color-primary-active) !important;
+  color: var(--color-white) !important;
+
+  h1, h2, h3, p, span, i {
+    color: var(--color-white) !important;
+  }
 }
 
 .hoverable {
