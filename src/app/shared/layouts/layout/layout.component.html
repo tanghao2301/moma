@@ -1,6 +1,32 @@
 <div class="flex h-100">
   <app-nav></app-nav>
-  <div class="w-full flex flex-col flex-1 overflow-auto">
-    <router-outlet />
+  <div class="w-full flex flex-col flex-1 overflow-auto bg-background">
+    <!-- Top Header Bar -->
+    <header class="flex justify-between items-center px-6 w-full h-16 bg-white border-b border-[#bec9c2] flex-shrink-0 sticky top-0 z-50">
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <span class="absolute inset-y-0 left-3 flex items-center text-color-secondary">
+            <i class="pi pi-search" style="font-size: 14px;"></i>
+          </span>
+          <input class="pl-9 pr-4 py-2 bg-[#f7f9fb] rounded-lg border border-border focus:ring-1 focus:ring-primary w-64 text-xs outline-none" placeholder="Search analytics..." type="text"/>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex gap-2">
+          <i class="pi pi-bell text-color-secondary cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors" style="font-size: 16px;"></i>
+          <i class="pi pi-cog text-color-secondary cursor-pointer p-2 hover:bg-gray-100 rounded-full transition-colors" style="font-size: 16px;"></i>
+        </div>
+        <div class="h-6 w-px bg-[#bec9c2]"></div>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full border border-primary-light overflow-hidden">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQIgQam9zyq2rRlPWzLQAXxs86x_wT_gRG4YLeE9inCSLXmmkYo3MWKkvP1oJ0PE6zw4P3Fa-JqHc3Nr47AJuVs0pV5IctVvGrA8bzRoT_c5dgDnD9UN7ig-lirysZ-1gvrPtWffHMZWJJSzhg2ic46xEpPN12DmVtxYtHQji0lDKnhajLt5f1h3iiLbWOkuDfwdrq7JkT4Fr1Bi-TrShd85ucYQDYdI9sSO8IQpowDAXoWvnVyJ_a2Q"/>
+          </div>
+          <span class="text-xs font-bold text-color-primary">{{ user?.name || 'Private Client' }}</span>
+        </div>
+      </div>
+    </header>
+    <div class="flex-1 p-6">
+      <router-outlet />
+    </div>
   </div>
 </div>

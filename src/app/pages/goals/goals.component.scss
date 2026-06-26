@@ -5,20 +5,20 @@
 ::ng-deep {
   .p-dialog {
     max-width: 95vw;
-    
+
     .p-dialog-header {
       padding: 1.5rem 1.5rem 0.5rem 1.5rem;
       border-top-left-radius: 1.5rem;
       border-top-right-radius: 1.5rem;
       border-bottom: none;
-      
+
       .p-dialog-title {
         font-weight: 800;
         color: #1e293b;
         font-size: 1.25rem;
       }
     }
-    
+
     .p-dialog-content {
       padding: 0 1.5rem 1.5rem 1.5rem;
       border-bottom-left-radius: 1.5rem;
@@ -27,35 +27,62 @@
   }
 
   .p-progressbar {
-    background: #f1f5f9;
+    background: #d1fae5;
     border-radius: 99px;
     overflow: hidden;
-    
+
     .p-progressbar-value {
-      background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+      background: linear-gradient(90deg, #065f46 0%, #10b981 100%);
       transition: width 1s ease-in-out;
     }
   }
 
-  .p-inputtext, .p-inputnumber-input, .p-datepicker-input {
+  input.p-inputtext,
+  .p-inputnumber-input,
+  .p-datepicker-input {
     border-radius: 0.75rem !important;
     padding: 0.75rem 1rem !important;
     border: 1px solid #e2e8f0 !important;
     transition: all 0.2s ease;
-    
+
     &:focus {
-      border-color: #6366f1 !important;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
+      border-color: var(--color-primary) !important;
+      box-shadow: 0 0 0 2px rgba(6, 95, 70, 0.1) !important;
+    }
+  }
+
+  /* Color picker circular styling */
+  input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: 9999px;
+    }
+
+    &::-moz-color-swatch {
+      border: none;
+      border-radius: 9999px;
     }
   }
 
   .p-select {
     border-radius: 0.75rem !important;
     border: 1px solid #e2e8f0 !important;
-    
+
     &:not(.p-disabled).p-focus {
-      border-color: #6366f1 !important;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1) !important;
+      border-color: var(--color-primary) !important;
+      box-shadow: 0 0 0 2px rgba(6, 95, 70, 0.1) !important;
     }
   }
 
@@ -63,6 +90,24 @@
     border-radius: 1rem !important;
     border: 1px solid #e2e8f0 !important;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  p-select,
+  p-inputnumber,
+  p-datepicker {
+    width: 100%;
+    display: block;
+  }
+
+  .p-select,
+  .p-inputnumber,
+  .p-datepicker {
+    width: 100% !important;
+  }
+
+  .p-inputnumber-input,
+  .p-datepicker-input {
+    width: 100% !important;
   }
 }
 

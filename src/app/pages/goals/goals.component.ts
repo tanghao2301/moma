@@ -72,7 +72,7 @@ export class GoalsComponent implements OnInit {
     currentAmount: [0, [Validators.required, Validators.min(0)]],
     currency: [null, Validators.required],
     targetDate: [null],
-    icon: ['pi-wallet'],
+    icon: [null],
     color: ['#4f46e5'],
     status: [GoalStatus.IN_PROGRESS, Validators.required],
   });
@@ -91,7 +91,7 @@ export class GoalsComponent implements OnInit {
     this.goalSelected = undefined;
     this.goalForm.reset({
       currentAmount: 0,
-      icon: 'pi-wallet',
+      icon: this.GOAL_ICON_OPTIONS.find(opt => opt.value === 'pi-wallet'),
       color: '#4f46e5',
       status: GoalStatus.IN_PROGRESS,
     });
@@ -113,7 +113,7 @@ export class GoalsComponent implements OnInit {
       currentAmount: goal.currentAmount,
       currency: this.CURRENCY_OPTIONS.find(opt => opt.value === goal.currency),
       targetDate: goal.targetDate ? new Date(goal.targetDate) : null,
-      icon: goal.icon,
+      icon: this.GOAL_ICON_OPTIONS.find(opt => opt.value === goal.icon),
       color: goal.color,
       status: goal.status
     });
@@ -143,7 +143,7 @@ export class GoalsComponent implements OnInit {
       currentAmount: formValue.currentAmount,
       currency: formValue.currency.value,
       targetDate: formValue.targetDate ? new Date(formValue.targetDate).getTime() : null,
-      icon: formValue.icon,
+      icon: formValue.icon.value,
       color: formValue.color,
       status: formValue.status,
     };

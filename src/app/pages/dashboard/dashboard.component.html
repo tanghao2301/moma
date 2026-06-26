@@ -1,42 +1,212 @@
 <app-dashboard-layout title="Dashboard">
-  <div
-    class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-16"
-  >
-    <ht-metric-card
-      title="Total Balance"
-      [value]="balance.value"
-      [percentage]="percentageBalance"
-      [previousValue]="previousBalance.value"
-      [isLoading]="isLoading"
-    />
+  <!-- Hero Balance Area -->
+  <section class="mb-8">
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#065f46] to-[#047857] p-8 text-white shadow-lg">
+      <div class="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+        <i class="pi pi-shield text-[180px]"></i>
+      </div>
+      <div class="relative z-10 flex flex-col md:flex-row justify-between items-end gap-6">
+        <div>
+          <p class="text-[10px] font-bold text-emerald-100 uppercase tracking-widest mb-1">Total Net Worth</p>
+          <h2 class="text-4xl font-extrabold tracking-tight">
+            @if (isLoading) {
+              $0.00
+            } @else {
+              {{ balance.value | currency:'USD':'symbol':'1.2-2' }}
+            }
+          </h2>
+          <div class="flex items-center gap-2 mt-4 bg-white/10 w-fit px-3 py-1 rounded-full text-[10px]">
+            <i class="pi pi-arrow-up-right text-emerald-200"></i>
+            <span class="text-emerald-100 font-medium">
+              {{ percentageBalance / 100 | percent:'1.1-2' }} vs last month
+            </span>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button class="bg-[#d1fae5] text-[#065f46] px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-emerald-100 transition-colors">Transfer Funds</button>
+          <button class="bg-transparent border border-white/20 px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-white/10 transition-colors">Withdraw</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <ht-metric-card
-      title="Total Period Change"
-      [value]="periodChange"
-      [percentage]="percentagePeriodChange"
-      [previousValue]="previousPeriodChange"
-      [isLoading]="isLoading"
-    />
+  <!-- Key Metrics Grid -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Period Change -->
+    <ht-card [hoverable]="true">
+      <div class="flex justify-between items-start mb-4">
+        <div class="p-2.5 bg-emerald-50 text-[#065f46] rounded-lg">
+          <i class="pi pi-calendar" style="font-size: 18px;"></i>
+        </div>
+        <span class="text-xs font-bold" [class]="percentagePeriodChange >= 0 ? 'text-emerald-600' : 'text-rose-600'">
+          {{ percentagePeriodChange >= 0 ? '+' : '' }}{{ percentagePeriodChange / 100 | percent:'1.1-2' }}
+        </span>
+      </div>
+      <p class="text-xs font-semibold text-color-secondary">Period Change</p>
+      <h3 class="text-xl font-bold text-color-primary mt-1">
+        {{ periodChange | currency:'USD':'symbol':'1.2-2' }}
+      </h3>
+      <p class="text-[10px] text-color-secondary mt-1">Current Quarter</p>
+    </ht-card>
 
-    <ht-metric-card
-      title="Total Period Expenses"
-      [value]="balance.totalExpenses"
-      [percentage]="percentageTotalExpenses"
-      [previousValue]="previousBalance.totalExpenses"
-      [isLoading]="isLoading"
-    />
+    <!-- Expenses -->
+    <ht-card [hoverable]="true">
+      <div class="flex justify-between items-start mb-4">
+        <div class="p-2.5 bg-rose-50 text-rose-600 rounded-lg">
+          <i class="pi pi-shopping-cart" style="font-size: 18px;"></i>
+        </div>
+        <span class="text-xs font-bold text-rose-600">
+          {{ percentageTotalExpenses >= 0 ? '+' : '' }}{{ percentageTotalExpenses / 100 | percent:'1.1-2' }}
+        </span>
+      </div>
+      <p class="text-xs font-semibold text-color-secondary">Monthly Expenses</p>
+      <h3 class="text-xl font-bold text-color-primary mt-1">
+        {{ balance.totalExpenses | currency:'USD':'symbol':'1.2-2' }}
+      </h3>
+      <p class="text-[10px] text-color-secondary mt-1">Luxury Services & Lifestyle</p>
+    </ht-card>
 
-    <ht-metric-card
-      title="Total Period Income"
-      [value]="balance.totalIncome"
-      [percentage]="percentageTotalIncome"
-      [previousValue]="previousBalance.totalIncome"
-      [isLoading]="isLoading"
-    />
+    <!-- Income -->
+    <ht-card [hoverable]="true">
+      <div class="flex justify-between items-start mb-4">
+        <div class="p-2.5 bg-emerald-50 text-[#065f46] rounded-lg">
+          <i class="pi pi-wallet" style="font-size: 18px;"></i>
+        </div>
+        <span class="text-xs font-bold text-emerald-600">
+          {{ percentageTotalIncome >= 0 ? '+' : '' }}{{ percentageTotalIncome / 100 | percent:'1.1-2' }}
+        </span>
+      </div>
+      <p class="text-xs font-semibold text-color-secondary">Dividend Income</p>
+      <h3 class="text-xl font-bold text-color-primary mt-1">
+        {{ balance.totalIncome | currency:'USD':'symbol':'1.2-2' }}
+      </h3>
+      <p class="text-[10px] text-color-secondary mt-1">Passive Yield Projected</p>
+    </ht-card>
+  </section>
+
+  <!-- Bento Insights Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+    <!-- Chart Area (8 cols) -->
+    <div class="lg:col-span-8">
+      <ht-card>
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h3 class="text-lg font-bold text-color-primary">Wealth Growth Trends</h3>
+            <p class="text-xs text-color-secondary mt-1">Aggregated portfolio performance vs S&P 500</p>
+          </div>
+          <div class="flex gap-1.5">
+            <button class="px-3 py-1 rounded-full border border-border text-[10px] font-semibold hover:bg-gray-50 transition-colors">1M</button>
+            <button class="px-3 py-1 rounded-full border border-border text-[10px] font-semibold hover:bg-gray-50 transition-colors">6M</button>
+            <button class="px-3 py-1 rounded-full bg-primary text-white text-[10px] font-semibold transition-colors">1Y</button>
+            <button class="px-3 py-1 rounded-full border border-border text-[10px] font-semibold hover:bg-gray-50 transition-colors">ALL</button>
+          </div>
+        </div>
+        <app-balance-chart
+          [balances]="[12, 51, 62, 33, 21, 62, 45, 33, 21, 62, 45, 45]"
+        />
+      </ht-card>
+    </div>
+
+    <!-- Recent Activity (4 cols) -->
+    <div class="lg:col-span-4">
+      <ht-card class="h-full flex flex-col">
+        <div class="flex justify-between items-center mb-5">
+          <h3 class="text-lg font-bold text-color-primary">Recent Activity</h3>
+          <button class="text-primary text-xs font-bold hover:underline transition-all">View All</button>
+        </div>
+        
+        <div class="flex-1 space-y-4 overflow-y-auto max-h-[300px] pr-1">
+          @if (recentTransactions.length === 0) {
+            <p class="text-xs text-color-secondary py-8 text-center">No recent transactions</p>
+          }
+          @for (t of recentTransactions; track t.id) {
+            <div class="flex items-center gap-3 group cursor-pointer">
+              <div class="w-9 h-9 rounded-full bg-[#f7f9fb] border border-border flex items-center justify-center flex-shrink-0 group-hover:bg-[#d1fae5] transition-colors">
+                <i class="pi" [ngClass]="t.transactionType === 'Income' ? 'pi-arrow-down-left text-[#065f46]' : 'pi-arrow-up-right text-rose-600'" style="font-size: 12px;"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-color-primary truncate">{{ t.note || t.type.name }}</p>
+                <p class="text-[10px] text-color-secondary mt-0.5">{{ t.createdAt | date:'MMM d, h:mm a' }}</p>
+              </div>
+              <div class="text-right">
+                <p class="text-xs font-bold" [ngClass]="t.transactionType === 'Income' ? 'text-[#065f46]' : 'text-rose-600'">
+                  {{ t.transactionType === 'Income' ? '+' : '-' }}{{ t.amount | currency:t.currency.value:'symbol':'1.0-0' }}
+                </p>
+                <p class="text-[9px] text-color-secondary mt-0.5 uppercase tracking-wider">{{ t.frequency }}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="mt-5 p-3.5 bg-emerald-50/50 rounded-xl border border-emerald-100/50">
+          <div class="flex items-start gap-2.5">
+            <i class="pi pi-info-circle text-[#065f46] mt-0.5" style="font-size: 14px;"></i>
+            <p class="text-[10px] text-color-secondary leading-normal">You have 2 pending advisory documents waiting for your e-signature.</p>
+          </div>
+        </div>
+      </ht-card>
+    </div>
   </div>
-  <ht-card>
-    <app-balance-chart
-      [balances]="[12, 51, 62, 33, 21, 62, 45, 33, 21, 62, 45, 45]"
-    />
-  </ht-card>
+
+  <!-- Asset Allocation Section -->
+  <section class="mb-8">
+    <h3 class="text-base font-bold text-color-primary mb-4">Asset Allocation</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <ht-card class="flex flex-col items-center text-center p-6">
+        <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Equities</p>
+        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+          <svg class="w-full h-full transform -rotate-90">
+            <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
+            <circle cx="40" cy="40" r="34" stroke="#065f46" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="74.7" />
+          </svg>
+          <span class="absolute text-sm font-bold text-color-primary">65%</span>
+        </div>
+        <p class="text-xs font-bold text-color-primary">$3,134,566</p>
+      </ht-card>
+
+      <ht-card class="flex flex-col items-center text-center p-6">
+        <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Fixed Income</p>
+        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+          <svg class="w-full h-full transform -rotate-90">
+            <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
+            <circle cx="40" cy="40" r="34" stroke="#065f46" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="170.9" />
+          </svg>
+          <span class="absolute text-sm font-bold text-color-primary">20%</span>
+        </div>
+        <p class="text-xs font-bold text-color-primary">$964,482</p>
+      </ht-card>
+
+      <ht-card class="flex flex-col items-center text-center p-6">
+        <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Real Estate</p>
+        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+          <svg class="w-full h-full transform -rotate-90">
+            <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
+            <circle cx="40" cy="40" r="34" stroke="#10b981" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="192.2" />
+          </svg>
+          <span class="absolute text-sm font-bold text-color-primary">10%</span>
+        </div>
+        <p class="text-xs font-bold text-color-primary">$482,241</p>
+      </ht-card>
+
+      <ht-card class="flex flex-col items-center text-center p-6">
+        <p class="text-[10px] font-bold text-color-secondary uppercase tracking-wider mb-3">Cash & Alts</p>
+        <div class="relative w-20 h-20 flex items-center justify-center mb-3">
+          <svg class="w-full h-full transform -rotate-90">
+            <circle cx="40" cy="40" r="34" stroke="#d1fae5" stroke-width="6" fill="transparent" />
+            <circle cx="40" cy="40" r="34" stroke="#bec9c2" stroke-width="6" fill="transparent" stroke-dasharray="213.6" stroke-dashoffset="202.9" />
+          </svg>
+          <span class="absolute text-sm font-bold text-color-primary">5%</span>
+        </div>
+        <p class="text-xs font-bold text-color-primary">$241,120</p>
+      </ht-card>
+    </div>
+  </section>
+
+  <!-- Footer / Legal Disclaimer -->
+  <footer class="mt-12 py-6 border-t border-border text-center">
+    <p class="text-[10px] text-color-secondary leading-relaxed opacity-60">
+      WealthGuard Financial Services. Investment advisory services offered through WealthGuard Advisors, an SEC-registered investment adviser. <br/>
+      All investing involves risk, including the loss of principal. Past performance does not guarantee future results.
+    </p>
+  </footer>
 </app-dashboard-layout>

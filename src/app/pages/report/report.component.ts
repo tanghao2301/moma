@@ -186,9 +186,9 @@ export class ReportComponent implements OnInit {
           label: 'Net Balance',
           data: trendData,
           fill: true,
-          borderColor: '#6366F1',
+          borderColor: '#065f46',
           tension: 0.4,
-          backgroundColor: 'rgba(99, 102, 241, 0.2)'
+          backgroundColor: 'rgba(6, 95, 70, 0.15)'
         }
       ]
     };

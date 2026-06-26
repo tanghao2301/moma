@@ -1,4 +1,17 @@
 <div class="layout-container">
-  <p class="text-display-lg mb-16">{{ title }}</p>
+  <div class="flex justify-between items-end mb-6">
+    <div>
+      <h2 class="text-2xl font-extrabold text-primary tracking-tight">{{ title }}</h2>
+      @if (subtitle) {
+        <p class="text-xs text-color-secondary mt-1">{{ subtitle }}</p>
+      } @else {
+        <p class="text-xs text-color-secondary mt-1">Institutional analysis of your current monthly fiscal performance.</p>
+      }
+    </div>
+    <div class="flex gap-3">
+      <button class="px-4 py-2 border border-border text-primary font-semibold text-xs rounded-lg hover:bg-gray-50 transition-colors">Export Report</button>
+      <button class="px-4 py-2 bg-primary text-white font-semibold text-xs rounded-lg hover:opacity-90 transition-opacity">Manage Limits</button>
+    </div>
+  </div>
   <ng-content></ng-content>
 </div>
