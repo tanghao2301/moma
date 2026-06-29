@@ -282,14 +282,10 @@
       />
     </div>
   </form>
-  <ng-template #footer>
-    <div class="flex justify-content-end gap-12 pt-16">
-      <ht-button [variant]="'secondary'" (click)="visible = false"
-        >Cancel</ht-button
-      >
-      <ht-button [disabled]="assetForm.invalid" (click)="saveAsset()"
-        >{{ isEdit ? "Update" : "Create" }} Asset</ht-button
-      >
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <ht-button [variant]="'secondary'" (click)="visible = false">Cancel</ht-button>
+      <ht-button [disabled]="assetForm.invalid" (click)="saveAsset()">{{ isEdit ? "Update" : "Create" }} Asset</ht-button>
     </div>
   </ng-template>
 </p-dialog>
