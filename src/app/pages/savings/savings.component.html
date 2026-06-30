@@ -28,7 +28,7 @@
           <!-- Icon & Title -->
           <div class="flex items-start justify-between">
             <div class="flex items-center gap-3">
-              <div class="p-3 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center text-xl shadow-sm">
+              <div class="p-3 shrink-0 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center text-xl shadow-sm">
                 <i [class]="'pi ' + getTypeIcon(saving.type)"></i>
               </div>
               <div>
@@ -102,47 +102,47 @@
   </div>
 
   <!-- Add/Edit Saving Dialog -->
-  <p-dialog [(visible)]="visible" [header]="isEdit ? 'Edit Account' : 'Add New Account'" [modal]="true" [style]="{width: '450px'}" styleClass="p-fluid rounded-3xl shadow-2xl overflow-hidden">
-    <form [formGroup]="savingForm" (ngSubmit)="saveSaving()" class="space-y-6 pt-4">
+  <p-dialog [(visible)]="visible" [header]="isEdit ? 'Edit Account' : 'Add New Account'" [modal]="true" [style]="{width: '450px'}" styleClass="rounded-3xl shadow-2xl overflow-hidden">
+    <form [formGroup]="savingForm" (ngSubmit)="saveSaving()" class="flex flex-col gap-6 pt-4">
       
-      <div class="space-y-2">
+      <div class="flex flex-col gap-2">
         <label for="name" class="text-sm font-semibold text-slate-700">Account Name</label>
-        <input pInputText id="name" formControlName="name" placeholder="e.g. Primary Savings" class="rounded-xl border-slate-200 focus:ring-2 focus:ring-teal-500" />
+        <input pInputText id="name" formControlName="name" placeholder="e.g. Primary Savings" class="w-full rounded-xl border-slate-200 focus:ring-2 focus:ring-teal-500" />
       </div>
 
-      <div class="space-y-2">
+      <div class="flex flex-col gap-2">
         <label for="institution" class="text-sm font-semibold text-slate-700">Financial Institution</label>
-        <input pInputText id="institution" formControlName="institution" placeholder="e.g. Chase Bank" class="rounded-xl border-slate-200 focus:ring-2 focus:ring-teal-500" />
+        <input pInputText id="institution" formControlName="institution" placeholder="e.g. Chase Bank" class="w-full rounded-xl border-slate-200 focus:ring-2 focus:ring-teal-500" />
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        <div class="space-y-2">
+        <div class="flex flex-col gap-2">
           <label for="currency" class="text-sm font-semibold text-slate-700">Currency</label>
-          <p-select [options]="CURRENCY_OPTIONS" formControlName="currency" optionLabel="label" placeholder="Select" class="rounded-xl overflow-hidden"></p-select>
+          <p-select [options]="CURRENCY_OPTIONS" formControlName="currency" optionLabel="label" placeholder="Select" class="w-full"></p-select>
         </div>
-        <div class="space-y-2">
+        <div class="flex flex-col gap-2">
           <label for="type" class="text-sm font-semibold text-slate-700">Account Type</label>
-          <p-select [options]="SAVING_TYPE_OPTIONS" formControlName="type" optionLabel="label" optionValue="value" placeholder="Type" class="rounded-xl overflow-hidden"></p-select>
+          <p-select [options]="SAVING_TYPE_OPTIONS" formControlName="type" optionLabel="label" optionValue="value" placeholder="Type" class="w-full"></p-select>
         </div>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        <div class="space-y-2">
+        <div class="flex flex-col gap-2">
           <label for="balance" class="text-sm font-semibold text-slate-700">Current Balance</label>
-          <p-inputnumber id="balance" formControlName="balance" mode="currency" [currency]="savingForm.get('currency')?.value?.value || 'USD'" [locale]="savingForm.get('currency')?.value?.locale || 'en-US'" class="rounded-xl"></p-inputnumber>
+          <p-inputnumber id="balance" formControlName="balance" mode="currency" [currency]="savingForm.get('currency')?.value?.value || 'USD'" [locale]="savingForm.get('currency')?.value?.locale || 'en-US'" class="w-full rounded-xl"></p-inputnumber>
         </div>
-        <div class="space-y-2">
+        <div class="flex flex-col gap-2">
           <label for="interestRate" class="text-sm font-semibold text-slate-700">Interest Rate (% APY)</label>
-          <p-inputnumber id="interestRate" formControlName="interestRate" suffix="%" [minFractionDigits]="2" [maxFractionDigits]="2" class="rounded-xl"></p-inputnumber>
+          <p-inputnumber id="interestRate" formControlName="interestRate" suffix="%" [minFractionDigits]="2" [maxFractionDigits]="2" class="w-full rounded-xl"></p-inputnumber>
         </div>
       </div>
 
-      <div class="space-y-2">
+      <div class="flex flex-col gap-2">
         <label for="accountNumber" class="text-sm font-semibold text-slate-700">Account Number (Optional)</label>
-        <input pInputText id="accountNumber" formControlName="accountNumber" placeholder="Last 4 digits or full number" class="rounded-xl border-slate-200" />
+        <input pInputText id="accountNumber" formControlName="accountNumber" placeholder="Last 4 digits or full number" class="w-full rounded-xl border-slate-200" />
       </div>
 
-      <div class="flex justify-end gap-3 pt-4 border-t border-slate-50">
+      <div class="flex justify-end gap-3 pt-4">
         <ht-button (click)="closeDialog()" [variant]="'secondary'" class="w-fit-content">Cancel</ht-button>
         <ht-button (click)="saveSaving()" [variant]="'primary'" [disabled]="savingForm.invalid" class="w-fit-content">{{ isEdit ? 'Update Account' : 'Add Account' }}</ht-button>
       </div>

@@ -1,9 +1,13 @@
 <app-dashboard-layout title="Financial Assets">
   <div class="assets-container">
     <!-- Header Section -->
-    <div class="header-section flex justify-content-space-between align-items-center mb-24">
+    <div
+      class="header-section flex justify-content-space-between align-items-center mb-24"
+    >
       <div>
-        <p class="text-display-sm text-gray-500">Track and manage your net worth and asset distribution</p>
+        <p class="text-display-sm text-gray-500">
+          Track and manage your net worth and asset distribution
+        </p>
       </div>
       <ht-button (click)="showAddDialog()" icon="pi pi-plus">
         Add Asset
@@ -14,31 +18,49 @@
     <div class="stats-grid mb-24">
       <ht-card hoverable>
         <div class="flex flex-col gap-8">
-          <p class="text-display-xs text-gray-500 uppercase font-semibold">Total Net Worth</p>
-          <p class="fontsize-32 font-bold">{{ totalNetWorth | currency : 'USD' }}</p>
-          <div class="flex align-items-center gap-4 text-color-success text-display-xs">
+          <p class="text-display-xs text-gray-500 uppercase font-semibold">
+            Total Net Worth
+          </p>
+          <p class="fontsize-32 font-bold">
+            {{ totalNetWorth | currency: "USD" }}
+          </p>
+          <div
+            class="flex align-items-center gap-4 text-color-success text-display-xs"
+          >
             <i class="pi pi-arrow-up"></i>
             <span>All time</span>
           </div>
         </div>
       </ht-card>
-      
+
       <ht-card hoverable>
         <div class="flex flex-col gap-8">
-          <p class="text-display-xs text-gray-500 uppercase font-semibold">Liquid Assets</p>
-          <p class="fontsize-32 font-bold">{{ liquidAssets | currency : 'USD' }}</p>
-          <div class="flex align-items-center gap-4 text-color-blue text-display-xs">
+          <p class="text-display-xs text-gray-500 uppercase font-semibold">
+            Liquid Assets
+          </p>
+          <p class="fontsize-32 font-bold">
+            {{ liquidAssets | currency: "USD" }}
+          </p>
+          <div
+            class="flex align-items-center gap-4 text-color-blue text-display-xs"
+          >
             <i class="pi pi-briefcase"></i>
             <span>Cash & Bank</span>
           </div>
         </div>
       </ht-card>
-      
+
       <ht-card hoverable>
         <div class="flex flex-col gap-8">
-          <p class="text-display-xs text-gray-500 uppercase font-semibold">Investments</p>
-          <p class="fontsize-32 font-bold">{{ investments | currency : 'USD' }}</p>
-          <div class="flex align-items-center gap-4 text-color-warning text-display-xs">
+          <p class="text-display-xs text-gray-500 uppercase font-semibold">
+            Investments
+          </p>
+          <p class="fontsize-32 font-bold">
+            {{ investments | currency: "USD" }}
+          </p>
+          <div
+            class="flex align-items-center gap-4 text-color-warning text-display-xs"
+          >
             <i class="pi pi-chart-line"></i>
             <span>Stocks & Other</span>
           </div>
@@ -50,23 +72,39 @@
       <!-- Asset Allocation -->
       <div class="allocation-section">
         <ht-card>
-          <div class="flex justify-content-space-between align-items-center mb-16">
+          <div
+            class="flex justify-content-space-between align-items-center mb-16"
+          >
             <p class="text-display-md font-bold">Asset Allocation</p>
           </div>
-          
+
           <div class="distribution-bar mb-24">
             @for (item of getDistribution(assets$ | async); track item.label) {
-              <div class="bar-segment" [style.width.%]="item.value" [style.background-color]="item.color" [pTooltip]="item.label + ': ' + (item.value | number:'1.0-1') + '%'"></div>
+              <div
+                class="bar-segment"
+                [style.width.%]="item.value"
+                [style.background-color]="item.color"
+                [pTooltip]="
+                  item.label + ': ' + (item.value | number: '1.0-1') + '%'
+                "
+              ></div>
             }
           </div>
 
           <div class="legend-grid">
             @for (item of getDistribution(assets$ | async); track item.label) {
               <div class="legend-item">
-                <div class="legend-color" [style.background-color]="item.color"></div>
+                <div
+                  class="legend-color"
+                  [style.background-color]="item.color"
+                ></div>
                 <div class="flex flex-col">
-                  <span class="text-display-xs font-semibold">{{ item.label }}</span>
-                  <span class="text-display-xs text-gray-500">{{ item.value | number:'1.0-1' }}%</span>
+                  <span class="text-display-xs font-semibold">{{
+                    item.label
+                  }}</span>
+                  <span class="text-display-xs text-gray-500"
+                    >{{ item.value | number: "1.0-1" }}%</span
+                  >
                 </div>
               </div>
             }
@@ -77,10 +115,12 @@
       <!-- Assets Table -->
       <div class="table-section mt-24">
         <ht-card>
-          <div class="flex justify-content-space-between align-items-center mb-16 px-8">
+          <div
+            class="flex justify-content-space-between align-items-center mb-16 px-8"
+          >
             <p class="text-display-md font-bold">All Assets</p>
           </div>
-          
+
           <div class="responsive-table">
             <table class="assets-table">
               <thead>
@@ -94,30 +134,53 @@
               </thead>
               <tbody>
                 @if (!(isLoading$ | async)) {
-                  @for (asset of (assets$ | async); track asset.id) {
+                  @for (asset of assets$ | async; track asset.id) {
                     <tr>
                       <td>
                         <div class="flex align-items-center gap-12">
                           <div class="icon-circle">
-                            <i class="pi" [class]="getAssetTypeIcon(asset.type)"></i>
+                            <i
+                              class="pi"
+                              [class]="getAssetTypeIcon(asset.type)"
+                            ></i>
                           </div>
                           <div class="flex flex-col">
-                            <span class="font-bold text-display-sm">{{ asset.name }}</span>
-                            <span class="text-display-xs text-gray-500" *ngIf="asset.note">{{ asset.note }}</span>
+                            <span class="font-bold text-display-sm">{{
+                              asset.name
+                            }}</span>
+                            <span
+                              class="text-display-xs text-gray-500"
+                              *ngIf="asset.note"
+                              >{{ asset.note }}</span
+                            >
                           </div>
                         </div>
                       </td>
                       <td>
                         <span class="badge-tag">{{ asset.type }}</span>
                       </td>
-                      <td>{{ asset.institution || '-' }}</td>
+                      <td>{{ asset.institution || "-" }}</td>
                       <td>
-                        <span class="font-bold">{{ asset.amount | currency : asset.currency }}</span>
+                        <span class="font-bold">{{
+                          asset.amount | currency: asset.currency
+                        }}</span>
                       </td>
                       <td>
                         <div class="flex gap-8">
-                          <button pButton class="p-button-text p-button-sm" icon="pi pi-pencil" (click)="showEditDialog(asset)"></button>
-                          <button pButton class="p-button-text p-button-sm p-button-danger" icon="pi pi-trash" (click)="deleteAsset(asset.id!)"></button>
+                          <ht-button
+                            variant="secondary"
+                            size="sm"
+                            [borderLess]="true"
+                            icon="pi pi-pencil"
+                            (click)="showEditDialog(asset)"
+                          ></ht-button>
+                          <ht-button
+                            variant="danger"
+                            size="sm"
+                            [borderLess]="true"
+                            icon="pi pi-trash"
+                            (click)="deleteAsset(asset.id!)"
+                          ></ht-button>
                         </div>
                       </td>
                     </tr>
@@ -130,9 +193,11 @@
                     </tr>
                   }
                 } @else {
-                  @for (i of [1,2,3,4]; track i) {
+                  @for (i of [1, 2, 3, 4]; track i) {
                     <tr>
-                      <td colspan="5"><p-skeleton width="100%" height="24px"></p-skeleton></td>
+                      <td colspan="5">
+                        <p-skeleton width="100%" height="24px"></p-skeleton>
+                      </td>
                     </tr>
                   }
                 }
@@ -146,43 +211,77 @@
 </app-dashboard-layout>
 
 <!-- Dialog for adding/editing assets -->
-<p-dialog [(visible)]="visible" [header]="isEdit ? 'Edit Asset' : 'Add Asset'" [modal]="true" [style]="{width: '450px'}">
+<p-dialog
+  [(visible)]="visible"
+  [header]="isEdit ? 'Edit Asset' : 'Add Asset'"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+>
   <form [formGroup]="assetForm" class="flex flex-col gap-16 pt-16">
     <div class="flex flex-col gap-4">
       <label class="font-semibold text-display-xs">Asset Name</label>
-      <input pInputText formControlName="name" placeholder="e.g. My Savings, MacBook, BTC Wallet" class="w-full" />
+      <ht-input
+        formControlName="name"
+        placeholder="e.g. My Savings, MacBook, BTC Wallet"
+      ></ht-input>
     </div>
 
     <div class="flex flex-col gap-4">
       <label class="font-semibold text-display-xs">Asset Type</label>
-      <p-select formControlName="type" [options]="ASSET_TYPE_OPTIONS" optionLabel="label" placeholder="Select Type" class="w-full"></p-select>
+      <p-select
+        formControlName="type"
+        [options]="ASSET_TYPE_OPTIONS"
+        optionLabel="label"
+        placeholder="Select Type"
+        class="w-full"
+      ></p-select>
     </div>
 
     <div class="flex gap-12">
       <div class="flex flex-col gap-4 flex-1">
         <label class="font-semibold text-display-xs">Currency</label>
-        <p-select formControlName="currency" [options]="CURRENCY_OPTIONS" optionLabel="label" placeholder="Currency" class="w-full"></p-select>
+        <p-select
+          formControlName="currency"
+          [options]="CURRENCY_OPTIONS"
+          optionLabel="label"
+          placeholder="Currency"
+          class="w-full"
+        ></p-select>
       </div>
       <div class="flex flex-col gap-4 flex-2">
         <label class="font-semibold text-display-xs">Amount</label>
-        <p-inputnumber formControlName="amount" placeholder="Value" mode="currency" [currency]="assetForm.get('currency')?.value?.value || 'USD'" class="w-full"></p-inputnumber>
+        <p-inputnumber
+          formControlName="amount"
+          placeholder="Value"
+          mode="currency"
+          [currency]="assetForm.get('currency')?.value?.value || 'USD'"
+          class="w-full"
+        ></p-inputnumber>
       </div>
     </div>
 
     <div class="flex flex-col gap-4">
-      <label class="font-semibold text-display-xs">Institution (Optional)</label>
-      <input pInputText formControlName="institution" placeholder="e.g. Chase Bank, Binance" class="w-full" />
+      <label class="font-semibold text-display-xs"
+        >Institution (Optional)</label
+      >
+      <ht-input
+        formControlName="institution"
+        placeholder="e.g. Chase Bank, Binance"
+      ></ht-input>
     </div>
 
     <div class="flex flex-col gap-4">
       <label class="font-semibold text-display-xs">Notes (Optional)</label>
-      <input pInputText formControlName="note" placeholder="Add some details..." class="w-full" />
+      <ht-input
+        formControlName="note"
+        placeholder="Add some details..."
+      ></ht-input>
     </div>
   </form>
-  <ng-template #footer>
-    <div class="flex justify-content-end gap-12 pt-16">
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
       <ht-button [variant]="'secondary'" (click)="visible = false">Cancel</ht-button>
-      <ht-button [disabled]="assetForm.invalid" (click)="saveAsset()">{{ isEdit ? 'Update' : 'Create' }} Asset</ht-button>
+      <ht-button [disabled]="assetForm.invalid" (click)="saveAsset()">{{ isEdit ? "Update" : "Create" }} Asset</ht-button>
     </div>
   </ng-template>
 </p-dialog>

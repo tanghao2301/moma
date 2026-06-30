@@ -1,4 +1,14 @@
 <div class="layout-container">
-  <p class="text-display-lg mb-16">{{ title }}</p>
+  <div class="flex justify-between items-end mb-6">
+    <div>
+      <h2 class="text-2xl font-extrabold text-primary tracking-tight">{{ title }}</h2>
+      @if (subtitle) {
+        <p class="text-xs text-color-secondary mt-1">{{ subtitle }}</p>
+      }
+    </div>
+    <div class="flex gap-3">
+      <ng-content select="[header-actions]"></ng-content>
+    </div>
+  </div>
   <ng-content></ng-content>
 </div>

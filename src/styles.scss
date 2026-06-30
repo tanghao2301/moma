@@ -1,55 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
 @use "./app/shared/assets/styles/index.scss";
 @use "primeicons/primeicons.css";
 @use "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 /* https://tailwindcss.com/docs/theme#theme-variable-namespaces */
 :root {
-  --color-primary: #16a249;
-  --color-secondary: #f2f2ff;
-  --color-primary-hover: #1dcf64;
-  --color-primary-focus: #67d89f;
-  --color-primary-active: #10823a;
-  --color-primary-light: #e6f7ed;
-  --color-background: #eafaf0;
-  --color-background-100: #f3f9f5;
-  --color-background-200: #f0f0f0;
-  --color-background-300: #f3f3f3;
-  --color-accent: #c4dbbc;
-  --color-danger: #ef4444;
-  --color-income: #22c55e;
-  --color-expense: #f97316;
-  --color-surface-background: #f9fafb;
-  --color-text-primary: #1f2937;
-  --color-text-secondary: #6b7280;
+  --color-primary: #065f46;
+  --color-secondary: #10b981;
+  --color-primary-hover: #047857;
+  --color-primary-focus: #34d399;
+  --color-primary-active: #065f46;
+  --color-primary-light: #d1fae5;
+  --color-background: #f7f9fb;
+  --color-background-100: #f7f9fb;
+  --color-background-200: #eceef0;
+  --color-background-300: #e0e3e5;
+  --color-accent: #a6f2d1;
+  --color-danger: #ba1a1a;
+  --color-income: #10b981;
+  --color-expense: #ef4444;
+  --color-surface-background: #f7f9fb;
+  --color-text-primary: #191c1e;
+  --color-text-secondary: #3f4944;
   --color-white: #ffffff;
-  --color-card: #f6fdf9;
-  --color-card-shadow: #1018280f;
-  --color-step-border: #9bc9ac;
-  --color-border: #cdd5df;
+  --color-card: #ffffff;
+  --color-card-shadow: rgba(6, 95, 70, 0.05);
+  --color-step-border: #bec9c2;
+  --color-border: #bec9c2;
 }
 
 @theme {
-  --color-primary: #16a249;
-  --color-secondary: #f2f2ff;
-  --color-primary-hover: #1dcf64;
-  --color-primary-focus: #67d89f;
-  --color-primary-active: #10823a;
-  --color-primary-light: #e6f7ed;
-  --color-background: #eafaf0;
-  --color-background-100: #f3f9f5;
-  --color-background-200: #f0f0f0;
-  --color-accent: #c4dbbc;
-  --color-danger: #ef4444;
-  --color-income: #22c55e;
-  --color-expense: #f97316;
-  --color-surface-background: #f9fafb;
-  --color-text-primary: #1f2937;
-  --color-text-secondary: #6b7280;
+  --color-primary: #065f46;
+  --color-secondary: #10b981;
+  --color-primary-hover: #047857;
+  --color-primary-focus: #34d399;
+  --color-primary-active: #065f46;
+  --color-primary-light: #d1fae5;
+  --color-background: #f7f9fb;
+  --color-background-100: #f7f9fb;
+  --color-background-200: #eceef0;
+  --color-accent: #a6f2d1;
+  --color-danger: #ba1a1a;
+  --color-income: #10b981;
+  --color-expense: #ef4444;
+  --color-surface-background: #f7f9fb;
+  --color-text-primary: #191c1e;
+  --color-text-secondary: #3f4944;
   --color-white: #ffffff;
-  --color-card: #f6fdf9;
-  --color-card-shadow: #1018280f;
-  --color-step-border: #9bc9ac;
-  --color-border: #cdd5df;
+  --color-card: #ffffff;
+  --color-card-shadow: rgba(6, 95, 70, 0.05);
+  --color-step-border: #bec9c2;
+  --color-border: #bec9c2;
   /* Responsive */
   --breakpoint-sm: 480px;
   --breakpoint-md: 600px;
@@ -60,13 +61,15 @@
 }
 
 @utility shadow-md {
-  box-shadow: 0px 4px 4px -2px var(--color-card-shadow),
-    0px -1px 12px -2px var(--color-card-shadow);
+  box-shadow: 0px 1px 3px rgba(6, 95, 70, 0.02),
+              0px 4px 12px rgba(6, 95, 70, 0.03),
+              0px 12px 24px rgba(6, 95, 70, 0.04);
 }
 
 body {
   margin: 0;
   color: var(--color-text-primary);
+  font-family: 'Manrope', sans-serif;
 }
 
 /* Let the page use the full viewport */
@@ -111,4 +114,19 @@ a:hover {
 // --chart-line: #fe4c5e
 // --chart-fill: #ffe0e3
 // --navy: #181870
+
+/* PrimeNG Dialog Global Overrides */
+.p-dialog {
+  p-select, p-inputnumber, p-datepicker, p-autocomplete, p-calendar, p-dropdown {
+    width: 100% !important;
+    display: block !important;
+  }
+  .p-select, .p-inputnumber, .p-datepicker, .p-autocomplete, .p-calendar, .p-dropdown {
+    width: 100% !important;
+  }
+  .p-inputnumber-input, .p-datepicker-input, .p-inputtext {
+    width: 100% !important;
+  }
+}
+
 

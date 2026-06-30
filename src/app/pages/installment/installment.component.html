@@ -177,8 +177,10 @@
     <p-select formControlName="currency" [options]="CURRENCY_OPTIONS" optionLabel="label" placeholder="Currency" class="w-full"></p-select>
     <p-select formControlName="frequency" [options]="FREQUENCY_OPTIONS" optionLabel="label" optionValue="value" placeholder="Frequency" class="w-full"></p-select>
   </form>
-  <ng-template #footer>
-    <ht-button [variant]="'secondary'" (click)="visible = false">Cancel</ht-button>
-    <ht-button [disabled]="installmentForm.invalid" (click)="addInstallment()">Create Plan</ht-button>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-3 mt-4">
+      <ht-button [variant]="'secondary'" (click)="visible = false">Cancel</ht-button>
+      <ht-button [disabled]="installmentForm.invalid" (click)="addInstallment()">Create Plan</ht-button>
+    </div>
   </ng-template>
 </p-dialog>

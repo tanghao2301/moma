@@ -1,6 +1,77 @@
 <div class="flex h-100">
   <app-nav></app-nav>
-  <div class="w-full flex flex-col flex-1 overflow-auto">
-    <router-outlet />
+  <div class="w-full flex flex-col flex-1 overflow-auto bg-background">
+    <!-- Top Header Bar -->
+    <header class="header-bar flex justify-between items-center px-6 w-full h-16 flex-shrink-0 sticky top-0 z-50">
+      <!-- Search Input Container -->
+      <div class="flex items-center">
+        <div class="search-container relative">
+          <span class="search-icon-wrapper absolute inset-y-0 left-3 flex items-center pointer-events-none">
+            <i class="pi pi-search" style="font-size: 13px;"></i>
+          </span>
+          <ht-input 
+            class="search-input w-256 outline-none" 
+            placeholder="Search analytics, assets..."
+          ></ht-input>
+          <kbd class="kbd-shortcut absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-medium px-1.5 py-0.5 rounded border">⌘K</kbd>
+        </div>
+      </div>
+
+      <!-- User Actions & Profile -->
+      <div class="flex items-center gap-4">
+        <!-- Quick Action Icons -->
+        <div class="flex gap-1.5">
+          <!-- Notification Bell with Active Indicator -->
+          <div class="relative flex items-center justify-center">
+            <ht-button
+              variant="secondary"
+              [borderLess]="true"
+              size="sm"
+              icon="pi pi-bell"
+              aria-label="Notifications"
+              class="icon-btn w-fit-content"
+            ></ht-button>
+            <span class="notification-dot absolute"></span>
+          </div>
+
+          <!-- Settings Button -->
+          <ht-button
+            variant="secondary"
+            [borderLess]="true"
+            size="sm"
+            icon="pi pi-cog"
+            aria-label="Settings"
+            class="icon-btn w-fit-content"
+          ></ht-button>
+        </div>
+
+        <!-- Vertical Divider -->
+        <div class="h-6 w-px bg-gray-200"></div>
+
+        <!-- Profile Section -->
+        <div class="profile-btn flex items-center gap-3">
+          <!-- Avatar Frame -->
+          <div class="avatar-wrapper rounded-full overflow-hidden">
+            <img 
+              class="w-full h-full object-cover" 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQIgQam9zyq2rRlPWzLQAXxs86x_wT_gRG4YLeE9inCSLXmmkYo3MWKkvP1oJ0PE6zw4P3Fa-JqHc3Nr47AJuVs0pV5IctVvGrA8bzRoT_c5dgDnD9UN7ig-lirysZ-1gvrPtWffHMZWJJSzhg2ic46xEpPN12DmVtxYtHQji0lDKnhajLt5f1h3iiLbWOkuDfwdrq7JkT4Fr1Bi-TrShd85ucYQDYdI9sSO8IQpowDAXoWvnVyJ_a2Q"
+              alt="User Avatar"
+            />
+          </div>
+          
+          <!-- Name and Role -->
+          <div class="flex flex-col text-left">
+            <span class="text-xs font-bold text-color-primary leading-tight">{{ user?.name || 'Private Client' }}</span>
+            <span class="text-[9px] text-color-secondary font-semibold uppercase tracking-wider leading-none mt-0.5">Premium Account</span>
+          </div>
+          
+          <!-- Dropdown Chevron Indicator -->
+          <i class="pi pi-chevron-down text-color-secondary ml-1" style="font-size: 10px;"></i>
+        </div>
+      </div>
+    </header>
+    <div class="flex-1">
+      <router-outlet />
+    </div>
   </div>
 </div>
