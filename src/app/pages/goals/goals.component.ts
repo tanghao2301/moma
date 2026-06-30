@@ -9,6 +9,7 @@ import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
 import { UserService } from '@services/user.service';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
+import { HtInputComponent } from '@components/ht-input/ht-input.component';
 import { DashboardLayoutComponent } from '@shared/layouts/dashboard-layout/dashboard-layout.component';
 import { Dialog } from 'primeng/dialog';
 import { InputNumber } from 'primeng/inputnumber';
@@ -38,6 +39,7 @@ import { Observable } from 'rxjs';
     TooltipModule,
     DashboardLayoutComponent,
     HtButtonComponent,
+    HtInputComponent,
   ],
   providers: [GoalsService],
   templateUrl: './goals.component.html',

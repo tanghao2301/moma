@@ -12,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
+import { HtInputComponent } from '@components/ht-input/ht-input.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
 import { Asset, ASSET_TYPE_OPTIONS, AssetType } from '@models/asset.model';
 import { CURRENCY_OPTIONS } from '@enum/transaction.enum';
@@ -47,6 +48,7 @@ import { Observable } from 'rxjs';
     DashboardLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
+    HtInputComponent,
   ],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss',

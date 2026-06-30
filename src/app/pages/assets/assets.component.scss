@@ -1,3 +1,5 @@
+@use '../../shared/assets/styles/variables' as vars;
+
 :host {
   display: block;
   height: 100%;
@@ -73,7 +75,7 @@
       border-bottom: 1px solid #edf2f7;
 
       &:hover {
-        background: #f7fafc;
+        background: vars.$color-row-hover;
       }
 
       td {

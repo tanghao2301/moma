@@ -9,11 +9,10 @@
           <span class="search-icon-wrapper absolute inset-y-0 left-3 flex items-center pointer-events-none">
             <i class="pi pi-search" style="font-size: 13px;"></i>
           </span>
-          <input 
+          <ht-input 
             class="search-input w-256 outline-none" 
-            placeholder="Search analytics, assets..." 
-            type="text"
-          />
+            placeholder="Search analytics, assets..."
+          ></ht-input>
           <kbd class="kbd-shortcut absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-medium px-1.5 py-0.5 rounded border">⌘K</kbd>
         </div>
       </div>
@@ -24,16 +23,26 @@
         <div class="flex gap-1.5">
           <!-- Notification Bell with Active Indicator -->
           <div class="relative flex items-center justify-center">
-            <button class="icon-btn flex items-center justify-center cursor-pointer rounded-full" aria-label="Notifications">
-              <i class="pi pi-bell" style="font-size: 15px;"></i>
-            </button>
+            <ht-button
+              variant="secondary"
+              [borderLess]="true"
+              size="sm"
+              icon="pi pi-bell"
+              aria-label="Notifications"
+              class="icon-btn w-fit-content"
+            ></ht-button>
             <span class="notification-dot absolute"></span>
           </div>
 
           <!-- Settings Button -->
-          <button class="icon-btn flex items-center justify-center cursor-pointer rounded-full" aria-label="Settings">
-            <i class="pi pi-cog" style="font-size: 15px;"></i>
-          </button>
+          <ht-button
+            variant="secondary"
+            [borderLess]="true"
+            size="sm"
+            icon="pi pi-cog"
+            aria-label="Settings"
+            class="icon-btn w-fit-content"
+          ></ht-button>
         </div>
 
         <!-- Vertical Divider -->

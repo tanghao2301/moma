@@ -167,18 +167,20 @@
                       </td>
                       <td>
                         <div class="flex gap-8">
-                          <button
-                            pButton
-                            class="p-button-text p-button-sm"
+                          <ht-button
+                            variant="secondary"
+                            size="sm"
+                            [borderLess]="true"
                             icon="pi pi-pencil"
                             (click)="showEditDialog(asset)"
-                          ></button>
-                          <button
-                            pButton
-                            class="p-button-text p-button-sm p-button-danger"
+                          ></ht-button>
+                          <ht-button
+                            variant="danger"
+                            size="sm"
+                            [borderLess]="true"
                             icon="pi pi-trash"
                             (click)="deleteAsset(asset.id!)"
-                          ></button>
+                          ></ht-button>
                         </div>
                       </td>
                     </tr>
@@ -218,12 +220,10 @@
   <form [formGroup]="assetForm" class="flex flex-col gap-16 pt-16">
     <div class="flex flex-col gap-4">
       <label class="font-semibold text-display-xs">Asset Name</label>
-      <input
-        pInputText
+      <ht-input
         formControlName="name"
         placeholder="e.g. My Savings, MacBook, BTC Wallet"
-        class="w-full"
-      />
+      ></ht-input>
     </div>
 
     <div class="flex flex-col gap-4">
@@ -264,22 +264,18 @@
       <label class="font-semibold text-display-xs"
         >Institution (Optional)</label
       >
-      <input
-        pInputText
+      <ht-input
         formControlName="institution"
         placeholder="e.g. Chase Bank, Binance"
-        class="w-full"
-      />
+      ></ht-input>
     </div>
 
     <div class="flex flex-col gap-4">
       <label class="font-semibold text-display-xs">Notes (Optional)</label>
-      <input
-        pInputText
+      <ht-input
         formControlName="note"
         placeholder="Add some details..."
-        class="w-full"
-      />
+      ></ht-input>
     </div>
   </form>
   <ng-template pTemplate="footer">

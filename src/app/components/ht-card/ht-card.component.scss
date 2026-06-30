@@ -1,10 +1,12 @@
+@use '../../shared/assets/styles/variables' as vars;
+
 :host {
   display: block;
   width: 100%;
 }
 
 :host > div {
-  background: linear-gradient(180deg, #ffffff 0%, #fcfdfe 100%);
+  background: linear-gradient(180deg, vars.$color-card-gradient-start 0%, vars.$color-card-gradient-end 100%);
   border-radius: 1.5rem !important; /* premium 1.5rem (rounded-3xl) corners */
   box-shadow: 0px 1px 3px rgba(6, 95, 70, 0.02),
               0px 4px 12px rgba(6, 95, 70, 0.03),

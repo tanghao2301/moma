@@ -17,14 +17,14 @@
       <!-- Create/Edit Form View (Matches mockup page layout!) -->
       <div class="max-w-3xl mx-auto py-12">
         <div class="mb-24 flex items-center gap-12">
-          <button
-            type="button"
+          <ht-button
+            variant="secondary"
+            size="sm"
+            [borderLess]="true"
+            icon="pi pi-arrow-left"
             (click)="closeDialog()"
-            class="p-8 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-all cursor-pointer border-none bg-transparent flex items-center justify-center"
-            style="width: 36px; height: 36px;"
-          >
-            <i class="pi pi-arrow-left font-bold text-sm"></i>
-          </button>
+            class="w-fit-content"
+          ></ht-button>
           <div>
             <h2 class="text-2xl font-extrabold text-slate-800 tracking-tight">
               {{ isEdit ? 'Edit Goal' : 'Create New Goal' }}
@@ -40,13 +40,11 @@
             <!-- Goal Name -->
             <div class="flex flex-col gap-8">
               <label for="name" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Goal Name</label>
-              <input
-                pInputText
+              <ht-input
                 id="name"
                 formControlName="name"
                 placeholder="e.g. New Electric Vehicle"
-                class="w-full rounded-xl border-slate-200 focus:ring-1 focus:ring-primary"
-              />
+              ></ht-input>
             </div>
 
             <!-- Currency & Status -->
@@ -256,22 +254,24 @@
                   </span>
                   
                   <div class="action-buttons flex gap-8 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <button
+                    <ht-button
                       (click)="showEditDialog(goal); $event.stopPropagation();"
-                      class="w-28 h-28 flex items-center justify-center text-slate-400 hover:text-emerald-700 hover:bg-slate-100 rounded-md transition-all cursor-pointer border-none bg-transparent"
+                      variant="secondary"
+                      size="sm"
+                      [borderLess]="true"
+                      icon="pi pi-pencil"
                       pTooltip="Edit Goal"
-                      style="width: 28px; height: 28px;"
-                    >
-                      <i class="pi pi-pencil text-xs"></i>
-                    </button>
-                    <button
+                      class="w-fit-content"
+                    ></ht-button>
+                    <ht-button
                       (click)="showDeleteDialog(goal); $event.stopPropagation();"
-                      class="w-28 h-28 flex items-center justify-center text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-md transition-all cursor-pointer border-none bg-transparent"
+                      variant="danger"
+                      size="sm"
+                      [borderLess]="true"
+                      icon="pi pi-trash"
                       pTooltip="Delete Goal"
-                      style="width: 28px; height: 28px;"
-                    >
-                      <i class="pi pi-trash text-xs"></i>
-                    </button>
+                      class="w-fit-content"
+                    ></ht-button>
                   </div>
                 </div>
               </div>

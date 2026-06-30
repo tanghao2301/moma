@@ -1,7 +1,7 @@
 <app-dashboard-layout title="Dashboard" subtitle="Institutional analysis of your current monthly fiscal performance.">
   <div header-actions class="flex gap-3">
-    <button class="px-4 py-2 border border-border text-primary font-semibold text-xs rounded-lg hover:bg-gray-50 transition-colors">Export Report</button>
-    <button class="px-4 py-2 bg-primary text-white font-semibold text-xs rounded-lg hover:opacity-90 transition-opacity">Manage Limits</button>
+    <ht-button variant="secondary" size="sm" class="w-fit-content">Export Report</ht-button>
+    <ht-button variant="primary" size="sm" class="w-fit-content">Manage Limits</ht-button>
   </div>
   <!-- Hero Balance Area -->
   <section class="mb-8">
@@ -27,8 +27,8 @@
           </div>
         </div>
         <div class="flex gap-3">
-          <button class="bg-[#d1fae5] text-[#065f46] px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-emerald-100 transition-colors">Transfer Funds</button>
-          <button class="bg-transparent border border-white/20 px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-white/10 transition-colors">Withdraw</button>
+          <ht-button variant="secondary" size="sm" class="w-fit-content">Transfer Funds</ht-button>
+          <ht-button variant="secondary" size="sm" class="w-fit-content">Withdraw</ht-button>
         </div>
       </div>
     </div>
@@ -99,10 +99,10 @@
             <p class="text-xs text-color-secondary mt-1">Aggregated portfolio performance vs S&P 500</p>
           </div>
           <div class="flex gap-1.5">
-            <button class="px-3 py-1 rounded-full border border-border text-[10px] font-semibold hover:bg-gray-50 transition-colors">1M</button>
-            <button class="px-3 py-1 rounded-full border border-border text-[10px] font-semibold hover:bg-gray-50 transition-colors">6M</button>
-            <button class="px-3 py-1 rounded-full bg-primary text-white text-[10px] font-semibold transition-colors">1Y</button>
-            <button class="px-3 py-1 rounded-full border border-border text-[10px] font-semibold hover:bg-gray-50 transition-colors">ALL</button>
+            <ht-button variant="secondary" size="sm" class="w-fit-content">1M</ht-button>
+            <ht-button variant="secondary" size="sm" class="w-fit-content">6M</ht-button>
+            <ht-button variant="primary" size="sm" class="w-fit-content">1Y</ht-button>
+            <ht-button variant="secondary" size="sm" class="w-fit-content">ALL</ht-button>
           </div>
         </div>
         <app-balance-chart
@@ -116,7 +116,7 @@
       <ht-card class="h-full flex flex-col">
         <div class="flex justify-between items-center mb-5">
           <h3 class="text-lg font-bold text-color-primary">Recent Activity</h3>
-          <button class="text-primary text-xs font-bold hover:underline transition-all">View All</button>
+          <ht-button variant="secondary" [borderLess]="true" size="sm" class="w-fit-content">View All</ht-button>
         </div>
         
         <div class="flex-1 space-y-4 overflow-y-auto max-h-[300px] pr-1">

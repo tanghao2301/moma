@@ -4,9 +4,12 @@ import { NavComponent } from '../../components/nav/nav.component';
 import { UserService } from '@services/user.service';
 import { UserModel } from '@models/user.model';
 
+import { HtButtonComponent } from '@components/ht-button/ht-button.component';
+import { HtInputComponent } from '@components/ht-input/ht-input.component';
+
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, NavComponent],
+  imports: [RouterOutlet, NavComponent, HtButtonComponent, HtInputComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })

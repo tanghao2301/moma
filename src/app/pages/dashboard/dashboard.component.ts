@@ -8,6 +8,7 @@ import { UserService } from '@services/user.service';
 import { DashboardLayoutComponent } from "@shared/layouts/dashboard-layout/dashboard-layout.component";
 import { delay, forkJoin, combineLatest } from 'rxjs';
 import { BalanceChartComponent } from './balance-chart/balance-chart.component';
+import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { CurrencyPipe, DatePipe, PercentPipe, NgClass } from '@angular/common';
 
 @Component({
@@ -19,7 +20,8 @@ import { CurrencyPipe, DatePipe, PercentPipe, NgClass } from '@angular/common';
     CurrencyPipe,
     DatePipe,
     PercentPipe,
-    NgClass
+    NgClass,
+    HtButtonComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

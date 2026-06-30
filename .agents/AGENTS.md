@@ -15,6 +15,7 @@
 - **Do Not Use Raw HTML Alternatives**: Avoid using standard HTML tags (like `<button>`) when a corresponding custom component is available (like `ht-button`).
 - **Available Shared Components**:
   - [ht-button](file:///c:/Projects/moma/src/app/components/ht-button/ht-button.component.ts): Use for all action buttons (primary, secondary, danger/delete).
+  - [ht-input](file:///c:/Projects/moma/src/app/components/ht-input/ht-input.component.ts): Use for standard text inputs and form fields.
   - [ht-card](file:///c:/Projects/moma/src/app/components/ht-card/ht-card.component.ts): Use for standard containers, content sections, and dashboard blocks.
   - [ht-loading](file:///c:/Projects/moma/src/app/components/ht-loading/ht-loading.component.ts): Use for screen overlays, loaders, and async spinners.
   - [ht-metric-card](file:///c:/Projects/moma/src/app/components/ht-metric-card/ht-metric-card.component.ts): Use for KPI indexes, statistics, and numeric highlights.
