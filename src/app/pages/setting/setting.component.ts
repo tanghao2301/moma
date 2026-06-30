@@ -4,12 +4,14 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '@services/user.service';
 import { ToastService } from '@services/toast.service';
 import { LoadingService } from '@services/loading.service';
+import { LocaleService } from '@services/locale.service';
 import { DashboardLayoutComponent } from '@shared/layouts/dashboard-layout/dashboard-layout.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ToastModule } from 'primeng/toast';
+import { SelectModule } from 'primeng/select';
 import { UserModel } from '@models/user.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -25,6 +27,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     InputTextModule,
     FloatLabelModule,
     ToastModule,
+    SelectModule,
   ],
   templateUrl: './setting.component.html',
   styleUrl: './setting.component.scss',
@@ -34,13 +37,25 @@ export class SettingComponent implements OnInit {
   private userService = inject(UserService);
   private toastService = inject(ToastService);
   private loadingService = inject(LoadingService);
+  private localeService = inject(LocaleService);
   private destroyRef = inject(DestroyRef);
+
+  LANGUAGE_OPTIONS = [
+    { label: 'English', value: 'en' },
+    { label: 'Tiếng Việt', value: 'vi' }
+  ];
+  CURRENCY_OPTIONS = [
+    { label: 'US Dollar (USD)', value: 'USD' },
+    { label: 'Vietnamese Dong (VND)', value: 'VND' }
+  ];
 
   userForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
     phoneNumber: ['', Validators.required],
+    preferredLanguage: ['en', Validators.required],
+    preferredCurrency: ['USD', Validators.required],
   });
 
   currentUser: UserModel | null = null;
@@ -65,6 +80,8 @@ export class SettingComponent implements OnInit {
               lastName: user.lastName || '',
               email: user.email || '',
               phoneNumber: user.phoneNumber || '',
+              preferredLanguage: user.preferredLanguage || 'en',
+              preferredCurrency: user.preferredCurrency || 'USD',
             });
           }
           this.loadingService.hide();
@@ -89,7 +106,13 @@ export class SettingComponent implements OnInit {
       lastName: formValue.lastName || '',
       phoneNumber: formValue.phoneNumber || '',
       name: `${formValue.firstName} ${formValue.lastName}`.trim(),
+      preferredLanguage: formValue.preferredLanguage || 'en',
+      preferredCurrency: formValue.preferredCurrency || 'USD',
     };
+
+    // Update LocaleService immediately
+    this.localeService.setLanguage(formValue.preferredLanguage || 'en');
+    this.localeService.setCurrency(formValue.preferredCurrency || 'USD');
 
     this.userService.updateUserById(uid, updateData)
       .pipe(takeUntilDestroyed(this.destroyRef))

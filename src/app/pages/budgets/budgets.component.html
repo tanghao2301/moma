@@ -122,7 +122,7 @@
             <div class="flex flex-col">
               <p class="text-display-sm">Total Budget</p>
               <p class="text-display-lg">
-                {{ balance.totalIncome | currency: "VND" }}
+                {{ balance.totalIncome | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
               </p>
             </div>
             <div class="icon-container icon-background">
@@ -138,7 +138,7 @@
                 <p class="text-display-lg">
                   {{
                     budgetSelected.amount
-                      | currency: budgetSelected.currency.value || "VND"
+                      | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale()
                   }}
                 </p>
               }
@@ -156,7 +156,7 @@
                 <p class="text-display-lg">
                   {{
                     balance.totalIncome - budgetSelected.amount
-                      | currency: "VND"
+                      | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale()
                   }}
                 </p>
               }
@@ -198,13 +198,13 @@
               <p class="text-display-sm">
                 {{
                   budgetSelected.amount
-                    | currency: budgetSelected.currency.value || "VND"
+                    | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale()
                 }}
               </p>
               <p class="text-display-sm">
                 {{
                   balance.totalIncome
-                    | currency: budgetSelected.currency.value || "VND"
+                    | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale()
                 }}
               </p>
             </div>
@@ -242,15 +242,15 @@
           <div class="flex justify-content-space-between text-display-xs mx-24">
             <div>
               <p class="font-semibold">Average</p>
-              {{ average | currency: "VND" }}
+              {{ average | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
             </div>
             <div>
               <p class="font-semibold">Lowest</p>
-              {{ lowest | currency: "VND" }}
+              {{ lowest | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
             </div>
             <div>
               <p class="font-semibold">Highest</p>
-              {{ highest | currency: "VND" }}
+              {{ highest | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
             </div>
           </div>
         </ht-card>
@@ -316,7 +316,7 @@
         <p>{{ subTitle }}</p>
       </div>
     </div>
-    <p>{{ amount | currency: "VND" }}</p>
+    <p>{{ amount | currency: localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}</p>
   </div>
 </ng-template>
 <p-dialog
@@ -368,20 +368,9 @@
         </div>
       </ng-template>
     </p-select>
-    <p-select
-      class="w-full md:w-14rem"
-      appendTo="body"
-      formControlName="currency"
-      placeholder="Select currency"
-      optionLabel="label"
-      panelStyleClass="w-full"
-      [options]="CURRENCY_OPTIONS"
-      [showClear]="true"
-      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
-    />
     <p-inputnumber
-      [currency]="currency"
-      [locale]="locale"
+      [currency]="localeService.activeCurrency()"
+      [locale]="localeService.activeLocale()"
       formControlName="amount"
       inputId="currency"
       mode="currency"

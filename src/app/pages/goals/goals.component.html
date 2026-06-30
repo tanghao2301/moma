@@ -47,31 +47,18 @@
               ></ht-input>
             </div>
 
-            <!-- Currency & Status -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-24">
-              <div class="flex flex-col gap-8">
-                <label for="currency" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Currency</label>
-                <p-select
-                  [options]="CURRENCY_OPTIONS"
-                  formControlName="currency"
-                  optionLabel="label"
-                  placeholder="Select Currency"
-                  class="w-full rounded-xl"
-                  appendTo="body"
-                ></p-select>
-              </div>
-              <div class="flex flex-col gap-8">
-                <label for="status" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Status</label>
-                <p-select
-                  [options]="GOAL_STATUS_OPTIONS"
-                  formControlName="status"
-                  optionLabel="label"
-                  optionValue="value"
-                  placeholder="Status"
-                  class="w-full rounded-xl"
-                  appendTo="body"
-                ></p-select>
-              </div>
+            <!-- Status -->
+            <div class="flex flex-col gap-8">
+              <label for="status" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Status</label>
+              <p-select
+                [options]="GOAL_STATUS_OPTIONS"
+                formControlName="status"
+                optionLabel="label"
+                optionValue="value"
+                placeholder="Status"
+                class="w-full rounded-xl"
+                appendTo="body"
+              ></p-select>
             </div>
 
             <!-- Target & Current Amounts -->
@@ -82,8 +69,8 @@
                   id="targetAmount"
                   formControlName="targetAmount"
                   mode="currency"
-                  [currency]="goalForm.get('currency')?.value?.value || 'USD'"
-                  [locale]="goalForm.get('currency')?.value?.locale || 'en-US'"
+                  [currency]="localeService.activeCurrency()"
+                  [locale]="localeService.activeLocale()"
                   class="w-full rounded-xl"
                 ></p-inputnumber>
               </div>
@@ -93,8 +80,8 @@
                   id="currentAmount"
                   formControlName="currentAmount"
                   mode="currency"
-                  [currency]="goalForm.get('currency')?.value?.value || 'USD'"
-                  [locale]="goalForm.get('currency')?.value?.locale || 'en-US'"
+                  [currency]="localeService.activeCurrency()"
+                  [locale]="localeService.activeLocale()"
                   class="w-full rounded-xl"
                 ></p-inputnumber>
               </div>
@@ -288,8 +275,8 @@
               <div class="space-y-8 mt-auto pt-8">
                 <div class="flex justify-between items-end text-xs">
                   <span class="font-bold text-slate-800">
-                    {{ goal.currentAmount | currency: (goal.currency || 'VND') : 'symbol' : '1.0-2' }}
-                    <span class="text-slate-500 font-normal">of {{ goal.targetAmount | currency: (goal.currency || 'VND') : 'symbol' : '1.0-2' }}</span>
+                    {{ goal.currentAmount | currency: localeService.activeCurrency() : 'symbol' : '1.0-2' : localeService.activeLocale() }}
+                    <span class="text-slate-500 font-normal">of {{ goal.targetAmount | currency: localeService.activeCurrency() : 'symbol' : '1.0-2' : localeService.activeLocale() }}</span>
                   </span>
                   <span [style.color]="goal.color || '#065f46'" class="font-extrabold">{{ calculateProgress(goal) }}%</span>
                 </div>

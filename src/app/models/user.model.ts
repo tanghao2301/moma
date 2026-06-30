@@ -10,4 +10,6 @@ export interface UserModel {
     phoneNumber?: string | null;
     dateOfBirth?: string | null;
     onboardingStep?: number;
+    preferredLanguage?: string | null;
+    preferredCurrency?: string | null;
 }

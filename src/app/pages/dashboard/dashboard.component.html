@@ -16,7 +16,7 @@
             @if (isLoading) {
               $0.00
             } @else {
-              {{ balance.value | currency:'USD':'symbol':'1.2-2' }}
+              {{ balance.value | currency: localeService.activeCurrency() :'symbol':'1.2-2': localeService.activeLocale() }}
             }
           </h2>
           <div class="flex items-center gap-2 mt-4 bg-white/10 w-fit px-3 py-1 rounded-full text-[10px]">
@@ -48,7 +48,7 @@
       </div>
       <p class="text-xs font-semibold text-color-secondary">Period Change</p>
       <h3 class="text-xl font-bold text-color-primary mt-1">
-        {{ periodChange | currency:'USD':'symbol':'1.2-2' }}
+        {{ periodChange | currency: localeService.activeCurrency() :'symbol':'1.2-2': localeService.activeLocale() }}
       </h3>
       <p class="text-[10px] text-color-secondary mt-1">Current Quarter</p>
     </ht-card>
@@ -65,7 +65,7 @@
       </div>
       <p class="text-xs font-semibold text-color-secondary">Monthly Expenses</p>
       <h3 class="text-xl font-bold text-color-primary mt-1">
-        {{ balance.totalExpenses | currency:'USD':'symbol':'1.2-2' }}
+        {{ balance.totalExpenses | currency: localeService.activeCurrency() :'symbol':'1.2-2': localeService.activeLocale() }}
       </h3>
       <p class="text-[10px] text-color-secondary mt-1">Luxury Services & Lifestyle</p>
     </ht-card>
@@ -82,7 +82,7 @@
       </div>
       <p class="text-xs font-semibold text-color-secondary">Dividend Income</p>
       <h3 class="text-xl font-bold text-color-primary mt-1">
-        {{ balance.totalIncome | currency:'USD':'symbol':'1.2-2' }}
+        {{ balance.totalIncome | currency: localeService.activeCurrency() :'symbol':'1.2-2': localeService.activeLocale() }}
       </h3>
       <p class="text-[10px] text-color-secondary mt-1">Passive Yield Projected</p>
     </ht-card>
@@ -134,7 +134,7 @@
               </div>
               <div class="text-right">
                 <p class="text-xs font-bold" [ngClass]="t.transactionType === 'Income' ? 'text-[#065f46]' : 'text-rose-600'">
-                  {{ t.transactionType === 'Income' ? '+' : '-' }}{{ t.amount | currency:t.currency.value:'symbol':'1.0-0' }}
+                  {{ t.transactionType === 'Income' ? '+' : '-' }}{{ t.amount | currency: localeService.activeCurrency() :'symbol':'1.2-2': localeService.activeLocale() }}
                 </p>
                 <p class="text-[9px] text-color-secondary mt-0.5 uppercase tracking-wider">{{ t.frequency }}</p>
               </div>
@@ -165,7 +165,7 @@
           </svg>
           <span class="absolute text-sm font-bold text-color-primary">65%</span>
         </div>
-        <p class="text-xs font-bold text-color-primary">$3,134,566</p>
+        <p class="text-xs font-bold text-color-primary">{{ 3134566 | currency: localeService.activeCurrency() :'symbol':'1.0-0': localeService.activeLocale() }}</p>
       </ht-card>
 
       <ht-card class="flex flex-col items-center text-center p-6">
@@ -177,7 +177,7 @@
           </svg>
           <span class="absolute text-sm font-bold text-color-primary">20%</span>
         </div>
-        <p class="text-xs font-bold text-color-primary">$964,482</p>
+        <p class="text-xs font-bold text-color-primary">{{ 964482 | currency: localeService.activeCurrency() :'symbol':'1.0-0': localeService.activeLocale() }}</p>
       </ht-card>
 
       <ht-card class="flex flex-col items-center text-center p-6">
@@ -189,7 +189,7 @@
           </svg>
           <span class="absolute text-sm font-bold text-color-primary">10%</span>
         </div>
-        <p class="text-xs font-bold text-color-primary">$482,241</p>
+        <p class="text-xs font-bold text-color-primary">{{ 482241 | currency: localeService.activeCurrency() :'symbol':'1.0-0': localeService.activeLocale() }}</p>
       </ht-card>
 
       <ht-card class="flex flex-col items-center text-center p-6">
@@ -201,7 +201,7 @@
           </svg>
           <span class="absolute text-sm font-bold text-color-primary">5%</span>
          </div>
-        <p class="text-xs font-bold text-color-primary">$241,120</p>
+        <p class="text-xs font-bold text-color-primary">{{ 241120 | currency: localeService.activeCurrency() :'symbol':'1.0-0': localeService.activeLocale() }}</p>
       </ht-card>
     </div>
   </section>

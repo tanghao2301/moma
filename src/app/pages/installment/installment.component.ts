@@ -14,11 +14,15 @@ import {
 } from '@angular/forms';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
+import { HtTableComponent } from '@components/ht-table/ht-table.component';
+import { HtTableHeader, HtTableHeaderDirective } from '@components/ht-table/elements/ht-table-header.directive';
+import { HtTableRow } from '@components/ht-table/elements/ht-table-row.directive';
+import { HtTableCellDirective } from '@components/ht-table/elements/ht-table-cell.directive';
 import {
-  CURRENCY_OPTIONS,
   FREQUENCY_OPTIONS,
   TYPE_INSTALLMENT_OPTIONS,
 } from '@enum/transaction.enum';
+import { LocaleService } from '@services/locale.service';
 import { Transaction, Type } from '@models/transaction.model';
 import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
@@ -51,14 +55,19 @@ import { Observable } from 'rxjs';
     DashboardLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
+    HtTableComponent,
+    HtTableHeader,
+    HtTableHeaderDirective,
+    HtTableRow,
+    HtTableCellDirective,
   ],
   templateUrl: './installment.component.html',
   styleUrl: './installment.component.scss',
 })
 export class InstallmentComponent implements OnInit {
+  public localeService = inject(LocaleService);
   TYPE_INSTALLMENT_OPTIONS: Type[] = TYPE_INSTALLMENT_OPTIONS;
   FREQUENCY_OPTIONS = FREQUENCY_OPTIONS;
-  CURRENCY_OPTIONS = CURRENCY_OPTIONS;
   
   private destroyRef: DestroyRef = inject(DestroyRef);
   private loadingService: LoadingService = inject(LoadingService);
@@ -86,8 +95,7 @@ export class InstallmentComponent implements OnInit {
   installmentForm: FormGroup = this.fb.group({
     id: [null],
     type: [null, Validators.required],
-    currency: [null, Validators.required],
-    amount: [{ value: null, disabled: true }, Validators.required],
+    amount: [null, Validators.required],
     totalAmount: [null, Validators.required],
     frequency: [null, Validators.required],
     note: ['']
@@ -107,20 +115,6 @@ export class InstallmentComponent implements OnInit {
         this.nextPaymentDate.setDate(15);
       }
     });
-
-    this.installmentForm.get('currency')?.valueChanges.pipe(
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe((selected) => {
-      const currencyMeta = this.CURRENCY_OPTIONS.find(opt => opt.value === selected?.value);
-      if (currencyMeta) {
-        this.installmentForm.get('amount')?.reset();
-        this.currency = currencyMeta.value;
-        this.locale = currencyMeta.locale;
-        this.installmentForm.get('amount')?.enable();
-      } else {
-        this.installmentForm.get('amount')?.disable();
-      }
-    });
   }
 
   getInstallments(): void {
@@ -138,7 +132,6 @@ export class InstallmentComponent implements OnInit {
     this.installmentForm.patchValue({
       id: installment.id,
       type: installment.type,
-      currency: installment.currency,
       amount: installment.amount,
       totalAmount: (installment as any).totalAmount,
       frequency: installment.frequency,
@@ -150,8 +143,16 @@ export class InstallmentComponent implements OnInit {
 
   addInstallment(): void {
     this.loadingService.show();
+    const formVal = this.installmentForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
+    const activeLocale = this.localeService.activeLocale();
     const addItem = {
-      ...this.installmentForm.getRawValue(),
+      ...formVal,
+      currency: {
+        value: activeCurrency,
+        locale: activeLocale,
+        label: activeCurrency === 'USD' ? 'US Dollar (USD)' : 'Vietnamese Dong (VND)'
+      },
       transactionType: 'Installment',
     };
     this.transactionsService.createTransactionsById(this.userId, addItem)
@@ -171,10 +172,21 @@ export class InstallmentComponent implements OnInit {
 
   editInstallment(): void {
     this.loadingService.show();
+    const formVal = this.installmentForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
+    const activeLocale = this.localeService.activeLocale();
+    const updateItem = {
+      ...formVal,
+      currency: {
+        value: activeCurrency,
+        locale: activeLocale,
+        label: activeCurrency === 'USD' ? 'US Dollar (USD)' : 'Vietnamese Dong (VND)'
+      }
+    };
     this.transactionsService.updateTransactionsById(
       this.userId,
       this.installmentForm.get('id')?.value,
-      this.installmentForm.getRawValue()
+      updateItem
     ).pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
@@ -206,12 +218,22 @@ export class InstallmentComponent implements OnInit {
   }
 
   deleteInstallment(): void {
-
     this.loadingService.show();
+    const formVal = this.installmentForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
+    const activeLocale = this.localeService.activeLocale();
+    const deleteItem = {
+      ...formVal,
+      currency: {
+        value: activeCurrency,
+        locale: activeLocale,
+        label: activeCurrency === 'USD' ? 'US Dollar (USD)' : 'Vietnamese Dong (VND)'
+      }
+    };
     this.transactionsService.deleteTransactionsById(
       this.userId,
       this.installmentForm.get('id')?.value,
-      this.installmentForm.getRawValue()
+      deleteItem
     ).pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {

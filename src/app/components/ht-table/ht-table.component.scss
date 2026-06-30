@@ -1,0 +1,43 @@
+@use '../../shared/assets/styles/variables' as vars;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #a0aec0;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #edf2f7;
+  }
+
+  tbody tr {
+    transition: background 0.2s;
+    border-bottom: 1px solid #edf2f7;
+
+    &.hoverable {
+      cursor: pointer;
+      &:hover {
+        background: vars.$color-row-hover;
+      }
+    }
+
+    &.selected {
+      background: #f0fff4;
+      border-left: 4px solid #10b981;
+    }
+
+    td {
+      padding: 16px;
+      vertical-align: middle;
+    }
+  }
+}

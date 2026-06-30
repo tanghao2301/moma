@@ -15,10 +15,10 @@ import {
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
 import {
-  CURRENCY_OPTIONS,
   FREQUENCY_OPTIONS,
   TYPE_EXPENSE_OPTIONS,
 } from '@enum/transaction.enum';
+import { LocaleService } from '@services/locale.service';
 import { Balance } from '@models/balance.model';
 import { Frequency, Transaction, Type } from '@models/transaction.model';
 import { LoadingService } from '@services/loading.service';
@@ -57,9 +57,9 @@ import { BalanceChartComponent } from '../dashboard/balance-chart/balance-chart.
   styleUrl: './budgets.component.scss',
 })
 export class BudgetsComponent implements OnInit {
+  public localeService = inject(LocaleService);
   TYPE_EXPENSE_OPTIONS: Type[] = TYPE_EXPENSE_OPTIONS;
   FREQUENCY_OPTIONS: Frequency[] = FREQUENCY_OPTIONS;
-  CURRENCY_OPTIONS = CURRENCY_OPTIONS;
   private destroyRef: DestroyRef = inject(DestroyRef);
   private loadingService: LoadingService = inject(LoadingService);
   private toastService: ToastService = inject(ToastService);
@@ -87,8 +87,7 @@ export class BudgetsComponent implements OnInit {
   expenseForm: FormGroup = this.fb.group({
     id: [null],
     type: [null, Validators.required],
-    currency: [null, Validators.required],
-    amount: [{ value: null, disabled: true }, Validators.required],
+    amount: [null, Validators.required],
     frequency: [null, Validators.required],
   });
 
@@ -98,22 +97,6 @@ export class BudgetsComponent implements OnInit {
     this.getMonthlyBalance();
     this.getPreviousMonthlyBalance();
     this.getMonthlyBalancesThisYear();
-    this.expenseForm
-      .get('currency')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((selected) => {
-        const currencyMeta = this.CURRENCY_OPTIONS.find(
-          (opt) => opt.value === selected?.value
-        );
-        if (currencyMeta) {
-          this.expenseForm.get('amount')?.reset();
-          this.currency = currencyMeta.value;
-          this.locale = currencyMeta.locale;
-          this.expenseForm.get('amount')?.enable(); // enable when selected
-        } else {
-          this.expenseForm.get('amount')?.disable();
-        }
-      });
   }
 
   getExpenses(): void {
@@ -176,7 +159,6 @@ export class BudgetsComponent implements OnInit {
     this.expenseForm.setValue({
       id: expense.id,
       type: expense.type,
-      currency: expense.currency,
       amount: expense.amount,
       frequency: expense.frequency,
     });
@@ -186,8 +168,16 @@ export class BudgetsComponent implements OnInit {
 
   addExpense(): void {
     this.loadingService.show();
+    const formVal = this.expenseForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
+    const activeLocale = this.localeService.activeLocale();
     const addItem = {
-      ...this.expenseForm.getRawValue(),
+      ...formVal,
+      currency: {
+        value: activeCurrency,
+        locale: activeLocale,
+        label: activeCurrency === 'USD' ? 'US Dollar (USD)' : 'Vietnamese Dong (VND)'
+      },
       transactionType: 'Expense',
     };
     this.transactionsService
@@ -208,11 +198,22 @@ export class BudgetsComponent implements OnInit {
 
   editExpense(): void {
     this.loadingService.show();
+    const formVal = this.expenseForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
+    const activeLocale = this.localeService.activeLocale();
+    const updateItem = {
+      ...formVal,
+      currency: {
+        value: activeCurrency,
+        locale: activeLocale,
+        label: activeCurrency === 'USD' ? 'US Dollar (USD)' : 'Vietnamese Dong (VND)'
+      }
+    };
     this.transactionsService
       .updateTransactionsById(
         this.userId,
         this.expenseForm.get('id')?.value,
-        this.expenseForm.getRawValue()
+        updateItem
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

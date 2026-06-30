@@ -2,12 +2,12 @@ import { AsyncPipe, CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CURRENCY_OPTIONS } from '@enum/transaction.enum';
 import { Goal, GOAL_ICON_OPTIONS, GOAL_STATUS_OPTIONS, GoalStatus } from '@models/goal.model';
 import { GoalsService } from '@services/goals.service';
 import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
 import { UserService } from '@services/user.service';
+import { LocaleService } from '@services/locale.service';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { HtInputComponent } from '@components/ht-input/ht-input.component';
 import { DashboardLayoutComponent } from '@shared/layouts/dashboard-layout/dashboard-layout.component';
@@ -46,9 +46,9 @@ import { Observable } from 'rxjs';
   styleUrl: './goals.component.scss',
 })
 export class GoalsComponent implements OnInit {
+  public localeService = inject(LocaleService);
   GOAL_ICON_OPTIONS = GOAL_ICON_OPTIONS;
   GOAL_STATUS_OPTIONS = GOAL_STATUS_OPTIONS;
-  CURRENCY_OPTIONS = CURRENCY_OPTIONS;
 
   private destroyRef: DestroyRef = inject(DestroyRef);
   private loadingService: LoadingService = inject(LoadingService);
@@ -70,7 +70,6 @@ export class GoalsComponent implements OnInit {
     name: [null, Validators.required],
     targetAmount: [null, [Validators.required, Validators.min(0.01)]],
     currentAmount: [0, [Validators.required, Validators.min(0)]],
-    currency: [null, Validators.required],
     targetDate: [null],
     icon: [null],
     color: ['#4f46e5'],
@@ -95,10 +94,6 @@ export class GoalsComponent implements OnInit {
       color: '#4f46e5',
       status: GoalStatus.IN_PROGRESS,
     });
-    // Set default currency if options are available
-    if (this.CURRENCY_OPTIONS.length > 0) {
-       this.goalForm.get('currency')?.setValue(this.CURRENCY_OPTIONS[0]);
-    }
     this.showFormView = true;
   }
 
@@ -111,7 +106,6 @@ export class GoalsComponent implements OnInit {
       name: goal.name,
       targetAmount: goal.targetAmount,
       currentAmount: goal.currentAmount,
-      currency: this.CURRENCY_OPTIONS.find(opt => opt.value === goal.currency),
       targetDate: goal.targetDate ? new Date(goal.targetDate) : null,
       icon: this.GOAL_ICON_OPTIONS.find(opt => opt.value === goal.icon),
       color: goal.color,
@@ -137,11 +131,12 @@ export class GoalsComponent implements OnInit {
 
     this.loadingService.show();
     const formValue = this.goalForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
     const goalData: any = {
       name: formValue.name,
       targetAmount: formValue.targetAmount,
       currentAmount: formValue.currentAmount,
-      currency: formValue.currency.value,
+      currency: activeCurrency,
       targetDate: formValue.targetDate ? new Date(formValue.targetDate).getTime() : null,
       icon: formValue.icon.value,
       color: formValue.color,

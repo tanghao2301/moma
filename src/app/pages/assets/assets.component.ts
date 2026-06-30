@@ -14,18 +14,21 @@ import {
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { HtInputComponent } from '@components/ht-input/ht-input.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
+import { HtTableComponent } from '@components/ht-table/ht-table.component';
+import { HtTableHeader, HtTableHeaderDirective } from '@components/ht-table/elements/ht-table-header.directive';
+import { HtTableRow } from '@components/ht-table/elements/ht-table-row.directive';
+import { HtTableCellDirective } from '@components/ht-table/elements/ht-table-cell.directive';
 import { Asset, ASSET_TYPE_OPTIONS, AssetType } from '@models/asset.model';
-import { CURRENCY_OPTIONS } from '@enum/transaction.enum';
 import { AssetsService } from '@services/assets.service';
 import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
 import { UserService } from '@services/user.service';
+import { LocaleService } from '@services/locale.service';
 import { DashboardLayoutComponent } from '@shared/layouts/dashboard-layout/dashboard-layout.component';
 import { Dialog } from 'primeng/dialog';
 import { InputNumber } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
-import { InputTextModule } from 'primeng/inputtext';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { Observable } from 'rxjs';
@@ -42,20 +45,24 @@ import { Observable } from 'rxjs';
     SelectModule,
     Dialog,
     InputNumber,
-    InputTextModule,
     TooltipModule,
     ButtonModule,
     DashboardLayoutComponent,
     HtCardComponent,
     HtButtonComponent,
     HtInputComponent,
+    HtTableComponent,
+    HtTableHeader,
+    HtTableHeaderDirective,
+    HtTableRow,
+    HtTableCellDirective,
   ],
   templateUrl: './assets.component.html',
   styleUrl: './assets.component.scss',
 })
 export class AssetsComponent implements OnInit {
+  public localeService = inject(LocaleService);
   ASSET_TYPE_OPTIONS = ASSET_TYPE_OPTIONS;
-  CURRENCY_OPTIONS = CURRENCY_OPTIONS;
 
   private destroyRef: DestroyRef = inject(DestroyRef);
   private assetsService: AssetsService = inject(AssetsService);
@@ -81,7 +88,6 @@ export class AssetsComponent implements OnInit {
     name: ['', Validators.required],
     type: [null, Validators.required],
     amount: [null, Validators.required],
-    currency: [null, Validators.required],
     institution: [''],
     note: ['']
   });
@@ -126,7 +132,6 @@ export class AssetsComponent implements OnInit {
       name: asset.name,
       type: this.ASSET_TYPE_OPTIONS.find(opt => opt.value === asset.type),
       amount: asset.amount,
-      currency: this.CURRENCY_OPTIONS.find(opt => opt.value === asset.currency),
       institution: asset.institution,
       note: asset.note
     });
@@ -138,11 +143,12 @@ export class AssetsComponent implements OnInit {
 
     this.loadingService.show();
     const formValue = this.assetForm.value;
+    const activeCurrency = this.localeService.activeCurrency();
     const assetData: Asset = {
       name: formValue.name,
       type: formValue.type.value,
       amount: formValue.amount,
-      currency: formValue.currency.value,
+      currency: activeCurrency,
       institution: formValue.institution,
       note: formValue.note
     };

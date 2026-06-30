@@ -56,6 +56,32 @@
         inputId="icondisplay"
       />
     </div>
+    <div class="flex gap-8">
+      <div class="w-full">
+        <span class="text-title-sm text-text-secondary required">Preferred Language</span>
+        <p-select
+          [options]="LANGUAGE_OPTIONS"
+          formControlName="preferredLanguage"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select Language"
+          class="w-full"
+          appendTo="body"
+        ></p-select>
+      </div>
+      <div class="w-full">
+        <span class="text-title-sm text-text-secondary required">Default Currency</span>
+        <p-select
+          [options]="CURRENCY_OPTIONS"
+          formControlName="preferredCurrency"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select Currency"
+          class="w-full"
+          appendTo="body"
+        ></p-select>
+      </div>
+    </div>
     <ht-button [disabled]="personalForm.invalid" type="submit" class="w-full"
       >Next</ht-button
     >

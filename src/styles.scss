@@ -117,15 +117,86 @@ a:hover {
 
 /* PrimeNG Dialog Global Overrides */
 .p-dialog {
-  p-select, p-inputnumber, p-datepicker, p-autocomplete, p-calendar, p-dropdown {
+  p-select,
+  p-inputnumber,
+  p-datepicker,
+  p-autocomplete,
+  p-calendar,
+  p-dropdown,
+  .p-inputtext {
     width: 100% !important;
-    display: block !important;
   }
-  .p-select, .p-inputnumber, .p-datepicker, .p-autocomplete, .p-calendar, .p-dropdown {
-    width: 100% !important;
+
+  input.p-inputtext,
+  .p-inputnumber-input,
+  .p-datepicker-input {
+    border-radius: 0.75rem !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #e2e8f0 !important;
+    font-size: 14px !important;
+    height: 44px !important;
+    background-color: #ffffff !important;
+    color: var(--color-text-primary) !important;
+    transition: all 0.2s ease;
+
+    &::placeholder {
+      color: var(--color-text-secondary) !important;
+      opacity: 0.6;
+    }
+
+    &:focus {
+      border-color: var(--color-primary) !important;
+      box-shadow: 0 0 0 2px rgba(6, 95, 70, 0.1) !important;
+      background-color: #ffffff !important;
+    }
   }
-  .p-inputnumber-input, .p-datepicker-input, .p-inputtext {
-    width: 100% !important;
+
+  .p-select,
+  .p-dropdown {
+    border-radius: 0.75rem !important;
+    border: 1px solid #e2e8f0 !important;
+    height: 44px !important;
+    background-color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    transition: all 0.2s ease;
+
+    .p-select-label,
+    .p-dropdown-label {
+      padding: 0 1rem !important;
+      font-size: 14px !important;
+      display: flex !important;
+      align-items: center !important;
+      height: 100% !important;
+      color: var(--color-text-primary) !important;
+      width: auto !important;
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      
+      &.p-placeholder {
+        color: var(--color-text-secondary) !important;
+        opacity: 0.7;
+      }
+    }
+
+    .p-select-trigger,
+    .p-dropdown-trigger {
+      position: relative !important;
+      top: auto !important;
+      right: auto !important;
+      transform: none !important;
+      width: 2.5rem !important;
+      height: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      color: var(--color-text-secondary) !important;
+    }
+
+    &:not(.p-disabled).p-focus {
+      border-color: var(--color-primary) !important;
+      box-shadow: 0 0 0 2px rgba(6, 95, 70, 0.1) !important;
+    }
   }
 }
 

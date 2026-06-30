@@ -19,7 +19,7 @@
               <div class="flex flex-col gap-4">
                 <p class="text-display-lg">{{ income.type.name }}</p>
                 <p class="text-display-sm">
-                  {{ income.amount | currency : income.currency.value || "VND" }}
+                  {{ income.amount | currency : localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
                 </p>
               </div>
             </div>
@@ -72,113 +72,113 @@
   </div>
 </onboarding-layout>
 <p-dialog
-  [header]="isEdit ? 'Edit income' : 'Add income'"
+  [header]="isEdit ? 'Edit Income' : 'Add Income'"
   [(visible)]="visible"
-  [style]="{ width: '380px', height: '60%' }"
-  [breakpoints]="{ '575px': '80%' }"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+  [breakpoints]="{ '575px': '90%' }"
   (onHide)="closeDialog()"
 >
-  <form class="flex flex-col gap-16" [formGroup]="incomeForm">
-    <p-select
-      class="w-full md:w-14rem"
-      appendTo="body"
-      formControlName="type"
-      placeholder="Select Type"
-      optionLabel="name"
-      panelStyleClass="w-full"
-      [options]="TYPE_INCOME_OPTIONS"
-      [showClear]="true"
-      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
-    >
-      <ng-template let-selected pTemplate="selectedItem">
-        @if (selected) {
-        <div class="w-full md:w-14rem">
-          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
-          {{ selected.name }}
-        </div>
-        } @else {
-        <span>Select Type</span>
-        }
-      </ng-template>
-      <ng-template let-option pTemplate="item">
-        <div class="w-full md:w-14rem">
-          <i [class]="'pi ' + option.icon" class="mr-2"></i>
-          {{ option.name }}
-        </div>
-      </ng-template>
-    </p-select>
-    <p-select
-      class="w-full md:w-14rem"
-      appendTo="body"
-      formControlName="currency"
-      placeholder="Select currency"
-      optionLabel="label"
-      panelStyleClass="w-full"
-      [options]="CURRENCY_OPTIONS"
-      [showClear]="true"
-      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
-    />
-    <p-inputnumber
-      [currency]="currency"
-      [locale]="locale"
-      formControlName="amount"
-      inputId="currency"
-      mode="currency"
-    />
-    <p-select
-      class="w-full md:w-14rem"
-      appendTo="body"
-      formControlName="frequency"
-      placeholder="Select Frequency"
-      optionLabel="label"
-      optionValue="value"
-      panelStyleClass="w-full"
-      [options]="FREQUENCY_OPTIONS"
-      [showClear]="true"
-      [overlayOptions]="{ autoZIndex: true, baseZIndex: 1000 }"
-    >
-      <ng-template let-selected pTemplate="selectedItem">
-        @if (selected) {
-        <div class="w-full md:w-14rem">
-          <i [class]="'pi ' + selected.icon" class="mr-2"></i>
-          {{ selected.label }}
-        </div>
-        } @else {
-        <span>Select Frequency</span>
-        }
-      </ng-template>
-      <ng-template let-option pTemplate="item">
-        <div class="w-full md:w-14rem">
-          <i [class]="'pi ' + option.icon" class="mr-2"></i>
-          {{ option.label }}
-        </div>
-      </ng-template>
-    </p-select>
+  <form class="flex flex-col gap-16 pt-16" [formGroup]="incomeForm">
+    <div class="flex flex-col gap-4">
+      <label for="type" class="font-semibold text-display-xs text-slate-700">Income Type</label>
+      <p-select
+        class="w-full"
+        appendTo="body"
+        formControlName="type"
+        placeholder="Select Type"
+        optionLabel="name"
+        [options]="TYPE_INCOME_OPTIONS"
+        [showClear]="true"
+      >
+        <ng-template let-selected pTemplate="selectedItem">
+          @if (selected) {
+            <div class="flex align-items-center">
+              <i [class]="'pi ' + selected.icon" class="mr-8"></i>
+              {{ selected.name }}
+            </div>
+          } @else {
+            <span>Select Type</span>
+          }
+        </ng-template>
+        <ng-template let-option pTemplate="item">
+          <div class="flex align-items-center">
+            <i [class]="'pi ' + option.icon" class="mr-8"></i>
+            {{ option.name }}
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <label for="amount" class="font-semibold text-display-xs text-slate-700">Amount</label>
+      <p-inputnumber
+        class="w-full"
+        styleClass="w-full"
+        [currency]="localeService.activeCurrency()"
+        [locale]="localeService.activeLocale()"
+        formControlName="amount"
+        inputId="currency"
+        mode="currency"
+        placeholder="Enter amount"
+      />
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <label for="frequency" class="font-semibold text-display-xs text-slate-700">Frequency</label>
+      <p-select
+        class="w-full"
+        appendTo="body"
+        formControlName="frequency"
+        placeholder="Select Frequency"
+        optionLabel="label"
+        optionValue="value"
+        [options]="FREQUENCY_OPTIONS"
+        [showClear]="true"
+      >
+        <ng-template let-selected pTemplate="selectedItem">
+          @if (selected) {
+            <div class="flex align-items-center">
+              <i [class]="'pi ' + selected.icon" class="mr-8"></i>
+              {{ selected.label }}
+            </div>
+          } @else {
+            <span>Select Frequency</span>
+          }
+        </ng-template>
+        <ng-template let-option pTemplate="item">
+          <div class="flex align-items-center">
+            <i [class]="'pi ' + option.icon" class="mr-8"></i>
+            {{ option.label }}
+          </div>
+        </ng-template>
+      </p-select>
+    </div>
   </form>
   <ng-template #footer>
-    <div class="flex justify-end gap-2">
+    <div class="flex justify-end gap-3 pt-8">
       <ht-button
         [variant]="'secondary'"
-        class="w-full"
+        class="w-fit-content"
         (click)="visible = false"
         >Cancel</ht-button
       >
       @if (isEdit) {
-      <ht-button
-        [variant]="'primary'"
-        [disabled]="incomeForm.invalid"
-        class="w-fit-content"
-        (click)="editIncome()"
-        >Edit income</ht-button
-      >
+        <ht-button
+          [variant]="'primary'"
+          [disabled]="incomeForm.invalid"
+          class="w-fit-content"
+          (click)="editIncome()"
+          >Save Changes</ht-button
+        >
       } @else {
-      <ht-button
-        [variant]="'primary'"
-        [disabled]="incomeForm.invalid"
-        class="w-fit-content"
-        (click)="addIncome()"
-        >Add income</ht-button
-      >
+        <ht-button
+          [variant]="'primary'"
+          [disabled]="incomeForm.invalid"
+          class="w-fit-content"
+          (click)="addIncome()"
+          >Add Income</ht-button
+        >
       }
     </div>
   </ng-template>

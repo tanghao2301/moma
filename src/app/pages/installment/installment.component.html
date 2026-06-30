@@ -17,7 +17,7 @@
       <ht-card hoverable>
         <div class="flex flex-col gap-8">
           <p class="text-display-xs text-gray-500 uppercase font-semibold">Total Remaining Balance</p>
-          <p class="fontsize-32 font-bold">{{ totalRemainingBalance | currency : 'USD' }}</p>
+          <p class="fontsize-32 font-bold">{{ totalRemainingBalance | currency : localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}</p>
           <div class="flex align-items-center gap-4 text-color-danger text-display-xs">
             <i class="pi pi-arrow-up"></i>
             <span>2.4% from last month</span>
@@ -58,52 +58,63 @@
           </div>
           
           <div class="responsive-table">
-            <table class="installment-table">
-              <thead>
-                <tr>
-                  <th>ITEM NAME</th>
-                  <th>TOTAL AMOUNT</th>
-                  <th>PAID</th>
-                  <th>REMAINING</th>
-                  <th>PROGRESS</th>
-                </tr>
-              </thead>
-              <tbody>
-                @if (!(isLoading$ | async)) {
-                  @for (item of installments; track item.id) {
-                    <tr [class.selected]="selectedInstallment?.id === item.id" (click)="selectedInstallment = item">
-                      <td>
-                        <div class="flex align-items-center gap-12">
-                          <div class="icon-circle">
-                            <i [class]="'pi ' + item.type.icon"></i>
-                          </div>
-                          <div class="flex flex-col">
-                            <span class="font-bold text-display-sm">{{ item.note || item.type.name }}</span>
-                          </div>
+            @if (isLoading$ | async) {
+              @for (i of [1, 2, 3]; track i) {
+                <div class="py-12 border-b border-gray-100 flex align-items-center justify-content-space-between">
+                  <p-skeleton width="30%" height="24px"></p-skeleton>
+                  <p-skeleton width="20%" height="24px"></p-skeleton>
+                  <p-skeleton width="15%" height="24px"></p-skeleton>
+                  <p-skeleton width="15%" height="24px"></p-skeleton>
+                  <p-skeleton width="10%" height="24px"></p-skeleton>
+                </div>
+              }
+            } @else {
+              <ht-table>
+                <ht-table-header>
+                  <ng-template tableHeader>ITEM NAME</ng-template>
+                  <ng-template tableHeader>TOTAL AMOUNT</ng-template>
+                  <ng-template tableHeader>PAID</ng-template>
+                  <ng-template tableHeader>REMAINING</ng-template>
+                  <ng-template tableHeader>PROGRESS</ng-template>
+                </ht-table-header>
+
+                @for (item of installments; track item.id) {
+                  <ht-table-row 
+                    [active]="selectedInstallment?.id === item.id" 
+                    [hoverable]="true"
+                    (rowClick)="selectedInstallment = item"
+                  >
+                    <ng-template tableCell>
+                      <div class="flex align-items-center gap-12">
+                        <div class="icon-circle">
+                          <i [class]="'pi ' + item.type.icon"></i>
                         </div>
-                      </td>
-                      <td>{{ item.amount * 12 | currency : 'USD' }}</td> <!-- Mocked total -->
-                      <td>{{ item.amount * 4 | currency : 'USD' }}</td> <!-- Mocked paid -->
-                      <td>{{ item.amount * 8 | currency : 'USD' }}</td> <!-- Mocked remaining -->
-                      <td>
-                        <div class="flex align-items-center gap-8">
-                          <div class="progress-bar-container">
-                            <div class="progress-bar-fill" [style.width.%]="calculateProgress(item)"></div>
-                          </div>
-                          <span class="text-display-xs font-bold">{{ calculateProgress(item) }}%</span>
+                        <div class="flex flex-col">
+                          <span class="font-bold text-display-sm">{{ item.note || item.type.name }}</span>
                         </div>
-                      </td>
-                    </tr>
-                  }
-                } @else {
-                  @for (i of [1,2,3]; track i) {
-                    <tr>
-                      <td colspan="5"><p-skeleton width="100%" height="24px"></p-skeleton></td>
-                    </tr>
-                  }
+                      </div>
+                    </ng-template>
+                    <ng-template tableCell>
+                      {{ item.amount * 12 | currency : localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
+                    </ng-template>
+                    <ng-template tableCell>
+                      {{ item.amount * 4 | currency : localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
+                    </ng-template>
+                    <ng-template tableCell>
+                      {{ item.amount * 8 | currency : localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}
+                    </ng-template>
+                    <ng-template tableCell>
+                      <div class="flex align-items-center gap-8">
+                        <div class="progress-bar-container">
+                          <div class="progress-bar-fill" [style.width.%]="calculateProgress(item)"></div>
+                        </div>
+                        <span class="text-display-xs font-bold">{{ calculateProgress(item) }}%</span>
+                      </div>
+                    </ng-template>
+                  </ht-table-row>
                 }
-              </tbody>
-            </table>
+              </ht-table>
+            }
           </div>
         </ht-card>
       </div>
@@ -146,14 +157,14 @@
                       <div class="flex justify-content-space-between align-items-center mb-12">
                         <div class="flex flex-col">
                           <p class="text-display-xs font-bold text-color-success">Next Payment</p>
-                          <p class="text-display-md font-bold">{{ payment.amount | currency : 'USD' }}</p>
+                          <p class="text-display-md font-bold">{{ payment.amount | currency : localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}</p>
                         </div>
                         <p class="text-display-xs text-gray-500">{{ payment.date | date: 'MMM dd, yyyy' }}</p>
                       </div>
                       <ht-button class="w-full" size="sm">Pay Now</ht-button>
                     </div>
                   } @else {
-                    <p class="text-display-md font-bold mt-4">{{ payment.amount | currency : 'USD' }}</p>
+                    <p class="text-display-md font-bold mt-4">{{ payment.amount | currency : localeService.activeCurrency() : 'symbol' : '1.2-2' : localeService.activeLocale() }}</p>
                   }
                 </div>
               </div>
@@ -171,10 +182,9 @@
 <p-dialog [(visible)]="visible" [header]="'Add New Plan'" [modal]="true" [style]="{width: '450px'}">
   <form [formGroup]="installmentForm" class="flex flex-col gap-16 pt-16">
     <p-select formControlName="type" [options]="TYPE_INSTALLMENT_OPTIONS" optionLabel="name" placeholder="Select Item Type" class="w-full"></p-select>
-    <p-inputnumber formControlName="amount" placeholder="Monthly Amount" mode="currency" currency="USD" class="w-full"></p-inputnumber>
-    <p-inputnumber formControlName="totalAmount" placeholder="Total Amount" mode="currency" currency="USD" class="w-full"></p-inputnumber>
+    <p-inputnumber formControlName="amount" placeholder="Monthly Amount" mode="currency" [currency]="localeService.activeCurrency()" [locale]="localeService.activeLocale()" class="w-full"></p-inputnumber>
+    <p-inputnumber formControlName="totalAmount" placeholder="Total Amount" mode="currency" [currency]="localeService.activeCurrency()" [locale]="localeService.activeLocale()" class="w-full"></p-inputnumber>
     <input pInputText formControlName="note" placeholder="Note (e.g. MacBook Pro)" />
-    <p-select formControlName="currency" [options]="CURRENCY_OPTIONS" optionLabel="label" placeholder="Currency" class="w-full"></p-select>
     <p-select formControlName="frequency" [options]="FREQUENCY_OPTIONS" optionLabel="label" optionValue="value" placeholder="Frequency" class="w-full"></p-select>
   </form>
   <ng-template pTemplate="footer">

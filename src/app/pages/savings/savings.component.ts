@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
-import { CURRENCY_OPTIONS } from '@enum/transaction.enum';
+import { LocaleService } from '@services/locale.service';
 import { Saving, SAVING_TYPE_OPTIONS, SavingType } from '@models/saving.model';
 import { SavingsService } from '@services/savings.service';
 import { LoadingService } from '@services/loading.service';
@@ -42,8 +42,8 @@ import { Observable } from 'rxjs';
   styleUrl: './savings.component.scss',
 })
 export class SavingsComponent implements OnInit {
+  public localeService = inject(LocaleService);
   SAVING_TYPE_OPTIONS = SAVING_TYPE_OPTIONS;
-  CURRENCY_OPTIONS = CURRENCY_OPTIONS;
 
   private destroyRef: DestroyRef = inject(DestroyRef);
   private loadingService: LoadingService = inject(LoadingService);
@@ -66,7 +66,6 @@ export class SavingsComponent implements OnInit {
     institution: [null, Validators.required],
     accountNumber: [null],
     balance: [null, [Validators.required, Validators.min(0)]],
-    currency: [null, Validators.required],
     interestRate: [null, [Validators.min(0)]],
     type: [SavingType.SAVINGS_ACCOUNT, Validators.required],
   });
@@ -87,9 +86,6 @@ export class SavingsComponent implements OnInit {
       balance: 0,
       type: SavingType.SAVINGS_ACCOUNT,
     });
-    if (this.CURRENCY_OPTIONS.length > 0) {
-       this.savingForm.get('currency')?.setValue(this.CURRENCY_OPTIONS[0]);
-    }
     this.visible = true;
   }
 
@@ -103,7 +99,6 @@ export class SavingsComponent implements OnInit {
       institution: saving.institution,
       accountNumber: saving.accountNumber,
       balance: saving.balance,
-      currency: this.CURRENCY_OPTIONS.find(opt => opt.value === saving.currency),
       interestRate: saving.interestRate,
       type: saving.type
     });
@@ -127,12 +122,13 @@ export class SavingsComponent implements OnInit {
 
     this.loadingService.show();
     const formValue = this.savingForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
     const savingData: any = {
       name: formValue.name,
       institution: formValue.institution,
       accountNumber: formValue.accountNumber,
       balance: formValue.balance,
-      currency: formValue.currency.value,
+      currency: activeCurrency,
       interestRate: formValue.interestRate,
       type: formValue.type,
     };

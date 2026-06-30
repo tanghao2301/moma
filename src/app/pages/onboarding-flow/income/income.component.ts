@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { HtButtonComponent } from '@components/ht-button/ht-button.component';
 import { HtCardComponent } from '@components/ht-card/ht-card.component';
 import {
-  CURRENCY_OPTIONS,
   FREQUENCY_OPTIONS,
   TYPE_INCOME_OPTIONS,
 } from '@enum/transaction.enum';
@@ -20,6 +19,7 @@ import { LoadingService } from '@services/loading.service';
 import { ToastService } from '@services/toast.service';
 import { TransactionsService } from '@services/transactions.service';
 import { UserService } from '@services/user.service';
+import { LocaleService } from '@services/locale.service';
 import { OnboardingLayoutComponent } from '@shared/layouts/onboarding-layout/onboarding-layout.component';
 import { MenuItem } from 'primeng/api';
 import { Dialog } from 'primeng/dialog';
@@ -62,41 +62,22 @@ export class IncomeComponent implements OnInit {
   isEdit: boolean = false;
   deleteVisible: boolean = false;
   deleteIncomeItem!: Transaction | null;
+  public localeService = inject(LocaleService);
   selectedCurrency!: Currency;
   TYPE_INCOME_OPTIONS: Type[] = TYPE_INCOME_OPTIONS;
   FREQUENCY_OPTIONS: Frequency[] = FREQUENCY_OPTIONS;
-  CURRENCY_OPTIONS = CURRENCY_OPTIONS;
-  currency = 'VND';
-  locale = 'vi-VN';
   userId!: string;
 
   incomeForm: FormGroup = this.fb.group({
     id: [null],
     type: [null, Validators.required],
-    currency: [null, Validators.required],
-    amount: [{ value: null, disabled: true }, Validators.required],
+    amount: [null, Validators.required],
     frequency: [null, Validators.required],
   });
 
   ngOnInit() {
     this.userId = this.userService.getUserId();
     this.getIncomes();
-    this.incomeForm
-      .get('currency')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((selected) => {
-        const currencyMeta = this.CURRENCY_OPTIONS.find(
-          (opt) => opt.value === selected?.value
-        );
-        if (currencyMeta) {
-          this.incomeForm.get('amount')?.reset();
-          this.currency = currencyMeta.value;
-          this.locale = currencyMeta.locale;
-          this.incomeForm.get('amount')?.enable(); // enable when selected
-        } else {
-          this.incomeForm.get('amount')?.disable();
-        }
-      });
   }
 
   getMenuItems(item: Transaction): MenuItem[] {
@@ -140,8 +121,16 @@ export class IncomeComponent implements OnInit {
 
   addIncome(): void {
     this.loadingService.show();
+    const formVal = this.incomeForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
+    const activeLocale = this.localeService.activeLocale();
     const addItem = {
-      ...this.incomeForm.getRawValue(),
+      ...formVal,
+      currency: {
+        value: activeCurrency,
+        locale: activeLocale,
+        label: activeCurrency === 'USD' ? 'US Dollar (USD)' : 'Vietnamese Dong (VND)'
+      },
       transactionType: 'Income'
     }
     this.incomesService
@@ -164,7 +153,6 @@ export class IncomeComponent implements OnInit {
     this.incomeForm.setValue({
       id: income.id,
       type: income.type,
-      currency: income.currency,
       amount: income.amount,
       frequency: income.frequency,
     });
@@ -174,11 +162,22 @@ export class IncomeComponent implements OnInit {
 
   editIncome(): void {
     this.loadingService.show();
+    const formVal = this.incomeForm.getRawValue();
+    const activeCurrency = this.localeService.activeCurrency();
+    const activeLocale = this.localeService.activeLocale();
+    const updateItem = {
+      ...formVal,
+      currency: {
+        value: activeCurrency,
+        locale: activeLocale,
+        label: activeCurrency === 'USD' ? 'US Dollar (USD)' : 'Vietnamese Dong (VND)'
+      }
+    };
     this.incomesService
       .updateTransactionsById(
         this.userId,
         this.incomeForm.get('id')?.value,
-        this.incomeForm.getRawValue()
+        updateItem
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

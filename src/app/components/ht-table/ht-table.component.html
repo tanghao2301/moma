@@ -1,22 +1,28 @@
 <table>
     <thead>
         <tr>
-            @for (headerCell of headerColumnElements; track headerCell) {
-                <th>
-                    <ng-container *ngTemplateOutlet="headerCell"></ng-container>
-                </th>
+            @if (htTableHeader) {
+                @for (headerCellDirective of htTableHeader.headerEle; track headerCellDirective) {
+                    <th>
+                        <ng-container *ngTemplateOutlet="headerCellDirective.el"></ng-container>
+                    </th>
+                }
             }
         </tr>
     </thead>
     <tbody>
-            @for (rowElement of rowElements; track rowElement) {
-                <tr>
-                    @for (cell of rowElement.cellElements; track cell) {
-                        <td>
-                            <ng-container *ngTemplateOutlet="cell"></ng-container>
-                        </td>
-                    }
-                </tr>
-            }
+        @for (row of htTableRows; track row) {
+            <tr 
+              [class.selected]="row.active"
+              [class.hoverable]="row.hoverable"
+              (click)="row.rowClick.emit($event)"
+            >
+                @for (cellDirective of row.cellElements; track cellDirective) {
+                    <td>
+                        <ng-container *ngTemplateOutlet="cellDirective.el"></ng-container>
+                    </td>
+                }
+            </tr>
+        }
     </tbody>
 </table>

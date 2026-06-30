@@ -5,6 +5,7 @@ import { UserModel } from '@models/user.model';
 import { Transaction } from '@models/transaction.model';
 import { TransactionsService } from '@services/transactions.service';
 import { UserService } from '@services/user.service';
+import { LocaleService } from '@services/locale.service';
 import { DashboardLayoutComponent } from "@shared/layouts/dashboard-layout/dashboard-layout.component";
 import { delay, forkJoin, combineLatest } from 'rxjs';
 import { BalanceChartComponent } from './balance-chart/balance-chart.component';
@@ -27,6 +28,7 @@ import { CurrencyPipe, DatePipe, PercentPipe, NgClass } from '@angular/common';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+  public localeService = inject(LocaleService);
   private transactionsService: TransactionsService =
     inject(TransactionsService);
   private userService: UserService = inject(UserService);
